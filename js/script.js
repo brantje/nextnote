@@ -678,41 +678,6 @@ function buildNav (a) {
 	html += "<div id='announcement-container'></div>";
 	$('#grouplist').html(html);
 	bindNav();
-	if (disableAnnouncement == "")
-		loadAnnouncement();
-}
-
-function loadAnnouncement () {
-	var curAnnouncement = getCookie('curAnnouncement');
-	var dismissedAnnouncement = getCookie('dismissedAnnouncement');
-	if (curAnnouncement != "") {
-		if (curAnnouncement != dismissedAnnouncement) {
-			var html = "<div id='app-settings'><div id='app-settings-header'><div id='announcement'>" + curAnnouncement + "</div><div id='announcement-dismiss'><a id='dismissButton' href='javascript:dismissAnnouncement()'>" + trans("Dismiss") + "</a></div></div><div>";
-			$('#announcement-container').html(html);
-			$('#dismissButton').click(dismissAnnouncement);
-		}
-	} else {
-		var url = ocUrl("ajax/v0.2/ownnote/ajaxannouncement");
-		$.ajax({
-			url: url,
-			success: function (data) {
-				if (data != '') {
-					if (data.replace(/\n/g, '') != 'NONE') {
-						if (data.replace(/\n/g, '') != dismissedAnnouncement) {
-							var html = "<div id='app-settings'><div id='app-settings-header'><div id='announcement'>" + data + "</div><div id='announcement-dismiss'><a id='dismissButton' href='javascript:dismissAnnouncement()'>" + trans("Dismiss") + "</a></div></div><div>";
-							$('#announcement-container').html(html);
-							$('#dismissButton').click(dismissAnnouncement);
-						}
-						setCookie("curAnnouncement", data.replace(/\n/g, ''), 7);
-					} else {
-						setCookie("curAnnouncement", data.replace(/\n/g, ''), 7);
-						setCookie("dismissedAnnouncement", data.replace(/\n/g, ''), 7);
-					}
-				}
-			},
-			cache: false
-		});
-	}
 }
 
 function setCookie (cname, cvalue, exdays) {

@@ -46,12 +46,6 @@ class OwnnoteAjaxController extends ApiController {
 		return $this->backend->getListing($FOLDER, false);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
-	public function ajaxannouncement() {
-		return $this->backend->getAnnouncement();
-	}
 
 	/**
 	 * @NoAdminRequired
