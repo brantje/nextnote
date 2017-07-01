@@ -371,8 +371,7 @@ class Backend {
 			}
 		}
 		if ($filedeldb) {
-			$query = $this->db->executeQuery("DELETE FROM *PREFIX*ownnote WHERE name=? and grouping=? and uid=?", Array($name, $group, $uid));
-			$results = $query->fetchAll();
+			$this->db->executeQuery("DELETE FROM *PREFIX*ownnote WHERE name=? and grouping=? and uid=?", Array($name, $group, $uid));
 		}
 		// new note
 		if (!$fileindb) {
