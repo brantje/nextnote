@@ -222,6 +222,7 @@ window.Ownnote.Share = {};
 					html += '<ul id="shareWithList">';
 					html += '</ul>';
 					var linksAllowed = $('#allowShareWithLink').val() === 'yes';
+
 					if (link && linksAllowed) {
 						html += '<div id="link" class="linkShare">';
 						html += '<span class="icon-loading-small hidden"></span>';
@@ -281,7 +282,7 @@ window.Ownnote.Share = {};
 						}
 					}
 
-					html += '<div id="expiration">';
+					html += '<div id="expiration" >';
 					html +=
 						'<input type="checkbox" class="checkbox checkbox--right" ' +
 						'name="expirationCheckbox" id="expirationCheckbox" value="1" />' +
@@ -291,10 +292,14 @@ window.Ownnote.Share = {};
 						t('core', 'Expiration') + '</label>';
 					html += '<input id="expirationDate" type="text" placeholder="' +
 						t('core', 'Expiration date') + '" style="display:none; width:90%;" />';
-					html += '<em id="defaultExpireMessage">' + defaultExpireMessage + '</em>';
+					if(defaultExpireMessage) {
+						html += '<em id="defaultExpireMessage">' + defaultExpireMessage + '</em>';
+					}
+
 					html += '</div>';
 					dropDownEl = $(html);
 					dropDownEl = dropDownEl.appendTo(appendTo);
+
 
 					// trigger remote share info tooltip
 					if (oc_appconfig.core.remoteShareAllowed) {
@@ -515,6 +520,9 @@ window.Ownnote.Share = {};
 					$('#dropdown input[placeholder]').placeholder();
 				}
 				$('#shareWith').focus();
+				if(!link){
+					$('#expiration').hide();
+				}
 			},
 			/**
 			 *
@@ -886,6 +894,8 @@ $(document).ready(function () {
 			if ($(this).data('link') !== undefined && $(this).data('link') == true) {
 				link = true;
 			}
+			Ownnote.Share.showDropDown(itemType, path, appendTo, link, possiblePermissions);
+			/*
 			if (Ownnote.Share.droppedDown) {
 				if (path != $('#dropdown').data('path')) {
 					Ownnote.Share.hideDropDown(function () {
@@ -896,8 +906,8 @@ $(document).ready(function () {
 					Ownnote.Share.hideDropDown();
 				}
 			} else {
-				Ownnote.Share.showDropDown(itemType, path, appendTo, link, possiblePermissions);
-			}
+
+			}*/
 		}
 	});
 
@@ -1174,7 +1184,9 @@ $(document).ready(function () {
 
 	$(document).on('change', '#dropdown #expirationDate', function () {
 		var shareId = $('#linkCheckbox').data('id');
-
+		if(!shareId){
+			return;
+		}
 		$(this).tooltip('hide');
 		$(this).removeClass('error');
 
