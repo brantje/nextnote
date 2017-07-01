@@ -378,7 +378,6 @@ window.Ownnote.Share = {};
 
 								$loading.addClass('hidden');
 								if (result.ocs.meta.status === 'ok') {
-									console.log(results)
 									$("#shareWith").autocomplete("option", "autoFocus", true);
 									response(results);
 								} else {
@@ -764,6 +763,7 @@ window.Ownnote.Share = {};
 					html +=
 						'<label for="mail-' + escapeHTML(shareWith) + '">' + t('core', 'notify by email') + '</label>';
 				}
+				html += '<span class="sharingOptionsGroup">';
 				if (oc_appconfig.core.resharingAllowed &&
 					(possiblePermissions & OC.PERMISSION_SHARE)) {
 					html += '<input id="canShare-' + escapeHTML(shareWith) +
@@ -801,6 +801,7 @@ window.Ownnote.Share = {};
 					html += '<label for="canDelete-' + escapeHTML(shareWith) + '">' +
 						t('core', 'delete') + '</label>';
 				}
+				html += '</span>';
 				html += '</div>';
 				html += '</li>';
 				html = $(html).appendTo('#shareWithList');
