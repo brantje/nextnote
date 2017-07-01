@@ -145,7 +145,7 @@
 }
 
 .share .buttons {
-	background-image: url('../../../core/img/actions/share.png');
+	background-image: url('../../../core/img/actions/share.svg');
     opacity: 0.3;
 }
 
@@ -161,7 +161,9 @@
 .delete:hover {
 	opacity: 1;
 }
-
+.hidden{
+	display: none !important;
+}
 .edit-note {
     background-image: url('../../../core/img/actions/rename.svg');
 	opacity: 0.3;

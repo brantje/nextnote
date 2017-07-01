@@ -31,5 +31,5 @@ $l = OCP\Util::getL10N('ownnote');
 		<option <?php if ($sharemode == "standalone") echo "selected"; ?> value="standalone"><?php p($l->t("Standalone")); ?></option>
 	</select><br/>
 	<br/>
-	
+
 </div>

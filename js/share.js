@@ -348,24 +348,39 @@ window.Ownnote.Share = {};
 						});
 					}
 					$('#shareWith').autocomplete({
-						minLength: 2,
+						minLength: 1,
 						delay: 750,
 						source: function (search, response) {
 							var $loading = $('#dropdown .shareWithLoading');
 							$loading.removeClass('hidden');
 							// Can be replaced with Sharee API
 							// https://github.com/owncloud/core/pull/18234
-							$.get(OC.filePath('core', 'ajax', 'share.php'), {
+							$.get('/ocs/v1.php/apps/files_sharing/api/v1/sharees?format=json&search=' + search.term.trim() + '&perPage=200&itemType=' + itemType, {
 								fetch: 'getShareWith',
 								search: search.term.trim(),
-								limit: 200,
+								perPage: 200,
 								itemShares: this.itemShares,
 								itemType: itemType
 							}, function (result) {
+								var sharees = result.ocs.data;
+
+								var results = [];
+
+								for (var key in sharees) {
+									if (sharees.hasOwnProperty(key)) {
+										if (sharees[key]) {
+											if (!sharees[key].hasOwnProperty('circles')) {
+												results = results.concat(sharees[key])
+											}
+										}
+									}
+								}
+
 								$loading.addClass('hidden');
-								if (result.status == 'success' && result.data.length > 0) {
+								if (result.ocs.meta.status === 'ok') {
+									console.log(results)
 									$("#shareWith").autocomplete("option", "autoFocus", true);
-									response(result.data);
+									response(results);
 								} else {
 									response();
 								}
