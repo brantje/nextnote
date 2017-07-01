@@ -11,6 +11,7 @@
 
 namespace OCA\OwnNote\Controller;
 
+use OC\User\Manager;
 use \OCP\AppFramework\ApiController;
 use \OCP\AppFramework\Http\JSONResponse;
 use \OCP\AppFramework\Http\Response;
@@ -28,7 +29,7 @@ class OwnnoteAjaxController extends ApiController {
 	private $backend;
 	private $config;
 
-	public function __construct($appName, IRequest $request, $userManager, $logger, IConfig $config) {
+	public function __construct($appName, IRequest $request, Manager $userManager, $logger, IConfig $config) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->backend = new Backend($userManager, $config);

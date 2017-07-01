@@ -6,7 +6,9 @@ namespace OCA\OwnNote\Lib;
 
 use DateTime;
 use DOMDocument;
+use OCA\Admin_Audit\Actions\UserManagement;
 use OCP\IConfig;
+use OCP\IL10N;
 
 class Backend {
 
@@ -14,16 +16,32 @@ class Backend {
 	private $db;
 	private $config;
 
+	/**
+	 * Backend constructor.
+	 *
+	 * @param $userManager \OC\User\Manager
+	 * @param IConfig $config
+	 */
 	public function __construct($userManager, IConfig $config) {
 		$this->userManager = $userManager;
 		$this->db = \OC::$server->getDatabaseConnection();
 		$this->config = $config;
 	}
 
+	/**
+	 * @param $haystack
+	 * @param $needle
+	 * @return bool
+	 */
 	public function startsWith($haystack, $needle) {
 		return $needle === "" || strripos($haystack, $needle, -strlen($haystack)) !== false;
 	}
 
+	/**
+	 * @param $string
+	 * @param $test
+	 * @return bool
+	 */
 	public function endsWith($string, $test) {
 		$strlen = strlen($string);
 		$testlen = strlen($test);
@@ -31,7 +49,10 @@ class Backend {
 		return substr_compare($string, $test, $strlen - $testlen, $testlen, true) === 0;
 	}
 
-
+	/**
+	 * @param $folder
+	 * @param $file
+	 */
 	public function checkEvernote($folder, $file) {
 		$html = "";
 		if ($html = \OC\Files\Filesystem::file_get_contents($folder . "/" . $file)) {
@@ -79,6 +100,12 @@ class Backend {
 		}
 	}
 
+	/**
+	 * @param $filetime DateTime
+	 * @param $now DateTime
+	 * @param $l IL10N
+	 * @return mixed|string
+	 */
 	public function getTimeString($filetime, $now, $l) {
 		$difftime = $filetime->diff($now);
 		$years = $difftime->y;
@@ -103,6 +130,10 @@ class Backend {
 		return $timestring;
 	}
 
+	/**
+	 * @param $str
+	 * @return array
+	 */
 	public function splitContent($str) {
 		$maxlength = 2621440; // 5 Megs (2 bytes per character)
 		$count = 0;
@@ -136,6 +167,11 @@ class Backend {
 		return array_merge($results, $shared_items);
 	}
 
+	/**
+	 * @param $FOLDER
+	 * @param $showdel
+	 * @return array
+	 */
 	public function getListing($FOLDER, $showdel) {
 		// Get the listing from the database
 		$requery = false;
@@ -309,6 +345,12 @@ class Backend {
 		return $farray;
 	}
 
+	/**
+	 * @param $FOLDER
+	 * @param $in_name
+	 * @param $in_group
+	 * @return int
+	 */
 	public function createNote($FOLDER, $in_name, $in_group) {
 		$name = str_replace("\\", "-", str_replace("/", "-", $in_name));
 		$group = str_replace("\\", "-", str_replace("/", "-", $in_group));
@@ -351,6 +393,11 @@ class Backend {
 		return $ret;
 	}
 
+	/**
+	 * @param $FOLDER
+	 * @param $nid
+	 * @return bool
+	 */
 	public function deleteNote($FOLDER, $nid) {
 		if (!$this->checkPermissions(\OCP\Constants::PERMISSION_DELETE, $nid)) {
 			return false;
@@ -374,7 +421,10 @@ class Backend {
 		return true;
 	}
 
-
+	/**
+	 * @param $id
+	 * @return string
+	 */
 	public function editNote($id) {
 		$retVal = "";
 		$note = $this->getNote($id);
@@ -389,6 +439,13 @@ class Backend {
 		return $retVal;
 	}
 
+	/**
+	 * @param $FOLDER
+	 * @param $nid
+	 * @param $content
+	 * @param $in_mtime
+	 * @return bool
+	 */
 	public function saveNote($FOLDER, $nid, $content, $in_mtime) {
 		$maxlength = 2621440; // 5 Megs (2 bytes per character)
 		$now = new DateTime();
@@ -421,6 +478,13 @@ class Backend {
 		return true;
 	}
 
+	/**
+	 * @param $FOLDER
+	 * @param $id
+	 * @param $in_newname
+	 * @param $in_newgroup
+	 * @return bool
+	 */
 	public function renameNote($FOLDER, $id, $in_newname, $in_newgroup) {
 		$newname = str_replace("\\", "-", str_replace("/", "-", $in_newname));
 		$newgroup = str_replace("\\", "-", str_replace("/", "-", $in_newgroup));
@@ -435,6 +499,11 @@ class Backend {
 		return true;
 	}
 
+	/**
+	 * @param $FOLDER
+	 * @param $group
+	 * @return bool
+	 */
 	public function deleteGroup($FOLDER, $group) {
 		// We actually need to just rename all the notes
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
@@ -446,6 +515,12 @@ class Backend {
 		return true;
 	}
 
+	/**
+	 * @param $FOLDER
+	 * @param $group
+	 * @param $newgroup
+	 * @return bool
+	 */
 	public function renameGroup($FOLDER, $group, $newgroup) {
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$query = $this->db->executeQuery("SELECT id, name, grouping, mtime FROM *PREFIX*ownnote WHERE deleted=0 and uid=? and grouping=?", Array($uid, $group));
@@ -456,6 +531,9 @@ class Backend {
 		return true;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getVersion() {
 		$v = file_get_contents(__DIR__ . "/../appinfo/version");
 		if ($v)
@@ -464,15 +542,29 @@ class Backend {
 			return "";
 	}
 
+	/**
+	 * @param $option
+	 * @param $value
+	 */
 	public function setAdminVal($option, $value) {
 		$this->config->setAppValue('ownnote', $option, $value);
+		return true;
 	}
 
+	/**
+	 * @param $noteid
+	 * @return mixed
+	 */
 	private function getNote($noteid) {
 		$query = $this->db->executeQuery("SELECT id, uid, name, grouping, mtime, note, deleted FROM *PREFIX*ownnote WHERE id=?",Array($noteid) );
 		return $query->fetchAll()[0];
 	}
 
+	/**
+	 * @param $permission
+	 * @param $nid
+	 * @return bool|int
+	 */
 	private function checkPermissions($permission, $nid) {
 		// gather information
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();

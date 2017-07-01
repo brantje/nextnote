@@ -11,13 +11,11 @@
 
 namespace OCA\OwnNote\Controller;
 
+use OC\User\Manager;
 use \OCP\AppFramework\ApiController;
 use OCP\IConfig;
 use \OCP\IRequest;
 use \OCA\OwnNote\Lib\Backend;
-
-\OCP\App::checkAppEnabled('ownnote');
-
 
 
 class OwnnoteApiController extends ApiController {
@@ -25,7 +23,7 @@ class OwnnoteApiController extends ApiController {
 	private $backend;
 	private $config;
 
-	public function __construct($appName, IRequest $request, $userManager, $logger, IConfig $config){
+	public function __construct($appName, IRequest $request, Manager $userManager, $logger, IConfig $config){
 		parent::__construct($appName, $request);
 		$this->backend = new Backend($userManager, $config);
 		$this->config = $config;

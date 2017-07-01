@@ -30,7 +30,6 @@ $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'ownnote_api#remoteindex', 'url' => '/api/v0.2/ownnote/remoteindex', 'verb' => 'GET'),
 	array('name' => 'ownnote_api#mobileindex', 'url' => '/api/v0.2/ownnote/mobileindex', 'verb' => 'GET'),
 	array('name' => 'ownnote_api#announcement', 'url' => '/api/v0.2/ownnote/announcement', 'verb' => 'GET'),
-	array('name' => 'ownnote_ajax#ajaxannouncement', 'url' => '/ajax/v0.2/ownnote/ajaxannouncement', 'verb' => 'GET'),
 	array('name' => 'ownnote_api#version', 'url' => '/api/v0.2/ownnote/version', 'verb' => 'GET'),
 	array('name' => 'ownnote_ajax#ajaxversion', 'url' => '/ajax/v0.2/ownnote/ajaxversion', 'verb' => 'GET'),
 	
