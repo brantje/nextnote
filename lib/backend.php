@@ -3,21 +3,25 @@
 namespace OCA\OwnNote\Lib;
 
 \OCP\User::checkLoggedIn();
-\OCP\App::checkAppEnabled('ownnote');
 
 use DateTime;
 use DOMDocument;
+use OCP\IConfig;
 
 class Backend {
 
 	private $userManager;
+	private $db;
+	private $config;
 
-	public function __construct($userManager) {
-        $this->userManager = $userManager;
+	public function __construct($userManager, IConfig $config) {
+		$this->userManager = $userManager;
+		$this->db = \OC::$server->getDatabaseConnection();
+		$this->config = $config;
 	}
 
 	public function startsWith($haystack, $needle) {
-		return $needle === "" || strripos($haystack, $needle, -strlen($haystack)) !== FALSE;
+		return $needle === "" || strripos($haystack, $needle, -strlen($haystack)) !== false;
 	}
 
 	public function endsWith($string, $test) {
@@ -30,7 +34,7 @@ class Backend {
 
 	public function checkEvernote($folder, $file) {
 		$html = "";
-		if ($html = \OC\Files\Filesystem::file_get_contents($folder."/".$file)) {
+		if ($html = \OC\Files\Filesystem::file_get_contents($folder . "/" . $file)) {
 			$DOM = new DOMDocument;
 			$DOM->loadHTML($html);
 			$items = $DOM->getElementsByTagName('meta');
@@ -59,10 +63,10 @@ class Backend {
 						foreach ($attrs as $a => $attr) {
 							if ($attr->name == "src") {
 								$url = $attr->value;
-								if (!$this->startsWith($url, "http") && !$this->startsWith($url, "/") && !$this->startsWith($url,"data")) {
-									if ($data = \OC\Files\Filesystem::file_get_contents($folder."/".$url)) {
+								if (!$this->startsWith($url, "http") && !$this->startsWith($url, "/") && !$this->startsWith($url, "data")) {
+									if ($data = \OC\Files\Filesystem::file_get_contents($folder . "/" . $url)) {
 										$type = pathinfo($url, PATHINFO_EXTENSION);
-										$base64 = "data:image/".$type.";base64,".base64_encode($data);
+										$base64 = "data:image/" . $type . ";base64," . base64_encode($data);
 										$html = str_replace($url, $base64, $html);
 									}
 								}
@@ -70,7 +74,7 @@ class Backend {
 						}
 					}
 				}
-				\OC\Files\Filesystem::file_put_contents($folder."/".$file, $html);
+				\OC\Files\Filesystem::file_put_contents($folder . "/" . $file, $html);
 			}
 		}
 	}
@@ -103,8 +107,8 @@ class Backend {
 		$maxlength = 2621440; // 5 Megs (2 bytes per character)
 		$count = 0;
 		$strarray = array();
-		while (true) { 
-			if (strlen($str) <= $maxlength) { 
+		while (true) {
+			if (strlen($str) <= $maxlength) {
 				$strarray[$count++] = $str;
 				return $strarray;
 			} else {
@@ -112,34 +116,36 @@ class Backend {
 				$str = substr($str, $maxlength);
 			}
 		}
+		return $strarray;
 	}
-	
+
 	/**
 	 * Returns a user's owned and shared notes
+	 *
 	 * @param string $uid the user's id
 	 * @return array the owned notes (uid=uid) and shared notes (OwnnoteShareBackend)
 	 */
 	private function queryNotesWithUser($uid) {
 		// Get owned notes
-		$query = \OCP\DB::prepare("SELECT id, uid, name, grouping, mtime, deleted FROM *PREFIX*ownnote WHERE uid=? ORDER BY name");
-		$results = $query->execute(Array($uid))->fetchAll();
-		
+
+		$query = $this->db->executeQuery("SELECT id, uid, name, grouping, mtime, deleted FROM *PREFIX*ownnote WHERE uid=? ORDER BY name", Array($uid));
+		$results = $query->fetchAll();
 		// Get shares
 		$shared_items = \OCP\Share::getItemsSharedWith('ownnote', 'populated_shares');
-		
+
 		return array_merge($results, $shared_items);
 	}
 
 	public function getListing($FOLDER, $showdel) {
 		// Get the listing from the database
 		$requery = false;
-		$uid = \OCP\User::getUser();
+		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$results = $this->queryNotesWithUser($uid);
-		
+
 		$results2 = $results;
 		if ($results)
-			foreach($results as $result)
-				foreach($results2 as $result2)
+			foreach ($results as $result) {
+				foreach ($results2 as $result2) {
 					if ($result['id'] != $result2['id'] && $result['name'] == $result2['name'] && $result['grouping'] == $result2['grouping']) {
 						// We have a duplicate that should not exist. Need to remove the offending record first
 						$delid = -1;
@@ -161,6 +167,8 @@ class Backend {
 							$requery = true;
 						}
 					}
+				}
+			}
 		if ($requery) {
 			$results = $this->queryNotesWithUser($uid);
 			$requery = false;
@@ -168,7 +176,7 @@ class Backend {
 		// Tests to add a bunch of notes
 		//$now = new DateTime();
 		//for ($x = 0; $x < 199; $x++) {
-			//saveNote('', "Test ".$x, '', '', $now->getTimestamp());
+		//saveNote('', "Test ".$x, '', '', $now->getTimestamp());
 		//}
 		$farray = array();
 		if ($FOLDER != '') {
@@ -190,7 +198,7 @@ class Backend {
 					$tmpfile = $file;
 					if ($tmpfile == "." || $tmpfile == "..") continue;
 					if (!$this->endsWith($tmpfile, ".htm") && !$this->endsWith($tmpfile, ".html")) continue;
-					if ($info = \OC\Files\Filesystem::getFileInfo($FOLDER."/".$tmpfile)) {
+					if ($info = \OC\Files\Filesystem::getFileInfo($FOLDER . "/" . $tmpfile)) {
 						// Check for EVERNOTE but wait to rename them to get around:
 						// https://github.com/owncloud/core/issues/16202
 						if ($this->endsWith($tmpfile, ".html")) {
@@ -199,10 +207,10 @@ class Backend {
 						// Separate the name and group name
 						$name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $tmpfile);
 						$group = "";
-						if (substr($name,0,1) == "[") {
+						if (substr($name, 0, 1) == "[") {
 							$end = strpos($name, ']');
-							$group = substr($name, 1, $end-1);	
-							$name = substr($name, $end+1, strlen($name)-$end+1);
+							$group = substr($name, 1, $end - 1);
+							$name = substr($name, $end + 1, strlen($name) - $end + 1);
 							$name = trim($name);
 						}
 						// Set array for later checking
@@ -210,7 +218,7 @@ class Backend {
 						// Check to see if the file is in the DB
 						$fileindb = false;
 						if ($results)
-							foreach($results as $result)
+							foreach ($results as $result) {
 								if ($result['deleted'] == 0)
 									if ($name == $result['name'] && $group == $result['grouping']) {
 										$fileindb = true;
@@ -218,15 +226,16 @@ class Backend {
 										if ($result['mtime'] < $info['mtime']) {
 											// File is newer, this could happen if a user updates a file
 											$html = "";
-											$html = \OC\Files\Filesystem::file_get_contents($FOLDER."/".$tmpfile);
+											$html = \OC\Files\Filesystem::file_get_contents($FOLDER . "/" . $tmpfile);
 											$this->saveNote('', $result['name'], $result['grouping'], $html, $info['mtime']);
 											$requery = true;
 										}
 									}
-						if (! $fileindb) {
+							}
+						if (!$fileindb) {
 							// If it's not in the DB, add it.
 							$html = "";
-							if ($html = \OC\Files\Filesystem::file_get_contents($FOLDER."/".$tmpfile)) {
+							if ($html = \OC\Files\Filesystem::file_get_contents($FOLDER . "/" . $tmpfile)) {
 							} else {
 								$html = "";
 							}
@@ -235,9 +244,9 @@ class Backend {
 						}
 						// We moved the rename down here to overcome the OC issue
 						if ($this->endsWith($tmpfile, ".html")) {
-							$tmpfile = substr($tmpfile,0,-1);
-							if (!\OC\Files\Filesystem::file_exists($FOLDER."/".$tmpfile)) {
-								\OC\Files\Filesystem::rename($FOLDER."/".$file, $FOLDER."/".$tmpfile);
+							$tmpfile = substr($tmpfile, 0, -1);
+							if (!\OC\Files\Filesystem::file_exists($FOLDER . "/" . $tmpfile)) {
+								\OC\Files\Filesystem::rename($FOLDER . "/" . $file, $FOLDER . "/" . $tmpfile);
 							}
 						}
 					}
@@ -248,22 +257,24 @@ class Backend {
 			}
 			// Now also make sure the files exist, they may not if the user switched folders in admin.
 			if ($results)
-				foreach($results as $result)
+				foreach ($results as $result) {
 					if ($result['deleted'] == 0) {
-						$tmpfile = $result['name'].".htm";
+						$tmpfile = $result['name'] . ".htm";
 						if ($result['grouping'] != '')
-							$tmpfile = '['.$result['grouping'].'] '.$result['name'].'.htm';
+							$tmpfile = '[' . $result['grouping'] . '] ' . $result['name'] . '.htm';
 						$filefound = false;
-						foreach ($filearr as $f)
+						foreach ($filearr as $f) {
 							if ($f == $tmpfile) {
 								$filefound = true;
 								break;
 							}
-						if (! $filefound) {
+						}
+						if (!$filefound) {
 							$content = $this->editNote($result['name'], $result['grouping']);
 							$this->saveNote($FOLDER, $result['name'], $result['grouping'], $content, 0);
 						}
 					}
+				}
 		}
 		// Now loop through and return the listing
 		if ($results) {
@@ -271,7 +282,7 @@ class Backend {
 			$now = new DateTime();
 			$filetime = new DateTime();
 			$l = \OCP\Util::getL10N('ownnote');
-			foreach($results as $result)
+			foreach ($results as $result) {
 				if ($result['deleted'] == 0 || $showdel == true) {
 					$filetime->setTimestamp($result['mtime']);
 					$timestring = $this->getTimeString($filetime, $now, $l);
@@ -282,10 +293,10 @@ class Backend {
 					$f['group'] = $result['grouping'];
 					$f['timestring'] = $timestring;
 					$f['mtime'] = $result['mtime'];
-					$f['timediff'] = $now->getTimestamp()-$result['mtime'];
+					$f['timediff'] = $now->getTimestamp() - $result['mtime'];
 					$f['deleted'] = $result['deleted'];
 					$f['permissions'] = $result['permissions'];
-					
+
 					$shared_with = \OCP\Share::getUsersItemShared('ownnote', $result['id'], $result['uid']);
 					// add shares (all shares, if it's an owned note, only the user for shared notes (not disclosing other sharees))
 					$f['shared_with'] = ($result['uid'] == $uid) ? $shared_with : [$uid];
@@ -293,6 +304,7 @@ class Backend {
 					$farray[$count] = $f;
 					$count++;
 				}
+			}
 		}
 		return $farray;
 	}
@@ -302,29 +314,30 @@ class Backend {
 		$group = str_replace("\\", "-", str_replace("/", "-", $in_group));
 		$now = new DateTime();
 		$mtime = $now->getTimestamp();
-		$uid = \OCP\User::getUser();
+		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$fileindb = false;
 		$filedeldb = false;
 		$ret = -1;
-		$query = \OCP\DB::prepare("SELECT id, uid, name, grouping, mtime, deleted FROM *PREFIX*ownnote WHERE name=? and grouping=? and uid=?");
-		$results = $query->execute(Array($name, $group, $uid))->fetchAll();
-		foreach($results as $result)
+		$query = $this->db->executeQuery("SELECT id, uid, name, grouping, mtime, deleted FROM *PREFIX*ownnote WHERE name=? and grouping=? and uid=?", Array($name, $group, $uid));
+		$results = $query->fetchAll();
+		foreach ($results as $result) {
 			if ($result['deleted'] == 0) {
 				$fileindb = true;
 				$ret = $result['id'];
 			} else {
 				$filedeldb = true;
 			}
+		}
 		if ($filedeldb) {
-			$query = \OCP\DB::prepare("DELETE FROM *PREFIX*ownnote WHERE name=? and grouping=? and uid=?");
-			$results = $query->execute(Array($name, $group, $uid));
+			$query = $this->db->executeQuery("DELETE FROM *PREFIX*ownnote WHERE name=? and grouping=? and uid=?", Array($name, $group, $uid));
+			$results = $query->fetchAll();
 		}
 		// new note
-		if (! $fileindb) {
+		if (!$fileindb) {
 			if ($FOLDER != '') {
-				$tmpfile = $FOLDER."/".$name.".htm";
+				$tmpfile = $FOLDER . "/" . $name . ".htm";
 				if ($group != '')
-					$tmpfile = $FOLDER."/[".$group."] ".$name.".htm";
+					$tmpfile = $FOLDER . "/[" . $group . "] " . $name . ".htm";
 				if (!\OC\Files\Filesystem::file_exists($tmpfile)) {
 					\OC\Files\Filesystem::touch($tmpfile);
 				}
@@ -332,30 +345,29 @@ class Backend {
 					$mtime = $info['mtime'];
 				}
 			}
-			$query = \OCP\DB::prepare("INSERT INTO *PREFIX*ownnote (uid, name, grouping, mtime, note, shared) VALUES (?,?,?,?,?,?)");
-			$query->execute(Array($uid, $name, $group, $mtime, '', ''));
-			$ret = \OCP\DB::insertid('*PREFIX*ownnote');
+			$this->db->executeQuery("INSERT INTO *PREFIX*ownnote (uid, name, grouping, mtime, note, shared) VALUES (?,?,?,?,?,?)", Array($uid, $name, $group, $mtime, '', ''));
+			$ret = $this->db->lastInsertId('*PREFIX*ownnote');
 		}
 		return $ret;
 	}
 
 	public function deleteNote($FOLDER, $nid) {
-	    if (!$this->checkPermissions(\OCP\Constants::PERMISSION_DELETE, $nid)) {
-	        return false;
+		if (!$this->checkPermissions(\OCP\Constants::PERMISSION_DELETE, $nid)) {
+			return false;
 		}
-		
+
 		$now = new DateTime();
 		$mtime = $now->getTimestamp();
-		$uid = \OCP\User::getUser();
-		$query = \OCP\DB::prepare("UPDATE *PREFIX*ownnote set note='', deleted=1, mtime=? WHERE id=?");
-		$results = $query->execute(Array($mtime, $nid));
-		
-		$query = \OCP\DB::prepare("DELETE FROM *PREFIX*ownnote_parts WHERE id=?");
-		$query->execute(Array($nid));
+		$uid = \OC::$server->getUserSession()->getUser()->getUID();
+		$query = $this->db->executeQuery("UPDATE *PREFIX*ownnote set note='', deleted=1, mtime=? WHERE id=?", Array($mtime, $nid));
+		$results = $query->fetchAll();
+
+		$this->db->executeQuery("DELETE FROM *PREFIX*ownnote_parts WHERE id=?", Array($nid));
+
 		if ($FOLDER != '') {
-			$tmpfile = $FOLDER."/".$name.".htm";
+			$tmpfile = $FOLDER . "/" . $name . ".htm";
 			if ($group != '')
-				$tmpfile = $FOLDER."/[".$group."] ".$name.".htm";
+				$tmpfile = $FOLDER . "/[" . $group . "] " . $name . ".htm";
 			if (\OC\Files\Filesystem::file_exists($tmpfile))
 				\OC\Files\Filesystem::unlink($tmpfile);
 		}
@@ -366,12 +378,11 @@ class Backend {
 	public function editNote($id) {
 		$retVal = "";
 		$note = $this->getNote($id);
-		$content = $note['note'];
 
 		// query parts
-		$query = \OCP\DB::prepare("SELECT note FROM *PREFIX*ownnote_parts WHERE id=? order by pid");
-		$results = $query->execute(Array($note['id']))->fetchAll();
-		foreach($results as $result) {
+		$query = $this->db->executeQuery("SELECT note FROM *PREFIX*ownnote_parts WHERE id=? order by pid", Array($note['id']));
+		$results = $query->fetchAll();
+		foreach ($results as $result) {
 			$retVal .= $result['note'];
 		}
 
@@ -390,24 +401,22 @@ class Backend {
 		$note = $this->getNote($nid);
 		$name = $note['name'];
 		$group = $note['grouping'];
-				
+
 		if ($FOLDER != '') {
-			$tmpfile = $FOLDER."/".$name.".htm";
+			$tmpfile = $FOLDER . "/" . $name . ".htm";
 			if ($group != '')
-				$tmpfile = $FOLDER."/[".$group."] ".$name.".htm";
-				\OC\Files\Filesystem::file_put_contents($tmpfile, $content);
+				$tmpfile = $FOLDER . "/[" . $group . "] " . $name . ".htm";
+			\OC\Files\Filesystem::file_put_contents($tmpfile, $content);
 			if ($info = \OC\Files\Filesystem::getFileInfo($tmpfile)) {
 				$mtime = $info['mtime'];
 			}
 		}
-		$query = \OCP\DB::prepare("UPDATE *PREFIX*ownnote set note='', mtime=? WHERE id=?");
-		$results = $query->execute(Array($mtime, $note['id']));
-		$query = \OCP\DB::prepare("DELETE FROM *PREFIX*ownnote_parts WHERE id=?");
-		$results = $query->execute(Array($note['id']));
+		$this->db->executeQuery("UPDATE *PREFIX*ownnote set note='', mtime=? WHERE id=?", Array($mtime, $note['id']));
+
+		$this->db->executeQuery("DELETE FROM *PREFIX*ownnote_parts WHERE id=?", Array($note['id']));
 		$contentarr = $this->splitContent($content);
 		for ($i = 0; $i < count($contentarr); $i++) {
-			$query = \OCP\DB::prepare("INSERT INTO *PREFIX*ownnote_parts (id, note) values (?,?)");
-			$results = $query->execute(Array($note['id'], $contentarr[$i]));
+			$this->db->executeQuery("INSERT INTO *PREFIX*ownnote_parts (id, note) values (?,?)", Array($note['id'], $contentarr[$i]));
 		}
 		return true;
 	}
@@ -415,39 +424,40 @@ class Backend {
 	public function renameNote($FOLDER, $id, $in_newname, $in_newgroup) {
 		$newname = str_replace("\\", "-", str_replace("/", "-", $in_newname));
 		$newgroup = str_replace("\\", "-", str_replace("/", "-", $in_newgroup));
-		
+
 		// We actually need to delete and create so that the delete flag exists for syncing clients
-		$content = $this->editNote($id);		
+		$content = $this->editNote($id);
 		$this->deleteNote($FOLDER, $id);
-		
+
 		$newId = $this->createNote($FOLDER, $newname, $newgroup);
 		$this->saveNote($FOLDER, $newId, $content, 0);
-		
+
 		return true;
 	}
 
 	public function deleteGroup($FOLDER, $group) {
 		// We actually need to just rename all the notes
-		$uid = \OCP\User::getUser();
-		$query = \OCP\DB::prepare("SELECT id, name, grouping, mtime FROM *PREFIX*ownnote WHERE deleted=0 and uid=? and grouping=?");
-		$results = $query->execute(Array($uid, $group))->fetchAll();
-		foreach($results as $result) {
+		$uid = \OC::$server->getUserSession()->getUser()->getUID();
+		$query = $this->db->executeQuery("SELECT id, name, grouping, mtime FROM *PREFIX*ownnote WHERE deleted=0 and uid=? and grouping=?", Array($uid, $group));
+		$results = $query->fetchAll();
+		foreach ($results as $result) {
 			$this->renameNote($FOLDER, $result['id'], $result['name'], '');
 		}
+		return true;
 	}
 
 	public function renameGroup($FOLDER, $group, $newgroup) {
-		$uid = \OCP\User::getUser();
-		$query = \OCP\DB::prepare("SELECT id, name, grouping, mtime FROM *PREFIX*ownnote WHERE deleted=0 and uid=? and grouping=?");
-		$results = $query->execute(Array($uid, $group))->fetchAll();
-		foreach($results as $result) {
+		$uid = \OC::$server->getUserSession()->getUser()->getUID();
+		$query = $this->db->executeQuery("SELECT id, name, grouping, mtime FROM *PREFIX*ownnote WHERE deleted=0 and uid=? and grouping=?", Array($uid, $group));
+		$results = $query->fetchAll();
+		foreach ($results as $result) {
 			$this->renameNote($FOLDER, $result['id'], $result['name'], $newgroup);
 		}
 		return true;
 	}
 
 	public function getVersion() {
-		$v = file_get_contents(__DIR__."/../appinfo/version");
+		$v = file_get_contents(__DIR__ . "/../appinfo/version");
 		if ($v)
 			return trim($v);
 		else
@@ -455,19 +465,18 @@ class Backend {
 	}
 
 	public function setAdminVal($option, $value) {
-		\OCP\Config::setAppValue('ownnote', $option, $value);
+		$this->config->setAppValue('ownnote', $option, $value);
 	}
-	
+
 	private function getNote($noteid) {
-		$query = \OCP\DB::prepare("SELECT id, uid, name, grouping, mtime, note, deleted FROM *PREFIX*ownnote WHERE id=?");
-		return $query->execute(Array($noteid))->fetchAll()[0];
+		$query = $this->db->executeQuery("SELECT id, uid, name, grouping, mtime, note, deleted FROM *PREFIX*ownnote WHERE id=?",Array($noteid) );
+		return $query->fetchAll()[0];
 	}
 
 	private function checkPermissions($permission, $nid) {
 		// gather information
-		$uid = \OCP\User::getUser();
+		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$note = $this->getNote($nid);
-		
 		// owner is allowed to change everything
 		if ($uid === $note['uid']) {
 			return true;

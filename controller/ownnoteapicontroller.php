@@ -27,7 +27,7 @@ class OwnnoteApiController extends ApiController {
 
 	public function __construct($appName, IRequest $request, $userManager, $logger, IConfig $config){
 		parent::__construct($appName, $request);
-		$this->backend = new Backend($userManager);
+		$this->backend = new Backend($userManager, $config);
 		$this->config = $config;
 	}
 

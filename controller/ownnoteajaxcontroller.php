@@ -30,8 +30,8 @@ class OwnnoteAjaxController extends ApiController {
 
 	public function __construct($appName, IRequest $request, $userManager, $logger, IConfig $config) {
 		parent::__construct($appName, $request);
-		$this->backend = new Backend($userManager);
 		$this->config = $config;
+		$this->backend = new Backend($userManager, $config);
 	}
 
 	/**
