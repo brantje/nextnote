@@ -6,6 +6,7 @@ namespace OCA\OwnNote\Lib;
 
 use DateTime;
 use DOMDocument;
+use OC\Files\Filesystem;
 use OCA\Admin_Audit\Actions\UserManagement;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -55,7 +56,7 @@ class Backend {
 	 */
 	public function checkEvernote($folder, $file) {
 		$html = "";
-		if ($html = \OC\Files\Filesystem::file_get_contents($folder . "/" . $file)) {
+		if ($html = Filesystem::file_get_contents($folder . "/" . $file)) {
 			$DOM = new DOMDocument;
 			$DOM->loadHTML($html);
 			$items = $DOM->getElementsByTagName('meta');
@@ -85,7 +86,7 @@ class Backend {
 							if ($attr->name == "src") {
 								$url = $attr->value;
 								if (!$this->startsWith($url, "http") && !$this->startsWith($url, "/") && !$this->startsWith($url, "data")) {
-									if ($data = \OC\Files\Filesystem::file_get_contents($folder . "/" . $url)) {
+									if ($data = Filesystem::file_get_contents($folder . "/" . $url)) {
 										$type = pathinfo($url, PATHINFO_EXTENSION);
 										$base64 = "data:image/" . $type . ";base64," . base64_encode($data);
 										$html = str_replace($url, $base64, $html);
@@ -95,7 +96,7 @@ class Backend {
 						}
 					}
 				}
-				\OC\Files\Filesystem::file_put_contents($folder . "/" . $file, $html);
+				Filesystem::file_put_contents($folder . "/" . $file, $html);
 			}
 		}
 	}
@@ -198,8 +199,7 @@ class Backend {
 							$delid = $result['id'];
 						}
 						if ($delid != -1) {
-							$delquery = \OCP\DB::prepare("DELETE FROM *PREFIX*ownnote WHERE id=?");
-							$delquery->execute(Array($delid));
+							$this->db->executeQuery("DELETE FROM *PREFIX*ownnote WHERE id=?", Array($delid));
 							$requery = true;
 						}
 					}
@@ -217,15 +217,15 @@ class Backend {
 		$farray = array();
 		if ($FOLDER != '') {
 			// Create the folder if it doesn't exist
-			if (!\OC\Files\Filesystem::is_dir($FOLDER)) {
-				if (!\OC\Files\Filesystem::mkdir($FOLDER)) {
+			if (!Filesystem::is_dir($FOLDER)) {
+				if (!Filesystem::mkdir($FOLDER)) {
 					\OCP\Util::writeLog('ownnote', 'Could not create ownNote directory.', \OCP\Util::ERROR);
 					exit;
 				}
 			}
 			// Synchronize files to the database
 			$filearr = array();
-			if ($listing = \OC\Files\Filesystem::opendir($FOLDER)) {
+			if ($listing = Filesystem::opendir($FOLDER)) {
 				if (!$listing) {
 					\OCP\Util::writeLog('ownnote', 'Error listing directory.', \OCP\Util::ERROR);
 					exit;
@@ -234,7 +234,7 @@ class Backend {
 					$tmpfile = $file;
 					if ($tmpfile == "." || $tmpfile == "..") continue;
 					if (!$this->endsWith($tmpfile, ".htm") && !$this->endsWith($tmpfile, ".html")) continue;
-					if ($info = \OC\Files\Filesystem::getFileInfo($FOLDER . "/" . $tmpfile)) {
+					if ($info = Filesystem::getFileInfo($FOLDER . "/" . $tmpfile)) {
 						// Check for EVERNOTE but wait to rename them to get around:
 						// https://github.com/owncloud/core/issues/16202
 						if ($this->endsWith($tmpfile, ".html")) {
@@ -262,8 +262,8 @@ class Backend {
 										if ($result['mtime'] < $info['mtime']) {
 											// File is newer, this could happen if a user updates a file
 											$html = "";
-											$html = \OC\Files\Filesystem::file_get_contents($FOLDER . "/" . $tmpfile);
-											$this->saveNote('', $result['name'], $result['grouping'], $html, $info['mtime']);
+											$html = Filesystem::file_get_contents($FOLDER . "/" . $tmpfile);
+											$this->saveNote('', $result['id'], $html, $info['mtime']);
 											$requery = true;
 										}
 									}
@@ -271,18 +271,19 @@ class Backend {
 						if (!$fileindb) {
 							// If it's not in the DB, add it.
 							$html = "";
-							if ($html = \OC\Files\Filesystem::file_get_contents($FOLDER . "/" . $tmpfile)) {
+							if ($html = Filesystem::file_get_contents($FOLDER . "/" . $tmpfile)) {
 							} else {
 								$html = "";
 							}
-							$this->saveNote('', $name, $group, $html, $info['mtime']);
+							$nid = $this->createNote('', $name, $group);
+							$this->saveNote('', $nid, $html, $info['mtime']);
 							$requery = true;
 						}
 						// We moved the rename down here to overcome the OC issue
 						if ($this->endsWith($tmpfile, ".html")) {
 							$tmpfile = substr($tmpfile, 0, -1);
-							if (!\OC\Files\Filesystem::file_exists($FOLDER . "/" . $tmpfile)) {
-								\OC\Files\Filesystem::rename($FOLDER . "/" . $file, $FOLDER . "/" . $tmpfile);
+							if (!Filesystem::file_exists($FOLDER . "/" . $tmpfile)) {
+								Filesystem::rename($FOLDER . "/" . $file, $FOLDER . "/" . $tmpfile);
 							}
 						}
 					}
@@ -306,8 +307,8 @@ class Backend {
 							}
 						}
 						if (!$filefound) {
-							$content = $this->editNote($result['name'], $result['grouping']);
-							$this->saveNote($FOLDER, $result['name'], $result['grouping'], $content, 0);
+							$content = $this->editNote($result['id']);
+							$this->saveNote($FOLDER,$result['id'], $content, 0);
 						}
 					}
 				}
@@ -379,10 +380,10 @@ class Backend {
 				$tmpfile = $FOLDER . "/" . $name . ".htm";
 				if ($group != '')
 					$tmpfile = $FOLDER . "/[" . $group . "] " . $name . ".htm";
-				if (!\OC\Files\Filesystem::file_exists($tmpfile)) {
-					\OC\Files\Filesystem::touch($tmpfile);
+				if (!Filesystem::file_exists($tmpfile)) {
+					Filesystem::touch($tmpfile);
 				}
-				if ($info = \OC\Files\Filesystem::getFileInfo($tmpfile)) {
+				if ($info = Filesystem::getFileInfo($tmpfile)) {
 					$mtime = $info['mtime'];
 				}
 			}
@@ -405,8 +406,11 @@ class Backend {
 		$now = new DateTime();
 		$mtime = $now->getTimestamp();
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
-		$query = $this->db->executeQuery("UPDATE *PREFIX*ownnote set note='', deleted=1, mtime=? WHERE id=?", Array($mtime, $nid));
-		$results = $query->fetchAll();
+		$note = $this->getNote($nid);
+		$name = $note['name'];
+		$group = $note['group'];
+		$this->db->executeQuery("UPDATE *PREFIX*ownnote set note='', deleted=1, mtime=? WHERE id=?", Array($mtime, $nid));
+		//$results = $query->fetchAll();
 
 		$this->db->executeQuery("DELETE FROM *PREFIX*ownnote_parts WHERE id=?", Array($nid));
 
@@ -414,8 +418,8 @@ class Backend {
 			$tmpfile = $FOLDER . "/" . $name . ".htm";
 			if ($group != '')
 				$tmpfile = $FOLDER . "/[" . $group . "] " . $name . ".htm";
-			if (\OC\Files\Filesystem::file_exists($tmpfile))
-				\OC\Files\Filesystem::unlink($tmpfile);
+			if (Filesystem::file_exists($tmpfile))
+				Filesystem::unlink($tmpfile);
 		}
 		return true;
 	}
@@ -462,8 +466,8 @@ class Backend {
 			$tmpfile = $FOLDER . "/" . $name . ".htm";
 			if ($group != '')
 				$tmpfile = $FOLDER . "/[" . $group . "] " . $name . ".htm";
-			\OC\Files\Filesystem::file_put_contents($tmpfile, $content);
-			if ($info = \OC\Files\Filesystem::getFileInfo($tmpfile)) {
+			Filesystem::file_put_contents($tmpfile, $content);
+			if ($info = Filesystem::getFileInfo($tmpfile)) {
 				$mtime = $info['mtime'];
 			}
 		}
@@ -555,7 +559,7 @@ class Backend {
 	 * @return mixed
 	 */
 	private function getNote($noteid) {
-		$query = $this->db->executeQuery("SELECT id, uid, name, grouping, mtime, note, deleted FROM *PREFIX*ownnote WHERE id=?",Array($noteid) );
+		$query = $this->db->executeQuery("SELECT id, uid, name, grouping, mtime, note, deleted FROM *PREFIX*ownnote WHERE id=?", Array($noteid));
 		return $query->fetchAll()[0];
 	}
 

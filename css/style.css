@@ -48,8 +48,10 @@
   font-family: inherit;
   line-height: 40pt;
   white-space: nowrap;
-  padding: 0pt 15pt;
+  padding: 0pt 0pt;
   width: 100%; }
+  .listingSort thead tr th:first-child, .listingSort tbody tr td:first-child {
+    padding-left: 15px; }
 
 .listingSort tr > td {
   border-top: 1px solid #EEE; }
@@ -70,7 +72,7 @@
   font-family: inherit;
   line-height: 40pt;
   white-space: nowrap;
-  padding: 0pt 15pt;
+  padding: 0pt 0pt;
   width: 100%; }
 
 .listing:hover {
@@ -324,7 +326,10 @@
 #ownnote-l10n {
   display: none; }
 
-#shareWithList {
+#dropdown.shareDropDown #shareWith {
+  width: 165px; }
+
+#shareWithList li {
   background-color: #dfdfdf; }
   #shareWithList li .unshare {
     float: right; }

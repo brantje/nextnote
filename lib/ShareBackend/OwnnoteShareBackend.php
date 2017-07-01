@@ -76,7 +76,7 @@ class OwnnoteShareBackend implements Share_Backend {
 		$select_clause = "SELECT id, uid, name, grouping, mtime, deleted FROM *PREFIX*ownnote WHERE id in (";
 		$select_clause .= implode(',', $ids);
 		$select_clause .= ") ORDER BY id";
-		$query = \OCP\DB::prepare($select_clause);
+		$query = \OCP\DB::prepare($select_clause); //@TODO replace query
 		$results = $query->execute(Array())->fetchAll();
 
 		// add permissions to items

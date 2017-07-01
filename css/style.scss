@@ -55,8 +55,11 @@
 	font-family: inherit;
 	line-height: 40pt;
 	white-space: nowrap;
-	padding: 0pt 15pt;
+	padding: 0pt 0pt;
 	width: 100%;
+	thead tr th:first-child, tbody tr td:first-child{
+		padding-left: 15px;
+	}
 }
 
 .listingSort tr > td {
@@ -84,8 +87,9 @@
 	font-family: inherit;
 	line-height: 40pt;
 	white-space: nowrap;
-	padding: 0pt 15pt;
+	padding: 0pt 0pt;
 	width: 100%;
+
 }
 
 .listing:hover {
@@ -222,7 +226,7 @@
 }
 
 .latestfile {
-	color: #5cb85c; 
+	color: #5cb85c;
 }
 
 #grouplist {
@@ -392,10 +396,15 @@
 #ownnote-l10n {
 	display: none;
 }
+#dropdown.shareDropDown{
+	#shareWith{
+		width: 165px;
+	}
+}
 #shareWithList{
-  background-color: #dfdfdf;
   li{
-    .unshare{
+	  background-color: #dfdfdf;
+	  .unshare{
       float: right;
     }
     .avatar{
