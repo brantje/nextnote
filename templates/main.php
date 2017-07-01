@@ -1,10 +1,10 @@
-
+<input type="hidden" name="nextNonce" id="nextNonce" value="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" />
 <?php
 \OCP\Util::addScript('ownnote', 'script');
 \OCP\Util::addScript('ownnote','tinymce/tinymce.min');
 \OCP\Util::addStyle('ownnote', 'style');
 
-$disableAnnouncement = true;
+$disableAnnouncement = \OCP\Config::getAppValue('ownnote', 'disableAnnouncement', true);
 $l = OCP\Util::getL10N('ownnote');
 
 $ocVersionArray = OCP\Util::getVersion();
@@ -19,8 +19,7 @@ foreach ($ocVersionArray as $v) {
 }
 
 ?>
-<div id="app">a
-	<input type="hidden" name="nextNonce" id="nextNonce" value="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" />
+<div id="app">
 	<div id="app-navigation">
 		<ul id="grouplist">
 		</ul>

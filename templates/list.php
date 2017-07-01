@@ -1,3 +1,4 @@
+<input type="hidden" name="nextNonce" id="nextNonce" value="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" />
 <?php
 \OCP\Util::addScript('ownnote', 'script');
 \OCP\Util::addScript('ownnote', 'ownnote');
