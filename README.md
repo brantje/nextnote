@@ -26,7 +26,8 @@ Todo:
   - [ ] Entity's
   - [ ] Mappers
   - [ ] Services
-  - [ ] Hooks      
+  - [ ] Hooks
+- [ ] Switch to a AngularJS frontend        
 - [ ] Import from [Notes](https://github.com/nextcloud/notes) app
 - [ ] Encrypted notes? 
 - [ ] Test saving of files
