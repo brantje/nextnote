@@ -1,0 +1,31 @@
+# day ago
+# days ago
+# hour ago
+# hours ago
+# minute ago
+# minutes ago
+# month ago
+# months ago
+# second ago
+# seconds ago
+# week ago
+# weeks ago
+# year ago
+# years ago
+All
+An ungrouped file has the same name as a file in this group.
+Cancel
+Create
+Dismiss
+Filename/group already exists.
+Group
+Group already exists.
+Just now
+Modified
+Name
+New
+Not grouped
+Note
+Notes
+Quick Save
+Save

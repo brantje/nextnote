@@ -1,0 +1,7 @@
+Announcements are unobtrusive and only used for major notifications such as the release of a new mobile or desktop companion application. They will not be used for regular updates, and are easily dismissed by your users.
+Database and folder
+Database only
+Disable announcements
+How would you like to store your notes?
+Please enter the folder name you would like to use to store notes, with no slashes.
+Would you like to disable announcements? (not recommended)
