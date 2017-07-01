@@ -22,7 +22,7 @@ Fully compatible with ownNotes
 - Note grouping/categorization
 
 Todo:
-- [ ] Redo backend to make use of Entity's / Mappers
+- [ ] Redo backend to make use of Entity's / Mappers / Services
 - [ ] Import from [Notes](https://github.com/nextcloud/notes) app
 - [ ] Encrypted notes? 
 - [ ] Test saving of files
