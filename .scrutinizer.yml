@@ -12,7 +12,7 @@ tools:
     php_mess_detector: true
     php_code_sniffer: true
     sensiolabs_security_checker: true
-    php_code_coverage: true
+    php_code_coverage: false
 
 build_failure_conditions:
     - 'issues.label("coding-style").new.count > 5'
