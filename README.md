@@ -1,4 +1,4 @@
-# nextNote (alpha)
+# ownNotes (alpha)
 This application is a modified verion of ownNote.
 
 Changes:
