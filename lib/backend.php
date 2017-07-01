@@ -332,7 +332,7 @@ class Backend {
 					$f['mtime'] = $result['mtime'];
 					$f['timediff'] = $now->getTimestamp() - $result['mtime'];
 					$f['deleted'] = $result['deleted'];
-					$f['permissions'] = $result['permissions'];
+
 
 					$shared_with = \OCP\Share::getUsersItemShared('ownnote', $result['id'], $result['uid']);
 					// add shares (all shares, if it's an owned note, only the user for shared notes (not disclosing other sharees))

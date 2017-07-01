@@ -513,8 +513,9 @@ window.Ownnote.Share = {};
 					dropDownEl.appendTo(appendTo);
 				}
 				dropDownEl.attr('data-item-source-name', filename);
+
 				$('#dropdown').slideDown(OC.menuSpeed, function () {
-					Ownnote.Share.droppedDown = true;
+					//Ownnote.Share.droppedDown = true;
 				});
 				if ($('html').hasClass('lte9')) {
 					$('#dropdown input[placeholder]').placeholder();
@@ -529,18 +530,7 @@ window.Ownnote.Share = {};
 			 * @param callback
 			 */
 			hideDropDown: function (callback) {
-				this.currentShares = null;
-				$('#dropdown').slideUp(OC.menuSpeed, function () {
-					Ownnote.Share.droppedDown = false;
-					$('#dropdown').remove();
-					if (typeof FileActions !== 'undefined') {
-						$('tr').removeClass('mouseOver');
-					}
-					if (callback) {
-						callback.call();
-					}
-					loadListing();
-				});
+				$('#dropdown').remove();
 			},
 			/**
 			 *
@@ -894,7 +884,23 @@ $(document).ready(function () {
 			if ($(this).data('link') !== undefined && $(this).data('link') == true) {
 				link = true;
 			}
-			Ownnote.Share.showDropDown(itemType, path, appendTo, link, possiblePermissions);
+			var tr = $(this).parent().parent().parent();
+			var dropdown = $('#dropdown');
+			if(tr.find('#shareWith:visible').length > 0){
+				dropdown.remove();
+				return;
+			}
+
+			if(dropdown.length > 0){
+				Ownnote.Share.hideDropDown();
+				setTimeout(function () {
+					Ownnote.Share.showDropDown(itemType, path, appendTo, link, possiblePermissions);
+				}, 50)
+			} else {
+				Ownnote.Share.showDropDown(itemType, path, appendTo, link, possiblePermissions);
+			}
+
+
 			/*
 			if (Ownnote.Share.droppedDown) {
 				if (path != $('#dropdown').data('path')) {

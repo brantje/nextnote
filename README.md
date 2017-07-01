@@ -1,4 +1,4 @@
-# ownNotes (alpha)
+# ownNote (alpha)
 This application is a modified verion of ownNote.
 
 Changes:
@@ -11,7 +11,7 @@ Changes:
  
  
 # Compatibility
-Fully compatible with ownNotes
+Fully compatible with ownNote
 
 
 # Features
