@@ -22,10 +22,10 @@ Fully compatible with ownNotes
 - Note grouping/categorization
 
 Todo:
+- [ ] Redo backend to make use of Entity's / Mappers
 - [ ] Import from [Notes](https://github.com/nextcloud/notes) app
 - [ ] Encrypted notes? 
 - [ ] Test saving of files
-
 ## Installation
 - Place this app in **nextcloud/apps/ownnote** (Rename the extracted ZIP to "ownnote" or you will receive errors)
 - Note: *custom_csp_policy* changes are no longer required
