@@ -6,7 +6,9 @@ Changes:
 - Replaced deprecated methods
 - Removed XSS vulnerability (Via the announcements it was possible to inject javascript / html)
 - Fixed sharing.
-
+- Fixed CSP error in tinymce.
+ 
+ 
 # Compatibility
 Fully compatible with ownNotes
 
