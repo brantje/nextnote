@@ -6,6 +6,7 @@ Changes:
 - Replaced deprecated methods
 - Removed XSS vulnerability (Via the announcements it was possible to inject javascript / html)
 - Fixed sharing.
+- Updated tiny MCE to  4.6.4.
 - Fixed CSP error in tinymce.
  
  
