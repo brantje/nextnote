@@ -292,7 +292,7 @@ window.Ownnote.Share = {};
 						t('core', 'Expiration') + '</label>';
 					html += '<input id="expirationDate" type="text" placeholder="' +
 						t('core', 'Expiration date') + '" style="display:none; width:90%;" />';
-					if(defaultExpireMessage) {
+					if (defaultExpireMessage) {
 						html += '<em id="defaultExpireMessage">' + defaultExpireMessage + '</em>';
 					}
 
@@ -521,7 +521,7 @@ window.Ownnote.Share = {};
 					$('#dropdown input[placeholder]').placeholder();
 				}
 				$('#shareWith').focus();
-				if(!link){
+				if (!link) {
 					$('#expiration').hide();
 				}
 			},
@@ -531,6 +531,7 @@ window.Ownnote.Share = {};
 			 */
 			hideDropDown: function (callback) {
 				$('#dropdown').remove();
+				loadListing();
 			},
 			/**
 			 *
@@ -886,12 +887,12 @@ $(document).ready(function () {
 			}
 			var tr = $(this).parent().parent().parent();
 			var dropdown = $('#dropdown');
-			if(tr.find('#shareWith:visible').length > 0){
+			if (tr.find('#shareWith:visible').length > 0) {
 				dropdown.remove();
 				return;
 			}
 
-			if(dropdown.length > 0){
+			if (dropdown.length > 0) {
 				Ownnote.Share.hideDropDown();
 				setTimeout(function () {
 					Ownnote.Share.showDropDown(itemType, path, appendTo, link, possiblePermissions);
@@ -902,18 +903,18 @@ $(document).ready(function () {
 
 
 			/*
-			if (Ownnote.Share.droppedDown) {
-				if (path != $('#dropdown').data('path')) {
-					Ownnote.Share.hideDropDown(function () {
-						Ownnote.Share.showDropDown(itemType, path, appendTo, link,
-							possiblePermissions);
-					});
-				} else {
-					Ownnote.Share.hideDropDown();
-				}
-			} else {
+			 if (Ownnote.Share.droppedDown) {
+			 if (path != $('#dropdown').data('path')) {
+			 Ownnote.Share.hideDropDown(function () {
+			 Ownnote.Share.showDropDown(itemType, path, appendTo, link,
+			 possiblePermissions);
+			 });
+			 } else {
+			 Ownnote.Share.hideDropDown();
+			 }
+			 } else {
 
-			}*/
+			 }*/
 		}
 	});
 
@@ -956,7 +957,7 @@ $(document).ready(function () {
 			Ownnote.Share.itemShares[shareType].splice(index, 1);
 			// updated list of shares
 			Ownnote.Share.currentShares[shareType].splice(index, 1);
-			// todo: update listing			
+			loadListing();
 		});
 
 		return false;
@@ -1190,7 +1191,7 @@ $(document).ready(function () {
 
 	$(document).on('change', '#dropdown #expirationDate', function () {
 		var shareId = $('#linkCheckbox').data('id');
-		if(!shareId){
+		if (!shareId) {
 			return;
 		}
 		$(this).tooltip('hide');
