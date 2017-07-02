@@ -28,14 +28,14 @@
 "Not grouped" : "Non groupés",
 "Note" : "Note",
 "Notes" : "Notes",
-"Quick Save" : "Sauvergarde rapide",
+"Quick Save" : "Sauvegarde rapide",
 "Save" : "Sauvegarder",
-"Announcements are unobtrusive and only used for major notifications such as the release of a new mobile or desktop companion application. They will not be used for regular updates, and are easily dismissed by your users." : "Les annonces sont discrètes et ne sont utilisées que pour les notifications importantes comme la sortie d'une nouvelle version d'application mobile ou desktop. Elles ne seront pas utilisées pour les mises a jours regulières et sont facilement désactivables par vos utilisateurs.",
+"Announcements are unobtrusive and only used for major notifications such as the release of a new mobile or desktop companion application. They will not be used for regular updates, and are easily dismissed by your users." : "Les annonces sont discrètes et ne sont utilisées que pour les notifications importantes comme la sortie d'une nouvelle version d'application mobile ou desktop. Elles ne seront pas utilisées pour les mises à jours régulières et sont facilement désactivables par vos utilisateurs."
 "Database and folder" : "Base de données et répertoire",
 "Database only" : "Base de données seulement",
 "Disable announcements" : "Désactiver les annonces",
-"How would you like to store your notes?" : "Comment voulez-vous sauvergarder vos notes ?",
+"How would you like to store your notes?" : "Comment voulez-vous sauvegarder vos notes ?",
 "Please enter the folder name you would like to use to store notes, with no slashes." : "Entrez le nom du répertoire dans lequel sauvegarder les notes, sans slash '/'.",
-"Would you like to disable announcements? (not recommended)" : "Voulez-vous désactiver les annonces (pas recommandé)"
+"Would you like to disable announcements? (not recommended)" : "Voulez-vous désactiver les annonces ? (pas recommandé)"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
