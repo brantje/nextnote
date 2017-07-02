@@ -5,7 +5,13 @@ namespace OCA\OwnNote\ShareBackend;
 use \OCP\Share_Backend;
 
 class OwnnoteShareBackend implements Share_Backend {
-	
+
+	private $db;
+
+	public function __construct() {
+		$this->db = \OC::$server->getDatabaseConnection();
+	}
+
 	/**
 	 * Check if this $itemSource exist for the user
 	 * @param string $itemSource
@@ -76,8 +82,9 @@ class OwnnoteShareBackend implements Share_Backend {
 		$select_clause = "SELECT id, uid, name, grouping, mtime, deleted FROM *PREFIX*ownnote WHERE id in (";
 		$select_clause .= implode(',', $ids);
 		$select_clause .= ") ORDER BY id";
-		$query = \OCP\DB::prepare($select_clause); //@TODO replace query
-		$results = $query->execute(Array())->fetchAll();
+		$q = $this->db->executeQuery($select_clause, array());
+		//$query = \OCP\DB::prepare($select_clause);
+		$results = $q->fetchAll();
 
 		// add permissions to items
 		if ($format === 'populated_shares') {
