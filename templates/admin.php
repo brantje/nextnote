@@ -4,7 +4,6 @@
 
 $folder = $_['folder'];
 $sharemode = $_['sharemode'];
-$disableAnnouncement = $_['disableAnnouncement'];
 $l = OCP\Util::getL10N('ownnote');
 
 ?>
