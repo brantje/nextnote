@@ -560,7 +560,8 @@ class Backend {
 	 */
 	private function getNote($noteid) {
 		$query = $this->db->executeQuery("SELECT id, uid, name, grouping, mtime, note, deleted FROM *PREFIX*ownnote WHERE id=?", Array($noteid));
-		return $query->fetchAll()[0];
+		$result = array_shift($query->fetchAll());
+		return $result;
 	}
 
 	/**
