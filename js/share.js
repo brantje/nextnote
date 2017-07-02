@@ -642,7 +642,7 @@ window.Ownnote.Share = {};
 			/**
 			 * Loads all shares associated with a path
 			 *
-			 * @param path
+			 * @param noteid
 			 *
 			 * @returns {Ownnote.Share.Types.ShareInfo|Boolean}
 			 * @private
