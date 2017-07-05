@@ -43,7 +43,7 @@ $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'ownnotev2_api#index', 'url' => '/api/v2.0/note', 'verb' => 'GET'),
 	array('name' => 'ownnotev2_api#create', 'url' => '/api/v2.0/note', 'verb' => 'POST'),
 	array('name' => 'ownnotev2_api#get', 'url' => '/api/v2.0/note/{id}', 'verb' => 'GET'),
-	array('name' => 'ownnotev2_api#update', 'url' => '/api/v2.0/note/{id}', 'verb' => 'PATCH'),
+	array('name' => 'ownnotev2_api#update', 'url' => '/api/v2.0/note/{id}', 'verb' => 'PUT'),
 	array('name' => 'ownnotev2_api#delete', 'url' => '/api/v2.0/note/{id}', 'verb' => 'DELETE'),
 
 )));
