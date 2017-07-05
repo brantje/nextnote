@@ -1,9 +1,9 @@
 <?php
 /**
- * Nextcloud - ownnote
+ * Nextcloud - namespace OCA\Nextnote
  *
- * @copyright Copyright (c) 2015, Ben Curtis <ownclouddev@nosolutions.com>
- * @copyright Copyright (c) 2017, Sander Brand (brantje@gmail.com)
+ * @copyright Copyright (c) 2016, Sander Brand (brantje@gmail.com)
+ * @copyright Copyright (c) 2016, Marcos Zuriaga Miguel (wolfi@wolfi.es)
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,15 +21,19 @@
  *
  */
 
-namespace OCA\OwnNote\AppInfo;
+namespace OCA\OwnNote\Utility;
 
 
-use OCA\OwnNote\AppInfo\Application;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
 
-require_once __DIR__ . '/autoload.php';
+class NotFoundJSONResponse extends JSONResponse {
 
-$app = new Application(); // \AppInfo\Application();
-$app->registerNavigationEntry();
-
-\OCP\Share::registerBackend ('ownnote', '\OCA\OwnNote\ShareBackend\OwnnoteShareBackend');
-\OCP\App::registerAdmin('ownnote', 'admin');
+    /**
+     * Creates a new json response with a not found status code.
+     * @param array $response_data
+     */
+    public function __construct($response_data = []) {
+        parent::__construct($response_data, Http::STATUS_NOT_FOUND);
+    }
+}

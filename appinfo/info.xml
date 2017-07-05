@@ -7,7 +7,6 @@
     <author>Ben Curtis</author>
     <author>Sander Brand</author>
     <version>1.1</version>
-    <requiremin>9.1</requiremin>
     <namespace>OwnNote</namespace>
     <dependencies>
         <lib>curl</lib>

@@ -1,4 +1,25 @@
 <?php
+/**
+ * Nextcloud - ownnote
+ *
+ * @copyright Copyright (c) 2015, Ben Curtis <ownclouddev@nosolutions.com>
+ * @copyright Copyright (c) 2017, Sander Brand (brantje@gmail.com)
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 \OCP\Util::addScript('ownnote', 'admin');
 
@@ -12,10 +33,10 @@ $l = OCP\Util::getL10N('ownnote');
     <h2>ownNote</h2>
     
 	<label for="ownnote-type"><?php p($l->t("How would you like to store your notes?")); ?></label><br>
-	<select id="ownnote-type">
-		<option <?php if ($folder == "") echo "selected"; ?> value=""><?php p($l->t("Database only")); ?></option>
-		<option <?php if ($folder != "") echo "selected"; ?> value="folder"><?php p($l->t("Database and folder")); ?></option>
+	<select id="ownnote-type" disabled>
+		<option selected><?php p($l->t("Database only")); ?></option>
 	</select><br/>
+	<p>During development of this app, only database exists. File mode will be added later</p>
 	<br/>
 	<div id="ownnote-folder-settings" style="display: <?php if ($folder != "") echo "block"; else echo "none"; ?>">
 		<label for="ownnote-folder"><?php p($l->t("Please enter the folder name you would like to use to store notes, with no slashes.")); ?></label><br>

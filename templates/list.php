@@ -1,12 +1,35 @@
+<?php
+/**
+ * Nextcloud - ownnote
+ *
+ * @copyright Copyright (c) 2015, Ben Curtis <ownclouddev@nosolutions.com>
+ * @copyright Copyright (c) 2017, Sander Brand (brantje@gmail.com)
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+?>
 <input type="hidden" name="nextNonce" id="nextNonce" value="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" />
 <?php
-\OCP\Util::addScript('ownnote', 'script');
-\OCP\Util::addScript('ownnote', 'ownnote');
-\OCP\Util::addScript('ownnote', 'share');
-\OCP\Util::addScript('ownnote', 'tinymce/tinymce.min');
-\OCP\Util::addStyle('core', 'icons');
-\OCP\Util::addStyle('gallery', 'share');
-\OCP\Util::addStyle('ownnote', 'style');
+//\OCP\Util::addScript('ownnote', 'script');
+//\OCP\Util::addScript('ownnote', 'ownnote');
+//\OCP\Util::addScript('ownnote', 'share');
+//\OCP\Util::addScript('ownnote', 'tinymce/tinymce.min');
+//\OCP\Util::addStyle('core', 'icons');
+//\OCP\Util::addStyle('gallery', 'share');
+//\OCP\Util::addStyle('ownnote', 'style');
 
 $sharemode = \OCP\Config::getAppValue('ownnote', 'sharemode', 'merge');
 $disableAnnouncement = \OCP\Config::getAppValue ( 'ownnote', 'disableAnnouncement', '' );
@@ -25,7 +48,9 @@ foreach ( $ocVersionArray as $v ) {
 
 ?>
 <div id="app">
-	<div id="app-navigation">
+	Sorry, this app is far from ready for production use. Why are you installing an alpa anyway? <br />.
+	If you like to help out developing this app, go to our <a href="https://github.com/brantje/ownnote" target="_blank">github</a>
+	<!--<div id="app-navigation">
 		<ul id="grouplist">
 		</ul>
 	</div>
@@ -71,5 +96,5 @@ foreach ( $ocVersionArray as $v ) {
 		l10n["Notes"] = "<?php p($l->t("Notes")); ?>";
 		l10n["Quick Save"] = "<?php p($l->t("Quick Save")); ?>";
 		l10n["Save"] = "<?php p($l->t("Save")); ?>";
-	</div>
+	</div> -->
 </div>

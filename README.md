@@ -13,6 +13,9 @@ Changes:
 # Compatibility
 Fully compatible with ownNote
 
+# Pull requests are very welcome!
+I've refactored the whole app, so there will be some bugs in there.   
+Did you found a bug? Report it or fix it and send a PR.
 
 # Features
 - Import from Evernote
@@ -22,15 +25,19 @@ Fully compatible with ownNote
 - Note grouping/categorization
 
 Todo:
-- [ ] Refactor backend to make use of:
-  - [ ] Entity's
-  - [ ] Mappers
-  - [ ] Services
+- [x] Refactor backend to make use of:
+  - [x] Entity's
+  - [x] Mappers
+  - [x] Services
   - [ ] Hooks
 - [ ] Switch to a AngularJS frontend        
 - [ ] Import from [Notes](https://github.com/nextcloud/notes) app
 - [ ] Encrypted notes? 
-- [ ] Test saving of files
+- [ ] Test saving of files   
+   
+## Chat
+There is a [Gitter](https://gitter.im/nextnotes/Lobby) chatroom available.
+   
 ## Installation
 - Place this app in **nextcloud/apps/ownnote** (Rename the extracted ZIP to "ownnote" or you will receive errors)
 - Note: *custom_csp_policy* changes are no longer required
