@@ -1,6 +1,7 @@
-# ownNote (alpha)
-This application is a modified verion of ownNote.
-
+# ownNote in transition to NextNote(alpha)
+This application is a modified verion of ownNote.   
+Currently it **will** not work, only the api is ready so far.
+    
 Changes:
 - Modified to work up to Nextcloud 13
 - Replaced deprecated methods
