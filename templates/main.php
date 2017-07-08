@@ -91,7 +91,7 @@ echo '<script nonce="test"> var shareMode = "'. $sharemode .'"</script>';
 					<!-- <span class="action numnotes">1</span> -->
 				</span>
 			</li>
-			<li data-id="trashbin" class="nav-trashbin" ng-class="{'active': list_filter.deleted === 1}" ng-click="list_filter.deleted = (list_filter.deleted === 0 ) ? 1 : 0">
+			<li data-id="trashbin" class="nav-trashbin" ng-class="{'active': list_filter.deleted === 1}" ng-click="list_filter.deleted = (list_filter.deleted === 0 ) ? 1 : 0; noteGroupFilter.grouping = 'all';">
 				<a class="nav-icon-trashbin svg">
 					Deleted notes
 				</a>
