@@ -35,6 +35,8 @@ use \OCP\AppFramework\Db\Entity;
  * @method string getNote()
  * @method void setNote(string $value)
  * @method string getUid()
+ * @method bool setShared(bool $value)
+ * @method bool getShared()
  * @method void setMtime(integer $value)
  * @method integer getMtime()
  * @method void setDeleted(integer $value)
@@ -52,7 +54,7 @@ class OwnNote extends Entity implements  \JsonSerializable{
 	protected $mtime;
 	protected $deleted;
 	protected $note;
-	
+	protected $shared;
 	public function __construct() {
 		// add types in constructor
 		$this->addType('mtime', 'integer');

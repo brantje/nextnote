@@ -1,0 +1,56 @@
+
+<div id="ownnote">
+	<div id="controls">
+		<div id="new" class="button indent" ng-click="newNote()">New</div>
+		<div id="newfile" class="newfile indent">
+			<form id="createform" class="note-title-form">
+				<input type="text" class="newfileinput" id="newfilename" value="note title" style="color: rgb(160, 160, 160);">
+				<select id="groupname">
+					<option value="">Not grouped</option>
+					<option value="_new">New group</option>
+				</select>
+				<input type="text" class="newgroupinput" id="newgroupname" placeholder="group title">
+				<button id="create" class="button">Create</button>
+				<div id="cancel" class="button">Cancel</div>
+			</form>
+		</div>
+	</div>
+	<div class="listingBlank">
+
+	</div>
+	<table class="listingSort">
+		<thead>
+		<tr>
+			<th class="notename filesort notesort">
+				<div class="pointer sorttitle" id="sortname" ng-click="list_sorting.what = 'name'; list_sorting.reverse = !list_sorting.reverse; ">Name</div>
+				<div class="sortarrow" ng-show="list_sorting.what === 'name'" ng-class="{'sortup': list_sorting.reverse, 'sortdown': !list_sorting.reverse }"></div>
+			</th>
+			<th class="actions"></th>
+			<th class="info modified notesort">
+				<span class="pointer" ng-click="list_sorting.what = 'mtime'; list_sorting.reverse = !list_sorting.reverse; ">Modified</span>
+				<div class="sortarrow" ng-show="list_sorting.what === 'mtime'" ng-class="{'sortup': list_sorting.reverse === true, 'sortdown': !list_sorting.reverse }"></div>
+			</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr class="listing" ng-repeat="note in localNoteList | noteGroupFilter:noteGroupFilter | filter:list_filter | orderBy:list_sorting.what:list_sorting.reverse">
+			<td title="{{ note.title }}" p="undefined" class="file pointer"  ng-click="editNote(note)">{{ note.title }}</td>
+			<td class="actions" ng-if="list_filter.deleted === 0">
+				<div id="note-{{ note.id }}-delete" class="buttons delete delete-note pointer" ng-click="deleteNote(note)"></div>
+				<div id="note-{{ note.id }}-edit" class="buttons edit edit-note pointer" ng-click="editNote(note)"></div>
+				<!--<div id="note-{{ note.id }}-share" class="share-note share pointer" ng-click="shareNote(note)">
+					<a class="share" data-item-type="ownnote" data-item="1" data-possible-permissions="31" data-path="1">
+						<div id="note-{{ note.id }}" class="buttons share share-note pointer"></div>
+					</a>
+				</div>-->
+			</td>
+			<td class="actions" ng-if="list_filter.deleted === 1">
+				<div id="note-{{ note.id }}-restore"  class="buttons pointer restore-note" ng-click="resotoreNote(note)"></div>
+			</td>
+			<td class="info">
+				<div class="modified" title="{{ note.mtime | date:dateFormatLong}}">{{ note.mtime  | timeAgo}}</div>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</div>

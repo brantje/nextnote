@@ -35,13 +35,11 @@ use \OCA\OwnNote\Lib\Backend;
 
 class Ownnotev2ApiController extends ApiController {
 
-	private $backend;
 	private $config;
 	private $noteService;
 
 	public function __construct($appName, IRequest $request, ILogger $logger, IConfig $config, OwnNoteService $noteService) {
 		parent::__construct($appName, $request);
-		$this->backend = new Backend($config);
 		$this->config = $config;
 		$this->noteService = $noteService;
 	}
@@ -50,10 +48,13 @@ class Ownnotev2ApiController extends ApiController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 * @TODO Add etag / lastmodified
+	 * @param int|bool $deleted
+	 * @param string|bool $group
+	 * @return JSONResponse
 	 */
-	public function index() {
+	public function index($deleted = false, $group = false) {
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
-		$results = $this->noteService->findNotesFromUser($uid, false);
+		$results = $this->noteService->findNotesFromUser($uid, $deleted, $group);
 		return new JSONResponse($results);
 	}
 
@@ -64,6 +65,7 @@ class Ownnotev2ApiController extends ApiController {
 	 */
 	public function get($id) {
 		$results = $this->noteService->find($id);
+		//@TODO for sharing add access check
 		if (!$results) {
 			return new NotFoundJSONResponse();
 		}
@@ -76,9 +78,13 @@ class Ownnotev2ApiController extends ApiController {
 	 * @NoCSRFRequired
 	 */
 	public function create($title, $group, $note) {
+		if($title == "" || !$title){
+			return new JSONResponse(['error' => 'title is missing']);
+		}
 		$note = [
 			'title' => $title,
-			'group' => $group,
+			'name' => $title,
+			'grouping' => $group,
 			'note' => $note
 		];
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
@@ -90,15 +96,20 @@ class Ownnotev2ApiController extends ApiController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function update($id, $title, $group, $content) {
+	public function update($id, $title, $grouping, $content, $deleted) {
+		if($title == "" || !$title){
+			return new JSONResponse(['error' => 'title is missing']);
+		}
 
 		$note = [
 			'id' => $id,
 			'title' => $title,
-			'group' => $group,
-			'note' => $content
+			'name' => $title,
+			'grouping' => $grouping,
+			'note' => $content,
+            'deleted' => $deleted
 		];
-
+        //@TODO for sharing add access check
 		$entity = $this->noteService->find($id);
 		if (!$entity) {
 			return new NotFoundJSONResponse();
@@ -117,9 +128,10 @@ class Ownnotev2ApiController extends ApiController {
 		if (!$entity) {
 			return new NotFoundJSONResponse();
 		}
-
-		$results = $this->noteService->delete($id);
-		return new JSONResponse($results);
+        //@TODO for sharing add access check
+		$this->noteService->delete($id);
+		$result = (object) ['success' => true];
+		return new JSONResponse($result);
 	}
 
 }

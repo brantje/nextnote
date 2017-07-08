@@ -42,24 +42,26 @@ class OwnNoteService {
 	 * Get vaults from a user.
 	 *
 	 * @param $userId
-	 * @param int $deleted
+	 * @param int|bool $deleted
+	 * @param string|bool $grouping
 	 * @return OwnNote[]
 	 */
-	public function findNotesFromUser($userId, $deleted = 0) {
+	public function findNotesFromUser($userId, $deleted = false, $grouping = false) {
 		// Get shares
-		return $this->noteMapper->findNotesFromUser($userId, $deleted);
+		return $this->noteMapper->findNotesFromUser($userId, $deleted, $grouping);
 	}
 
-	/**
-	 * Get a single vault
-	 *
-	 * @param $note_id
-	 * @param $user_id
-	 * @return OwnNote
-	 * @internal param $vault_id
-	 */
-	public function find($note_id, $user_id = null) {
-		$note = $this->noteMapper->find($note_id, $user_id);
+    /**
+     * Get a single vault
+     *
+     * @param $note_id
+     * @param $user_id
+     * @param bool|int $deleted
+     * @return OwnNote
+     * @internal param $vault_id
+     */
+	public function find($note_id, $user_id = null, $deleted = false) {
+		$note = $this->noteMapper->find($note_id, $user_id, $deleted);
 		return $note;
 	}
 
@@ -76,7 +78,7 @@ class OwnNoteService {
 			$entity = new OwnNote();
 			$entity->setName($note['title']);
 			$entity->setUid($userId);
-			$entity->setGrouping($note['group']);
+			$entity->setGrouping($note['grouping']);
 			$entity->setNote($note['note'] ? $note['note'] : '');
 			$entity->setMtime(time());
 			$note = $entity;
@@ -100,9 +102,10 @@ class OwnNoteService {
 
 		if (is_array($note)) {
 			$entity = $this->find($note['id']);
-			$entity->setName($note['name']);
-			$entity->setGrouping($note['group']);
+			$entity->setName($note['title']);
+			$entity->setGrouping($note['grouping']);
 			$entity->setNote($note['note']);
+			$entity->setDeleted($note['deleted']);
 			$entity->setMtime(time());
 			$note = $entity;
 		}

@@ -1,6 +1,6 @@
 filter:
     excluded_paths:
-        - '*/tinycme/*'
+        - 'js/vendor*'
         - 'l10n/'
         - 'tests/'
 
