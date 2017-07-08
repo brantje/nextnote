@@ -64,7 +64,7 @@ echo '<script nonce="test"> var shareMode = "'. $sharemode .'"</script>';
 ?>
 <input type="hidden" name="nextNonce" id="nextNonce" value="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" />
 <div id="app" ng-app="NextNotesApp" ng-controller="MainCtrl">
-	<div id="app-navigation">
+	<div id="app-navigation" ng-show="sidebar_shown">
 		<ul id="grouplist">
 			<li class="group"  ng-click="noteGroupFilter.grouping = 'all'; " ng-class="{'active': noteGroupFilter.grouping === 'all' }">
 				<a class="name" role="button" title="All">All</a>

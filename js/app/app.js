@@ -62,6 +62,13 @@
 		$rootScope.list_filter = {
 			deleted: 0
 		};
+
+		$rootScope.sidebar_shown = true;
+
+		$rootScope.$on('show_sidebar', function(evt, state) {
+			$rootScope.sidebar_shown = state;
+    });
+
 		function loadNotes() {
             NoteFactory.query(function(notes) {
                 console.log('Notes received', notes);

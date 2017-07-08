@@ -33,7 +33,7 @@
 		.directive('tooltip', function () {
 			return function (scope, element, attrs) {
 				$(element).attr('title', attrs.tooltip);
-				$(element).tooltip()
+				$(element).tooltip();
 			};
 		});
 }());

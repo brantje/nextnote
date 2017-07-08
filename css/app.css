@@ -595,6 +595,9 @@ a.editable-empty:focus {
 .ui-button.ui-button-icon-only {
   min-height: auto !important; }
 
+.edit-note-container #controls {
+  left: 0 !important; }
+
 /*# sourceMappingURL=style.css.map */
 
 /*# sourceMappingURL=app.css.map */
