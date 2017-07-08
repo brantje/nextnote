@@ -73,5 +73,19 @@ class Utils {
 		return $strarray;
 	}
 
-
+	/**
+	 * @param $key
+	 * @param $value
+	 * @param $array
+	 * @return int|null|string
+	 * @internal param $ $
+	 */
+	public static function getItemByProperty($key, $value, $array) {
+		foreach ($array as $_key => $val) {
+			if ($val[$key] === $value) {
+				return $val;
+			}
+		}
+		return null;
+	}
 }

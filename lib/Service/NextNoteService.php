@@ -24,6 +24,7 @@
 namespace OCA\NextNote\Service;
 
 use OCA\NextNote\Db\NextNote;
+use OCA\NextNote\ShareBackend\NextNoteShareBackend;
 use OCA\NextNote\Utility\Utils;
 use OCA\NextNote\Db\NextNoteMapper;
 
@@ -33,9 +34,10 @@ class NextNoteService {
 	private $noteMapper;
 	private $utils;
 
-	public function __construct(NextNoteMapper $noteMapper, Utils $utils) {
+	public function __construct(NextNoteMapper $noteMapper, Utils $utils, NextNoteShareBackend $shareBackend) {
 		$this->noteMapper = $noteMapper;
 		$this->utils = $utils;
+		$this->sharing = $shareBackend;
 	}
 
 	/**
@@ -48,18 +50,22 @@ class NextNoteService {
 	 */
 	public function findNotesFromUser($userId, $deleted = false, $grouping = false) {
 		// Get shares
-		return $this->noteMapper->findNotesFromUser($userId, $deleted, $grouping);
+
+		$dbNotes = $this->noteMapper->findNotesFromUser($userId, $deleted, $grouping);
+		$sharedNotes = $this->sharing->getSharedNotes();
+		$notes = array_merge($dbNotes, $sharedNotes);
+		return $notes;
 	}
 
-    /**
-     * Get a single vault
-     *
-     * @param $note_id
-     * @param $user_id
-     * @param bool|int $deleted
-     * @return NextNote
-     * @internal param $vault_id
-     */
+	/**
+	 * Get a single vault
+	 *
+	 * @param $note_id
+	 * @param $user_id
+	 * @param bool|int $deleted
+	 * @return NextNote
+	 * @internal param $vault_id
+	 */
 	public function find($note_id, $user_id = null, $deleted = false) {
 		$note = $this->noteMapper->find($note_id, $user_id, $deleted);
 		return $note;
@@ -163,7 +169,7 @@ class NextNoteService {
 	 * @throws \Exception
 	 */
 	public function getListing($FOLDER, $showdel) {
-		throw new \Exception('Calling a deprecated method! (Folder'. $FOLDER. '. Showdel: '. $showdel .')');
+		throw new \Exception('Calling a deprecated method! (Folder' . $FOLDER . '. Showdel: ' . $showdel . ')');
 	}
 
 	private function checkPermissions($permission, $nid) {

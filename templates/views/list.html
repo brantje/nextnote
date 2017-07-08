@@ -41,8 +41,9 @@
 					<span class="pointer buttons edit" tooltip="Edit note"></span>
 				</div>
 				<div id="note-{{ note.id }}-share" class="share-note share pointer" ng-click="shareNote(note)">
-					<a class="share" data-item-type="nextnote" data-item="{{ note.id }}" data-possible-permissions="31" data-path="{{ note.id }}">
-						<div id="note-{{ note.id }}" class="buttons share share-note pointer"></div>
+					<a class="share" data-item-type="nextnote" data-item="{{ note.id }}" data-possible-permissions="{{ note.permissions }}" data-path="{{ note.id }}">
+						<div id="note-shared-{{ note.id }}" class="buttons share shared share-note pointer" ng-if="note.shared_with.length > 0" tooltip="Shared with {{note.shared_with.join(', ')}}">Shared</div>
+						<div id="note-{{ note.id }}" class="buttons share share-note pointer" ng-if="note.shared_with.length === 0"></div>
 					</a>
 				</div>
 			</td>

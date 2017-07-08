@@ -62,7 +62,7 @@
 		$rootScope.list_filter = {
 			deleted: 0
 		};
-
+		$rootScope.OC = OC;
 		$rootScope.sidebar_shown = true;
 
 		$rootScope.$on('show_sidebar', function(evt, state) {

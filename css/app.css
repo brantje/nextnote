@@ -229,6 +229,11 @@ a.editable-empty:focus {
     border-top: 1px solid #EEE; }
     .listingSort tr > td.actions {
       width: 30%; }
+      .listingSort tr > td.actions .share.shared {
+        width: 70px;
+        line-height: 34px;
+        background-position-x: 0;
+        text-align: right; }
     .listingSort tr > td.info {
       width: 25%; }
 

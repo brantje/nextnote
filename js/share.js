@@ -31,9 +31,6 @@ window.Ownnote.Share = {};
         SHARE_TYPE_EMAIL: 4,
         SHARE_TYPE_REMOTE: 6,
 
-        /**
-         * @deprecated use OC.Share.currentShares instead
-         */
         itemShares: [],
 
         /**
@@ -790,7 +787,7 @@ window.Ownnote.Share = {};
                 t('core', 'can edit') + '</label>';
           }
           if (shareType !== this.SHARE_TYPE_REMOTE) {
-            showCrudsButton = '<a href="#" class="showCruds"><img class="svg" alt="' +
+            showCrudsButton = '<a class="showCruds"><img class="svg" alt="' +
                 t('core', 'access control') + '" src="' +
                 OC.imagePath('core', 'actions/triangle-s') + '"/></a>';
           }
@@ -894,20 +891,20 @@ $(document).ready(function () {
       if ($(this).data('link') !== undefined && $(this).data('link') == true) {
         link = true;
       }
-      Ownnote.Share.showDropDown(itemType, path, appendTo, link, possiblePermissions);
-      /*
-       if (Ownnote.Share.droppedDown) {
-       if (path != $('#dropdown').data('path')) {
-       Ownnote.Share.hideDropDown(function () {
-       Ownnote.Share.showDropDown(itemType, path, appendTo, link,
-       possiblePermissions);
-       });
-       } else {
-       Ownnote.Share.hideDropDown();
-       }
-       } else {
+     // Ownnote.Share.showDropDown(itemType, path, appendTo, link, possiblePermissions);
 
-       }*/
+      if (Ownnote.Share.droppedDown) {
+        if (path != $('#dropdown').data('path')) {
+          Ownnote.Share.hideDropDown(function() {
+            Ownnote.Share.showDropDown(itemType, path, appendTo, link,
+                possiblePermissions);
+          });
+        } else {
+          Ownnote.Share.hideDropDown();
+        }
+      } else {
+        Ownnote.Share.showDropDown(itemType, path, appendTo, link, possiblePermissions);
+      }
     }
   });
 
@@ -918,12 +915,13 @@ $(document).ready(function () {
         !target.closest('.ui-autocomplete').length;
     if (Ownnote.Share.droppedDown && isMatched &&
         $('#dropdown').has(event.target).length === 0) {
-      Ownnote.Share.hideDropDown();
+        Ownnote.Share.hideDropDown();
     }
   });
 
-  $(document).on('click', '#dropdown .showCruds', function () {
-    $(this).closest('li').find('.cruds').toggle();
+  $(document).on('click', '#dropdown .showCruds', function (e) {
+
+    $(this).parent().find('.cruds').toggle();
     return false;
   });
 

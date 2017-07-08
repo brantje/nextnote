@@ -24,24 +24,29 @@
 namespace OCA\NextNote\Controller;
 
 use OCA\NextNote\Service\NextNoteService;
+use OCA\NextNote\ShareBackend\NextNoteShareBackend;
 use OCA\NextNote\Utility\NotFoundJSONResponse;
+use OCA\NextNote\Utility\UnauthorizedJSONResponse;
+use OCA\NextNote\Utility\Utils;
 use \OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IConfig;
 use OCP\ILogger;
 use \OCP\IRequest;
-use \OCA\NextNote\Lib\Backend;
+
 
 
 class NextNoteApiController extends ApiController {
 
 	private $config;
 	private $noteService;
+	private $shareBackend;
 
-	public function __construct($appName, IRequest $request, ILogger $logger, IConfig $config, NextNoteService $noteService) {
+	public function __construct($appName, IRequest $request, ILogger $logger, IConfig $config, NextNoteService $noteService, NextNoteShareBackend $shareBackend) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->noteService = $noteService;
+		$this->shareBackend = $shareBackend;
 	}
 
 	/**
@@ -55,6 +60,14 @@ class NextNoteApiController extends ApiController {
 	public function index($deleted = false, $group = false) {
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$results = $this->noteService->findNotesFromUser($uid, $deleted, $group);
+		foreach ($results as &$note) {
+			if(is_array($note)){
+				$note = $this->noteService->find($note['id']);
+			}
+			$note = $note->jsonSerialize();
+			$note = $this->getSharedProperties($note);
+
+		}
 		return new JSONResponse($results);
 	}
 
@@ -64,12 +77,13 @@ class NextNoteApiController extends ApiController {
 	 * @TODO Add etag / lastmodified
 	 */
 	public function get($id) {
-		$results = $this->noteService->find($id);
-		//@TODO for sharing add access check
-		if (!$results) {
+		$result = $this->noteService->find($id);
+		if (!$result) {
 			return new NotFoundJSONResponse();
 		}
-		return new JSONResponse($results);
+		
+		$result = $result->jsonSerialize();
+		return new JSONResponse($this->getSharedProperties($result));
 	}
 
 
@@ -88,8 +102,8 @@ class NextNoteApiController extends ApiController {
 			'note' => $content
 		];
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
-		$result = $this->noteService->create($note, $uid);
-		return new JSONResponse($result);
+		$result = $this->noteService->create($note, $uid)->jsonSerialize();
+		return new JSONResponse($this->getSharedProperties($result));
 	}
 
 	/**
@@ -100,6 +114,8 @@ class NextNoteApiController extends ApiController {
 		if($title == "" || !$title){
 			return new JSONResponse(['error' => 'title is missing']);
 		}
+
+
 
 		$note = [
 			'id' => $id,
@@ -115,8 +131,12 @@ class NextNoteApiController extends ApiController {
 			return new NotFoundJSONResponse();
 		}
 
-		$results = $this->noteService->update($note);
-		return new JSONResponse($results);
+		if (!$this->shareBackend->checkPermissions(\OCP\Constants::PERMISSION_UPDATE, $entity)) {
+			return new UnauthorizedJSONResponse();
+		}
+
+		$results = $this->noteService->update($note)->jsonSerialize();
+		return new JSONResponse($this->getSharedProperties($results));
 	}
 
 	/**
@@ -128,10 +148,33 @@ class NextNoteApiController extends ApiController {
 		if (!$entity) {
 			return new NotFoundJSONResponse();
 		}
-        //@TODO for sharing add access check
+
+		if (!$this->shareBackend->checkPermissions(\OCP\Constants::PERMISSION_DELETE, $entity)) {
+			return new UnauthorizedJSONResponse();
+		}
+
 		$this->noteService->delete($id);
 		$result = (object) ['success' => true];
 		return new JSONResponse($result);
 	}
 
+	/**
+	 * @param $note array
+	 * @return array
+	 */
+	private function getSharedProperties($note){
+		$uid = \OC::$server->getUserSession()->getUser()->getUID();
+		$acl = [
+			'permissions' => 31
+		];
+		if($uid !== $note['uid']){
+			$aclRoles = \OCP\Share::getItemSharedWith('nextnote', $note['id'], 'populated_shares');
+			$acl = Utils::getItemByProperty('share_with', $uid, $aclRoles);
+
+		}
+		$note['permissions'] = $acl['permissions'];
+		$shared_with = \OCP\Share::getUsersItemShared('nextnote', $note['id'], $note['uid']);
+		$note['shared_with'] = ($note['uid'] == $uid) ? $shared_with : [$uid];
+		return $note;
+	}
 }
