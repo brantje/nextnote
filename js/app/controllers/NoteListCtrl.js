@@ -41,12 +41,22 @@
 			};
 
 			$scope.deleteNote = function(note) {
+
 				NoteService.getNoteById(note.id).then(function(_note) {
-					_note.$softDelete().then(function(result) {
-						$rootScope.notes[result.id] = result;
-                        note.deleted = 1;
-                    });
+					if(note.deleted === 0) {
+            _note.$softDelete().then(function(result) {
+              $rootScope.notes[result.id] = result;
+              note.deleted = 1;
+            });
+          }
+          if(note.deleted === 1){
+					  _note.$delete().then(function() {
+              var idx = $scope.localNoteList.indexOf(note);
+              $scope.localNoteList.splice(idx, 1);
+            });
+          }
 				});
+
 			};
 			$scope.resotoreNote = function(note) {
 				NoteService.getNoteById(note.id).then(function(_note) {

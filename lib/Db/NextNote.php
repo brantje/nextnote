@@ -58,6 +58,7 @@ class NextNote extends Entity implements  \JsonSerializable{
 	public function __construct() {
 		// add types in constructor
 		$this->addType('mtime', 'integer');
+		$this->addType('deleted', 'integer');
 	}
 	/**
 	 * Turns entity attributes into an array
