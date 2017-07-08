@@ -1,6 +1,7 @@
 # NextNote (alpha)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/brantje/ownnote/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/brantje/ownnote/?branch=master)   
-This application is a rewritten verion of ownNote.   
+This application is a rewritten verion of ownNote.<br>
+The old [Android App](https://play.google.com/store/apps/details?id=com.nowsci.ownnote&hl=sv) won't work, but no worries, we plan to develop a new one.
     
 Changes:
 - Replaced deprecated methods
@@ -38,7 +39,8 @@ Did you found a bug? Report it or fix it and send a PR.
 - [ ] Switch between database or file mode
 - [ ] Add admin section for allowed image / video domains due CSP.
 - [ ] Encrypted notes? (What about sharing?)
-- [ ] Travis tests (We really need help with this, so PR's welcome!)   
+- [ ] Travis tests (We really need help with this, so PR's welcome!) 
+- [ ] Develop an app for Android/iOS (We really need help with this, so PR's welcome!)
    
 ## Chat
 There is a [Gitter](https://gitter.im/nextnotes/Lobby) chatroom available.
