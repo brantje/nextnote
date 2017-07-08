@@ -77,14 +77,14 @@ class NextNoteApiController extends ApiController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function create($title, $group, $note) {
+	public function create($title, $grouping, $note) {
 		if($title == "" || !$title){
 			return new JSONResponse(['error' => 'title is missing']);
 		}
 		$note = [
 			'title' => $title,
 			'name' => $title,
-			'grouping' => $group,
+			'grouping' => $grouping,
 			'note' => $note
 		];
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
