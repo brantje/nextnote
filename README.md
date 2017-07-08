@@ -47,7 +47,7 @@ There is a [Gitter](https://gitter.im/nextnotes/Lobby) chatroom available.
 - Place this app in **nextcloud/apps/ownnote** (Rename the extracted ZIP to "ownnote" or you will receive errors)
 - Note: *custom_csp_policy* changes are no longer required
 
-##Development
+## Development
 
 NextNotes uses a single `.js` file for the templates.   
 This gives the benefit that we don't need to request every template with XHR.
