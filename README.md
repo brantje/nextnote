@@ -1,4 +1,5 @@
 # NextNote (alpha)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/brantje/ownnote/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/brantje/ownnote/?branch=master)   
 This application is a rewritten verion of ownNote.   
     
 Changes:
