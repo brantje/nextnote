@@ -40,11 +40,11 @@
 				<div id="note-{{ note.id }}-edit" class="buttons edit-note" ng-click="editNote(note)">
 					<span class="pointer buttons edit" tooltip="Edit note"></span>
 				</div>
-				<!--<div id="note-{{ note.id }}-share" class="share-note share pointer" ng-click="shareNote(note)">
-					<a class="share" data-item-type="ownnote" data-item="1" data-possible-permissions="31" data-path="1">
+				<div id="note-{{ note.id }}-share" class="share-note share pointer" ng-click="shareNote(note)">
+					<a class="share" data-item-type="nextnote" data-item="{{ note.id }}" data-possible-permissions="31" data-path="{{ note.id }}">
 						<div id="note-{{ note.id }}" class="buttons share share-note pointer"></div>
 					</a>
-				</div>-->
+				</div>
 			</td>
 			<td class="actions" ng-if="list_filter.deleted === 1">
 				<div id="note-{{ note.id }}-delete" class="buttons delete pointer"  ng-click="deleteNote(note)">

@@ -38,6 +38,7 @@ script('nextnote', 'vendor/angular-xeditable/xeditable');
 script('nextnote', 'app/app');
 script('nextnote', 'app/routes');
 script('nextnote', 'templates');
+script('nextnote', 'share');
 script('nextnote', 'app/controllers/MainCtrl');
 script('nextnote', 'app/controllers/NoteListCtrl');
 script('nextnote', 'app/controllers/NoteEditCtrl');

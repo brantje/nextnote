@@ -50,4 +50,12 @@ $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'settings#saveAdminSetting', 'url' => '/api/v2.0/settings', 'verb' => 'POST'),
 	array('name' => 'settings#getSettings', 'url' => '/api/v2.0/settings', 'verb' => 'GET'),
 
+	//Sharing
+	array('name' => 'share_api#getshares', 'url' => '/api/v2.0/sharing/shares', 'verb' => 'GET'),
+	array('name' => 'share_api#share', 'url' => '/api/v2.0/sharing/shares', 'verb' => 'POST'),
+	array('name' => 'share_api#unshare', 'url' => '/api/v2.0/sharing/shares/{itemSource}', 'verb' => 'DELETE', 'requirements' => array('itemSource' => '.+')),
+	array('name' => 'share_api#setpermissions', 'url' => '/api/v2.0/sharing/shares/{itemSource}/permissions', 'verb' => 'PUT', 'requirements' => array('itemSource' => '.+')),
+
+
+
 )));

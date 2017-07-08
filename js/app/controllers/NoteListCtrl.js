@@ -33,6 +33,9 @@
 	angular.module('NextNotesApp')
 		.controller('NoteListCtrl', ['$scope', '$rootScope', '$location', 'NoteService', function($scope, $rootScope, $location, NoteService) {
 			$scope.editNote = function(note) {
+				if(note.deleted === 1){
+					return;
+				}
 				$location.path('/note/edit/' + note.id);
 			};
 
@@ -68,12 +71,11 @@
 			};
 
 			var init = function() {
-				var locaList = $.map(angular.copy($rootScope.notes), function(value, index) {
-					if (typeof value === 'object' && value.hasOwnProperty('id')) {
-						return [value];
-					}
-				});
-				$scope.localNoteList = locaList;
+				$scope.localNoteList = $.map(angular.copy($rootScope.notes), function(value, index) {
+          if (typeof value === 'object' && value.hasOwnProperty('id')) {
+            return [value];
+          }
+        });
 			};
 			if ($rootScope.notes) {
 				init();
