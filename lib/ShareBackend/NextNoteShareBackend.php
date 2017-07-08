@@ -1,6 +1,6 @@
 <?php
 /**
- * Nextcloud - ownnote
+ * Nextcloud - NextNote
  *
  * @copyright Copyright (c) 2015, Ben Curtis <ownclouddev@nosolutions.com>
  * @copyright Copyright (c) 2017, Sander Brand (brantje@gmail.com)
@@ -21,11 +21,11 @@
  *
  */
 
-namespace OCA\OwnNote\ShareBackend;
+namespace OCA\NextNote\ShareBackend;
 
 use \OCP\Share_Backend;
 
-class OwnnoteShareBackend implements Share_Backend {
+class NextNoteShareBackend implements Share_Backend {
 
 	private $db;
 
@@ -46,8 +46,7 @@ class OwnnoteShareBackend implements Share_Backend {
 		// todo: real test
 		// id => 1, has admin 
 		// has owner this note?
-		
-		return true;		
+		return true;
 	}
 	
 	/**

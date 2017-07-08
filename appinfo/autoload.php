@@ -1,6 +1,6 @@
 <?php
 /**
- * Nextcloud - ownnote
+ * Nextcloud - NextNote
  *
  * @copyright Copyright (c) 2015, Ben Curtis <ownclouddev@nosolutions.com>
  * @copyright Copyright (c) 2017, Sander Brand (brantje@gmail.com)
@@ -21,6 +21,6 @@
  *
  */
 
-namespace OCA\OwnNote\AppInfo;
+namespace OCA\NextNote\AppInfo;
 
 

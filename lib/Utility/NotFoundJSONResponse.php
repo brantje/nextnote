@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\OwnNote\Utility;
+namespace OCA\NextNote\Utility;
 
 
 use OCP\AppFramework\Http;

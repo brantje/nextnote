@@ -1,6 +1,6 @@
 <?php
 /**
- * Nextcloud - ownnote
+ * Nextcloud - NextNote
  *
  * @copyright Copyright (c) 2015, Ben Curtis <ownclouddev@nosolutions.com>
  * @copyright Copyright (c) 2017, Sander Brand (brantje@gmail.com)
@@ -21,15 +21,15 @@
  *
  */
 
-namespace OCA\OwnNote\AppInfo;
+namespace OCA\NextNote\AppInfo;
 
 
-use OCA\OwnNote\AppInfo\Application;
+use OCA\NextNote\AppInfo\Application;
 
 require_once __DIR__ . '/autoload.php';
 
 $app = new Application(); // \AppInfo\Application();
 $app->registerNavigationEntry();
 
-\OCP\Share::registerBackend ('ownnote', '\OCA\OwnNote\ShareBackend\OwnnoteShareBackend');
-\OCP\App::registerAdmin('ownnote', 'admin');
+\OCP\Share::registerBackend ('nextnote', '\OCA\NextNote\ShareBackend\NextNoteShareBackend');
+\OCP\App::registerAdmin('nextnote', 'admin');

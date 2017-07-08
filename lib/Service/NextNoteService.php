@@ -21,19 +21,19 @@
  *
  */
 
-namespace OCA\OwnNote\Service;
+namespace OCA\NextNote\Service;
 
-use OCA\OwnNote\Db\OwnNote;
-use OCA\OwnNote\Utility\Utils;
-use OCA\OwnNote\Db\OwnNoteMapper;
+use OCA\NextNote\Db\NextNote;
+use OCA\NextNote\Utility\Utils;
+use OCA\NextNote\Db\NextNoteMapper;
 
 
-class OwnNoteService {
+class NextNoteService {
 
 	private $noteMapper;
 	private $utils;
 
-	public function __construct(OwnNoteMapper $noteMapper, Utils $utils) {
+	public function __construct(NextNoteMapper $noteMapper, Utils $utils) {
 		$this->noteMapper = $noteMapper;
 		$this->utils = $utils;
 	}
@@ -44,7 +44,7 @@ class OwnNoteService {
 	 * @param $userId
 	 * @param int|bool $deleted
 	 * @param string|bool $grouping
-	 * @return OwnNote[]
+	 * @return NextNote[]
 	 */
 	public function findNotesFromUser($userId, $deleted = false, $grouping = false) {
 		// Get shares
@@ -57,7 +57,7 @@ class OwnNoteService {
      * @param $note_id
      * @param $user_id
      * @param bool|int $deleted
-     * @return OwnNote
+     * @return NextNote
      * @internal param $vault_id
      */
 	public function find($note_id, $user_id = null, $deleted = false) {
@@ -68,14 +68,14 @@ class OwnNoteService {
 	/**
 	 * Creates a note
 	 *
-	 * @param array|OwnNote $note
+	 * @param array|NextNote $note
 	 * @param $userId
-	 * @return OwnNote
+	 * @return NextNote
 	 * @throws \Exception
 	 */
 	public function create($note, $userId) {
 		if (is_array($note)) {
-			$entity = new OwnNote();
+			$entity = new NextNote();
 			$entity->setName($note['title']);
 			$entity->setUid($userId);
 			$entity->setGrouping($note['grouping']);
@@ -83,7 +83,7 @@ class OwnNoteService {
 			$entity->setMtime(time());
 			$note = $entity;
 		}
-		if (!$note instanceof OwnNote) {
+		if (!$note instanceof NextNote) {
 			throw new \Exception("Expected OwnNote object!");
 		}
 		return $this->noteMapper->create($note);
@@ -92,8 +92,8 @@ class OwnNoteService {
 	/**
 	 * Update vault
 	 *
-	 * @param $note array|OwnNote
-	 * @return OwnNote|bool
+	 * @param $note array|NextNote
+	 * @return NextNote|bool
 	 * @throws \Exception
 	 * @internal param $userId
 	 * @internal param $vault
@@ -109,7 +109,7 @@ class OwnNoteService {
 			$entity->setMtime(time());
 			$note = $entity;
 		}
-		if (!$note instanceof OwnNote) {
+		if (!$note instanceof NextNote) {
 			throw new \Exception("Expected OwnNote object!");
 		}
 
@@ -147,7 +147,7 @@ class OwnNoteService {
 		}
 
 		$note = $this->noteMapper->find($note_id, $user_id);
-		if ($note instanceof OwnNote) {
+		if ($note instanceof NextNote) {
 			$this->noteMapper->deleteNote($note);
 			return true;
 		} else {
@@ -176,7 +176,7 @@ class OwnNoteService {
 		}
 
 		// check share permissions
-		$shared_note = \OCP\Share::getItemSharedWith('ownnote', $nid, 'populated_shares')[0];
+		$shared_note = \OCP\Share::getItemSharedWith('nextnote', $nid, 'populated_shares')[0];
 		return $shared_note['permissions'] & $permission;
 	}
 }

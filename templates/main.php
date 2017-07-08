@@ -1,6 +1,6 @@
 <?php
 /**
- * Nextcloud - ownnote
+ * Nextcloud - NextNote
  *
  * @copyright Copyright (c) 2015, Ben Curtis <ownclouddev@nosolutions.com>
  * @copyright Copyright (c) 2017, Sander Brand (brantje@gmail.com)
@@ -21,29 +21,29 @@
  *
  */
 /*build-js-start*/
-script('ownnote', 'vendor/tinymce/tinymce.min');
-script('ownnote', 'lib/tinymceNextcloudFileBrowser');
-script('ownnote', 'vendor/angular/angular.min');
-script('ownnote', 'vendor/angular-animate/angular-animate');
-script('ownnote', 'vendor/angular-cookies/angular-cookies');
-script('ownnote', 'vendor/angular-resource/angular-resource');
-script('ownnote', 'vendor/angular-route/angular-route');
-script('ownnote', 'vendor/angular-sanitize/angular-sanitize');
-script('ownnote', 'vendor/angular-touch/angular-touch');
-script('ownnote', 'vendor/angular-tinymce/angular-tinymce');
-script('ownnote', 'vendor/angular-timeago/angular-timeago-core');
-script('ownnote', 'vendor/angular-timeago/angular-timeago');
-script('ownnote', 'vendor/angular-xeditable/xeditable');
+script('nextnote', 'vendor/tinymce/tinymce.min');
+script('nextnote', 'lib/tinymceNextcloudFileBrowser');
+script('nextnote', 'vendor/angular/angular.min');
+script('nextnote', 'vendor/angular-animate/angular-animate');
+script('nextnote', 'vendor/angular-cookies/angular-cookies');
+script('nextnote', 'vendor/angular-resource/angular-resource');
+script('nextnote', 'vendor/angular-route/angular-route');
+script('nextnote', 'vendor/angular-sanitize/angular-sanitize');
+script('nextnote', 'vendor/angular-touch/angular-touch');
+script('nextnote', 'vendor/angular-tinymce/angular-tinymce');
+script('nextnote', 'vendor/angular-timeago/angular-timeago-core');
+script('nextnote', 'vendor/angular-timeago/angular-timeago');
+script('nextnote', 'vendor/angular-xeditable/xeditable');
 
-script('ownnote', 'app/app');
-script('ownnote', 'app/routes');
-script('ownnote', 'templates');
-script('ownnote', 'app/controllers/MainCtrl');
-script('ownnote', 'app/controllers/NoteListCtrl');
-script('ownnote', 'app/controllers/NoteEditCtrl');
-script('ownnote', 'app/services/NoteService');
-script('ownnote', 'app/factory/NoteFactory');
-script('ownnote', 'app/filters/noteFilter');
+script('nextnote', 'app/app');
+script('nextnote', 'app/routes');
+script('nextnote', 'templates');
+script('nextnote', 'app/controllers/MainCtrl');
+script('nextnote', 'app/controllers/NoteListCtrl');
+script('nextnote', 'app/controllers/NoteEditCtrl');
+script('nextnote', 'app/services/NoteService');
+script('nextnote', 'app/factory/NoteFactory');
+script('nextnote', 'app/filters/noteFilter');
 /*build-js-end*/
 
 
@@ -56,9 +56,9 @@ script('ownnote', 'app/filters/noteFilter');
 
 
 /*build-css-start*/
-style('ownnote', 'app');
+style('nextnote', 'app');
 /*build-css-end*/
-$sharemode = \OCP\Config::getAppValue('ownnote', 'sharemode', 'merge');
+$sharemode = \OCP\Config::getAppValue('nextnote', 'sharemode', 'merge');
 echo '<script nonce="test"> var shareMode = "'. $sharemode .'"</script>';
 ?>
 <input type="hidden" name="nextNonce" id="nextNonce" value="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" />

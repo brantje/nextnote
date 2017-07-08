@@ -21,7 +21,7 @@
  */
 
 angular.module('NextNotesApp').factory('NoteFactory', function($resource, $http) {
-	var notes = $resource(OC.generateUrl('apps/ownnote/api/v2.0/note') + '/:id', {id: '@id'},{
+	var notes = $resource(OC.generateUrl('apps/nextnote/api/v2.0/note') + '/:id', {id: '@id'},{
 		query: {
 			responseType: 'json',
 			transformResponse: function(result) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Nextcloud - ownnote
+ * Nextcloud - NextNote
  *
  * @copyright Copyright (c) 2015, Ben Curtis <ownclouddev@nosolutions.com>
  * @copyright Copyright (c) 2017, Sander Brand (brantje@gmail.com)
@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\OwnNote\Controller;
+namespace OCA\NextNote\Controller;
 
 
 use OCP\IConfig;
@@ -54,9 +54,9 @@ class PageController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function index() {
-		$shareMode = $this->config->getAppValue('ownnote', 'sharemode', 'merge'); // merge or standalone
+		$shareMode = $this->config->getAppValue('nextnote', 'sharemode', 'merge'); // merge or standalone
 		$params = array('user' => $this->userId, 'shareMode' => $shareMode);
-		$response = new TemplateResponse('ownnote', 'main', $params);
+		$response = new TemplateResponse('nextnote', 'main', $params);
 		$ocVersion = \OCP\Util::getVersion();
 		if ($ocVersion[0] > 8 || ($ocVersion[0] == 8 && $ocVersion[1] >= 1)) {
 			$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();

@@ -2,9 +2,9 @@
 
 OCP\User::checkAdminUser();
 
-$tmpl = new OCP\Template('ownnote', 'admin');
-$tmpl->assign('folder', OCP\Config::getAppValue('ownnote', 'folder', ''));
-$tmpl->assign('sharemode', OCP\Config::getAppValue('ownnote', 'sharemode', ''));
+$tmpl = new OCP\Template('nextnote', 'admin');
+$tmpl->assign('folder', OCP\Config::getAppValue('nextnote', 'folder', ''));
+$tmpl->assign('sharemode', OCP\Config::getAppValue('nextnote', 'sharemode', ''));
 
 return $tmpl -> fetchPage();
 

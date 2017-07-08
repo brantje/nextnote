@@ -1,6 +1,6 @@
 <?php
 /**
- * Nextcloud - ownnote
+ * Nextcloud - NextNote
  *
  * @copyright Copyright (c) 2015, Ben Curtis <ownclouddev@nosolutions.com>
  * @copyright Copyright (c) 2017, Sander Brand (brantje@gmail.com)
@@ -21,12 +21,12 @@
  *
  */
 
-namespace OCA\OwnNote\Db;
+namespace OCA\NextNote\Db;
 use \OCP\AppFramework\Db\Entity;
 
 /**
  * @method integer getId()
- * @method void setId($value)
+ * @method void setId(int $value)
  * @method void setName(string $value)
  * @method string getName()
  * @method void setGrouping(string $value)
@@ -44,7 +44,7 @@ use \OCP\AppFramework\Db\Entity;
  */
 
 
-class OwnNote extends Entity implements  \JsonSerializable{
+class NextNote extends Entity implements  \JsonSerializable{
 
 	use EntityJSONSerializer;
 

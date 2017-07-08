@@ -1,6 +1,6 @@
 <?php
 /**
- * Nextcloud - ownnote
+ * Nextcloud - NextNote
  *
  * @copyright Copyright (c) 2015, Ben Curtis <ownclouddev@nosolutions.com>
  * @copyright Copyright (c) 2017, Sander Brand (brantje@gmail.com)
@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\OwnNote\AppInfo;
+namespace OCA\NextNote\AppInfo;
 
 /**
  * Create your routes in here. The name is the lowercase name of the controller
@@ -40,10 +40,10 @@ $application->registerRoutes($this, array('routes' => array(
 
 	// V2.0 API
 	array('name' => 'ownnotev2_api#preflighted_cors', 'url' => '/api/v2.0/{path}', 'verb' => 'OPTIONS', 'requirements' => array('path' => '.+')),
-	array('name' => 'ownnotev2_api#index', 'url' => '/api/v2.0/note', 'verb' => 'GET'),
-	array('name' => 'ownnotev2_api#create', 'url' => '/api/v2.0/note', 'verb' => 'POST'),
-	array('name' => 'ownnotev2_api#get', 'url' => '/api/v2.0/note/{id}', 'verb' => 'GET'),
-	array('name' => 'ownnotev2_api#update', 'url' => '/api/v2.0/note/{id}', 'verb' => 'PUT'),
-	array('name' => 'ownnotev2_api#delete', 'url' => '/api/v2.0/note/{id}', 'verb' => 'DELETE'),
+	array('name' => 'nextnote_api#index', 'url' => '/api/v2.0/note', 'verb' => 'GET'),
+	array('name' => 'nextnote_api#create', 'url' => '/api/v2.0/note', 'verb' => 'POST'),
+	array('name' => 'nextnote_api#get', 'url' => '/api/v2.0/note/{id}', 'verb' => 'GET'),
+	array('name' => 'nextnote_api#update', 'url' => '/api/v2.0/note/{id}', 'verb' => 'PUT'),
+	array('name' => 'nextnote_api#delete', 'url' => '/api/v2.0/note/{id}', 'verb' => 'DELETE'),
 
 )));
