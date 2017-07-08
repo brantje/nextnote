@@ -9,7 +9,7 @@
 			<select id="groupname" ng-model="noteShadowCopy.grouping">
 				<option value="">Not grouped</option>
 				<option value="_new">New group</option>
-				<option ng-repeat="group in note_groups" value="{{group}}">{{group}}</option>
+				<option ng-repeat="group in note_groups" value="{{group.name}}">{{group.name}}</option>
 			</select>
 			<input type="text" placeholder="group title" ng-show="noteShadowCopy.grouping === '_new'" ng-model="new_group">
 			<div class="button" ng-click="saveNote()">Save</div>

@@ -89,18 +89,41 @@
 
 		// Setup a watcher on the notes so groups are always correct
 		// @TODO Implement multi level support
-		$rootScope.note_groups = [];
-		$rootScope.$watch('notes', function(n) {
+
+
+    var getGroupIndexByName = function(groupName) {
+      for(var i = 0; i < $rootScope.note_groups.length; i++){
+        if(groupName === $rootScope.note_groups[i].name){
+          return i;
+        }
+      }
+      return -1;
+    };
+
+		$rootScope.$watch('[notes, list_filter]', function(n) {
 			if (!n) {
 				return;
 			}
 
+      $rootScope.note_groups = [];
+      $rootScope.note_count = 0;
+
 			var notes = $rootScope.notes;
 			angular.forEach(notes, function(note) {
 				if (note.hasOwnProperty('id')) {
-					var idx = $rootScope.note_groups.indexOf(note.grouping);
+					if(note.deleted !== $rootScope.list_filter.deleted){
+						return;
+					}
+          $rootScope.note_count++;
+					var idx = getGroupIndexByName(note.grouping);
 					if (shareMode === 'merge' && idx === -1 && note.grouping !== '_new' && note.grouping !== '') {
-						$rootScope.note_groups.push(note.grouping);
+						$rootScope.note_groups.push({
+							name: note.grouping,
+							note_count: 1
+						});
+					}
+					if (shareMode === 'merge' && idx !== -1 && note.grouping !== '_new' && note.grouping !== '') {
+            $rootScope.note_groups[idx].note_count++;
 					}
 				}
 			});

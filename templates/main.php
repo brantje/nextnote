@@ -71,7 +71,7 @@ echo '<script nonce="test"> var shareMode = "'. $sharemode .'"</script>';
 				<span class="utils">
 					<a class="icon-rename action edit tooltipped rightwards" group="All" original-title=""></a>
 					<a class="icon-delete action delete tooltipped rightwards" group="All" original-title=""></a>
-					<span class="action numnotes" ng-show="keys(notes).length - 2 > 0">{{ keys(notes).length - 2 }}</span>
+					<span class="action numnotes" ng-show="keys(notes).length - 2 > 0">{{ note_count }}</span>
 				</span>
 			</li>
 			<li class="group"  ng-click="noteGroupFilter.grouping = ''; " ng-class="{'active': noteGroupFilter.grouping === '' }">
@@ -82,13 +82,14 @@ echo '<script nonce="test"> var shareMode = "'. $sharemode .'"</script>';
 					<!-- <span class="action numnotes" ng-show="keys(notes).length - 2 > 0">{{ keys(notes).length - 2 }}</span> -->
 				</span>
 			</li>
-			<li id="group-{{group}}" ng-if="group !== ''" class="group" ng-click="noteGroupFilter.grouping = group; " ng-class="{'active': noteGroupFilter.grouping === group }" data-type="category" ng-repeat="group in note_groups">
-				<a editable-text="group" e-form="textBtnForm" onbeforesave="renameGroup(group, $data)" class="name" id="link-webstore" role="button" title="webstore">{{ group }}</a>
+			<li id="group-{{group}}" ng-if="group.name !== ''" class="group" ng-click="noteGroupFilter.grouping = group.name; "
+				ng-class="{'active': noteGroupFilter.grouping === group.name }" data-type="category" ng-repeat="group in note_groups">
+				<a editable-text="group" e-form="textBtnForm" onbeforesave="renameGroup(group, $data)" class="name" id="link-webstore" role="button" title="webstore">{{ group.name }}</a>
 
 				<span class="utils">
 					<a ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible" class="icon-rename action edit rightwards"></a>
 					<a class="icon-delete action delete rightwards" ng-hide="textBtnForm.$visible"></a>
-					<!-- <span class="action numnotes">1</span> -->
+					<span class="action numnotes">{{ group.note_count }}</span>
 				</span>
 			</li>
 			<li data-id="trashbin" class="nav-trashbin" ng-class="{'active': list_filter.deleted === 1}" ng-click="list_filter.deleted = (list_filter.deleted === 0 ) ? 1 : 0; noteGroupFilter.grouping = 'all';">
