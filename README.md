@@ -47,7 +47,7 @@ There is a [Gitter](https://gitter.im/nextnotes/Lobby) chatroom available.
  
    
 ## Installation
-- Place this app in **nextcloud/apps/ownnote** (Rename the extracted ZIP to "ownnote" or you will receive errors)
+- Place this app in **nextcloud/apps/nextnote** (Rename the extracted ZIP to "nextnote" or you will receive errors)
 - Note: *custom_csp_policy* changes are no longer required
 
 ## Development
