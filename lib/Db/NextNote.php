@@ -74,6 +74,7 @@ class NextNote extends Entity implements  \JsonSerializable{
 			'grouping' => ($this->getGrouping()) ? $this->getGrouping() : '',
 			'content' => $this->getNote(),
 			'deleted' => $this->getDeleted(),
+			'created' => 0
 		];
 	}
 }
