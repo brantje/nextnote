@@ -47,9 +47,19 @@ class Utils {
 	 * @return string
 	 */
 	public static function getNameByUid($uid){
+		$u = Utils::getUserInfo($uid);
+		return $u['display_name'];
+	}
+
+	public static function getUserInfo($uid){
 		$um = \OC::$server->getUserManager();
 		$u = $um->get($uid);
-		return $u->getDisplayName();
+		$user = [
+			'display_name' => $u->getDisplayName(),
+			'uid' => $uid,
+			'avatar' => $u->getAvatarImage(32)
+		];
+		return $user;
 	}
 
 	/**

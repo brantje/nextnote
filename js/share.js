@@ -791,14 +791,14 @@ window.Ownnote.Share = {};
                 t('core', 'access control') + '" src="' +
                 OC.imagePath('core', 'actions/triangle-s') + '"/></a>';
           }
-          html += '<div class="cruds" style="display:none;">';
-          if (possiblePermissions & OC.PERMISSION_UPDATE) {
+          //html += '<div class="cruds" style="display:none;">';
+          /*if (possiblePermissions & OC.PERMISSION_UPDATE) {
             html += '<input id="canUpdate-' + escapeHTML(shareWith) +
                 '" type="checkbox" class="permissions checkbox checkbox--right" name="update" ' +
                 updateChecked + ' data-permissions="' + OC.PERMISSION_UPDATE + '"/>';
             html += '<label for="canUpdate-' + escapeHTML(shareWith) + '">' +
                 t('core', 'change') + '</label>';
-          }
+          }*/
           if (possiblePermissions & OC.PERMISSION_DELETE) {
             html += '<input id="canDelete-' + escapeHTML(shareWith) +
                 '" type="checkbox" class="permissions checkbox checkbox--right" name="delete" ' +
@@ -807,7 +807,7 @@ window.Ownnote.Share = {};
                 t('core', 'delete') + '</label>';
           }
           html += '</span>';
-          html += '</div>';
+          //html += '</div>';
           html += '</li>';
           html = $(html).appendTo('#shareWithList');
           if (oc_config.enable_avatars === true) {

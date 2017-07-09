@@ -32,26 +32,31 @@
 		</thead>
 		<tbody>
 		<tr class="listing" ng-repeat="note in localNoteList | noteGroupFilter:noteGroupFilter | filter:list_filter | orderBy:list_sorting.what:list_sorting.reverse">
-			<td title="{{ note.title }}" p="undefined" class="file pointer"  ng-click="editNote(note)">{{ note.title }}</td>
+			<td title="{{ note.title }}" p="undefined" class="file pointer" ng-click="editNote(note)">{{ note.title }}</td>
 			<td class="actions" ng-if="list_filter.deleted === 0">
-				<div id="note-{{ note.id }}-sdelete" class="buttons delete-note"  ng-click="deleteNote(note)">
+				<div id="note-{{ note.id }}-sdelete" class="buttons delete-note"  ng-if="hasPermission(note, 'delete')" ng-click="deleteNote(note)">
 					<span tooltip="Delete note" class="pointer buttons delete"></span>
 				</div>
-				<div id="note-{{ note.id }}-edit" class="buttons edit-note" ng-click="editNote(note)">
+				<div id="note-{{ note.id }}-edit" class="buttons edit-note" ng-if="hasPermission(note, 'update')" ng-click="editNote(note)">
 					<span class="pointer buttons edit" tooltip="Edit note"></span>
 				</div>
 				<div id="note-{{ note.id }}-share" class="share-note share pointer" ng-click="shareNote(note)">
 					<a class="share" data-item-type="nextnote" data-item="{{ note.id }}" data-possible-permissions="{{ note.permissions }}" data-path="{{ note.id }}">
-						<div id="note-shared-{{ note.id }}" class="buttons share shared share-note pointer" ng-if="note.shared_with.length > 0" tooltip="Shared with {{note.shared_with.join(', ')}}">Shared</div>
-						<div id="note-{{ note.id }}" class="buttons share share-note pointer" ng-if="note.shared_with.length === 0"></div>
+						<div class="buttons share shared share-note pointer" ng-if="note.shared_with.length > 0 && note.owner.uid === OC.currentUser">
+							Shared
+						</div>
+						<div class="buttons share shared share-note pointer" ng-if="note.shared_with.length > 0 && note.owner.uid !== OC.currentUser" tooltip="Shared with you by {{ note.owner.display_name }}">
+							{{ note.owner.display_name }}
+						</div>
+						<div id="note-{{ note.id }}" class="buttons share share-note pointer" tooltip="Share note" ng-if="note.shared_with.length === 0"></div>
 					</a>
 				</div>
 			</td>
 			<td class="actions" ng-if="list_filter.deleted === 1">
-				<div id="note-{{ note.id }}-delete" class="buttons delete pointer"  ng-click="deleteNote(note)">
+				<div id="note-{{ note.id }}-delete" class="buttons delete pointer" ng-if="hasPermission(note, 'delete')" ng-click="deleteNote(note)">
 					<span tooltip="Delete note" class="delete-note"></span>
 				</div>
-				<div id="note-{{ note.id }}-restore"  class="buttons pointer restore-note" tooltip="Restore note" ng-click="resotoreNote(note)">
+				<div id="note-{{ note.id }}-restore"  class="buttons pointer restore-note" ng-if="hasPermission(note, 'delete')" tooltip="Restore note" ng-click="resotoreNote(note)">
 
 				</div>
 			</td>

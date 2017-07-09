@@ -85,11 +85,11 @@
 				init();
 			});
 
-			$scope.changeOrder = function() {
-				console.log('change order');
-				vm.orderReverse = !vm.orderReverse;
-				vm.items = $filter('orderBy')(vm.items, 'name', vm.orderReverse);
-			};
+
+			$scope.hasPermission = function(note, perm) {
+				var permission = 'PERMISSION_' + perm.toUpperCase();
+				return (note.owner.uid === OC.currentUser ) ? true : note.permissions & OC[permission]
+      }
 
 		}]);
 

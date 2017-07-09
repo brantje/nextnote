@@ -33,7 +33,8 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IConfig;
 use OCP\ILogger;
 use \OCP\IRequest;
-
+use OCP\IUserManager;
+use OCP\User;
 
 
 class NextNoteApiController extends ApiController {
@@ -41,12 +42,14 @@ class NextNoteApiController extends ApiController {
 	private $config;
 	private $noteService;
 	private $shareBackend;
+	private $userManager;
 
-	public function __construct($appName, IRequest $request, ILogger $logger, IConfig $config, NextNoteService $noteService, NextNoteShareBackend $shareBackend) {
+	public function __construct($appName, IRequest $request, ILogger $logger, IConfig $config, NextNoteService $noteService, NextNoteShareBackend $shareBackend, IUserManager $userManager) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->noteService = $noteService;
 		$this->shareBackend = $shareBackend;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -65,7 +68,7 @@ class NextNoteApiController extends ApiController {
 				$note = $this->noteService->find($note['id']);
 			}
 			$note = $note->jsonSerialize();
-			$note = $this->getSharedProperties($note);
+			$note = $this->formatApiResponse($note);
 
 		}
 		return new JSONResponse($results);
@@ -81,9 +84,9 @@ class NextNoteApiController extends ApiController {
 		if (!$result) {
 			return new NotFoundJSONResponse();
 		}
-		
+		//@todo Check access
 		$result = $result->jsonSerialize();
-		return new JSONResponse($this->getSharedProperties($result));
+		return new JSONResponse($this->formatApiResponse($result));
 	}
 
 
@@ -103,7 +106,7 @@ class NextNoteApiController extends ApiController {
 		];
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$result = $this->noteService->create($note, $uid)->jsonSerialize();
-		return new JSONResponse($this->getSharedProperties($result));
+		return new JSONResponse($this->formatApiResponse($result));
 	}
 
 	/**
@@ -136,7 +139,7 @@ class NextNoteApiController extends ApiController {
 		}
 
 		$results = $this->noteService->update($note)->jsonSerialize();
-		return new JSONResponse($this->getSharedProperties($results));
+		return new JSONResponse($this->formatApiResponse($results));
 	}
 
 	/**
@@ -162,19 +165,24 @@ class NextNoteApiController extends ApiController {
 	 * @param $note array
 	 * @return array
 	 */
-	private function getSharedProperties($note){
+	private function formatApiResponse($note){
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$acl = [
-			'permissions' => 31
+			'permissions' => \OCP\Constants::PERMISSION_ALL
 		];
 		if($uid !== $note['uid']){
 			$aclRoles = \OCP\Share::getItemSharedWith('nextnote', $note['id'], 'populated_shares');
 			$acl = Utils::getItemByProperty('share_with', $uid, $aclRoles);
 
 		}
+		$note['owner'] = Utils::getUserInfo($note['uid']);
 		$note['permissions'] = $acl['permissions'];
 		$shared_with = \OCP\Share::getUsersItemShared('nextnote', $note['id'], $note['uid']);
+		foreach ($shared_with as &$u){
+			$u = Utils::getUserInfo($u);
+		}
 		$note['shared_with'] = ($note['uid'] == $uid) ? $shared_with : [$uid];
+		unset($note['uid']);
 		return $note;
 	}
 }

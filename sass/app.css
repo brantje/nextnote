@@ -258,7 +258,7 @@ a.editable-empty:focus {
 
 .file {
   font-weight: bold;
-  /*width: 60%;*/ }
+  width: 60%; }
 
 .filesort {
   /*width: 60%;*/ }
@@ -272,11 +272,9 @@ a.editable-empty:focus {
     line-height: 26pt; }
 
 .info {
-  color: #A0A0A0;
   /*width: 30%;*/ }
 
 .modified {
-  color: #A0A0A0;
   display: inline-block;
   width: 100%; }
 

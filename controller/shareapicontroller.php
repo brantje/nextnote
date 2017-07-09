@@ -40,6 +40,7 @@ class ShareApiController extends ApiController {
 	 * @NoCSRFRequired
 	 */
 	public function share($noteid, $shareType, $shareWith, $publicUpload, $password, $permissions) {
+		//Todo check if resharing is allowed
 		return \OCP\Share::shareItem('nextnote', intval($noteid), intval($shareType), $shareWith, intval($permissions));
 	}
 

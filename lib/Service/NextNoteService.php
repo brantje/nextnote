@@ -29,6 +29,7 @@ use OCA\NextNote\Utility\Utils;
 use OCA\NextNote\Db\NextNoteMapper;
 
 
+
 class NextNoteService {
 
 	private $noteMapper;
