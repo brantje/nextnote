@@ -86,10 +86,7 @@
 			});
 
 
-			$scope.hasPermission = function(note, perm) {
-				var permission = 'PERMISSION_' + perm.toUpperCase();
-				return (note.owner.uid === OC.currentUser ) ? true : note.permissions & OC[permission];
-      };
+
 
 		}]);
 

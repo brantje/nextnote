@@ -43,6 +43,9 @@
       $scope.noteShadowCopy = {
         title: '',
         content: '',
+        owner:{
+          uid: OC.getCurrentUser().uid
+        }
       };
       $scope.new_group = '';
 
@@ -126,10 +129,15 @@
 
       var autoSaveTimer;
       var initialSave = true;
-      $scope.$watch('[noteShadowCopy.title, noteShadowCopy.content]',
+      var watcher = $scope.$watch('[noteShadowCopy.title, noteShadowCopy.content]',
           function() {
             if (autoSaveTimer) {
               $timeout.cancel(autoSaveTimer);
+            }
+            if(!$scope.hasPermission($scope.noteShadowCopy, 'update')){
+              watcher();
+              console.log('Disabling auto save, no edit permissions');
+              return;
             }
             if ($scope.noteShadowCopy.title &&
                 $scope.noteShadowCopy.title !== '') {
