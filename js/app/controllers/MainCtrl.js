@@ -21,20 +21,17 @@
  */
 
 (function() {
-  'use strict';
+	'use strict';
 
-  /**
-   * @ngdoc function
-   * @name NextNotesApp.controller:MainCtrl
-   * @description
-   * # MainCtrl
-   * Controller of the NextNotesApp
-   */
-  angular.module('NextNotesApp').controller('MainCtrl', [
-    '$scope',
-    '$rootScope',
-    '$location',
-    function($scope, $rootScope, $location) {
+	/**
+	 * @ngdoc function
+	 * @name NextNotesApp.controller:MainCtrl
+	 * @description
+	 * # MainCtrl
+	 * Controller of the NextNotesApp
+	 */
+	angular.module('NextNotesApp')
+		.controller('MainCtrl', ['$scope', '$rootScope', '$location', function($scope, $rootScope, $location) {
 
       $scope.renameGroup = function(oldName, newName) {
         console.log('Rename', oldName, 'to ', newName);
@@ -42,10 +39,11 @@
 
       $scope.hasPermission = function(note, perm) {
         if (note.hasOwnProperty('owner') && note.owner.hasOwnProperty('uid')) {
+          if(note && note.owner.uid === OC.currentUser){
+            return true;
+          }
           var permission = 'PERMISSION_' + perm.toUpperCase();
-          return (note.owner.uid === OC.currentUser ) ?
-              true :
-              note.permissions & OC[permission];
+          return note.permissions & OC[permission];
         }
 
       };

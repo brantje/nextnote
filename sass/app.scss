@@ -559,7 +559,17 @@
 .ui-button.ui-button-icon-only{
   min-height: auto !important;
 }
-
+.view-note-container{
+  h1{
+    font-size: 28px;
+    line-height: 28px;
+    margin-bottom: 10px;
+  }
+  .noteContent, h1{
+    padding-left: 10pt;
+    padding-right: 10pt;
+  }
+}
 .edit-note-container{
   #controls{
     left: 0 !important;

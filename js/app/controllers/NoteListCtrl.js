@@ -38,6 +38,12 @@
 				}
 				$location.path('/note/edit/' + note.id);
 			};
+	    $scope.viewNote = function(note) {
+					if(note.deleted === 1){
+						return;
+					}
+					$location.path('/note/view/' + note.id);
+      };
 
 			$scope.newNote = function(note) {
 				$location.path('/note/new');

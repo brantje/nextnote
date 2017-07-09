@@ -41,11 +41,13 @@ script('nextnote', 'templates');
 script('nextnote', 'share');
 script('nextnote', 'app/controllers/MainCtrl');
 script('nextnote', 'app/controllers/NoteListCtrl');
+script('nextnote', 'app/controllers/NoteViewCtrl');
 script('nextnote', 'app/controllers/NoteEditCtrl');
 script('nextnote', 'app/services/NoteService');
 script('nextnote', 'app/factory/NoteFactory');
 script('nextnote', 'app/directives/tooltip');
 script('nextnote', 'app/filters/noteFilter');
+script('nextnote', 'app/filters/trusted');
 /*build-js-end*/
 
 

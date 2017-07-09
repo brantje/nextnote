@@ -20,38 +20,8 @@
  *
  */
 
-(function() {
-
-	'use strict';
-
-	/**
-	 * @ngdoc overview
-	 * @name NextNotesApp
-	 * @description
-	 * # passmanApp
-	 *
-	 * Defines routes for the application
-	 */
-	angular.module('NextNotesApp').config(function($routeProvider) {
-		$routeProvider
-			.when('/', {
-				templateUrl: 'views/list.html',
-				controller: 'NoteListCtrl'
-			})
-			.when('/note/edit/:noteId', {
-				templateUrl: 'views/note/edit.html',
-				controller: 'NoteEditCtrl'
-			})
-			.when('/note/view/:noteId', {
-				templateUrl: 'views/note/view.html',
-				controller: 'NoteViewCtrl'
-			})
-			.when('/note/new', {
-				templateUrl: 'views/note/edit.html',
-				controller: 'NoteEditCtrl'
-			})
-			.otherwise({
-				redirectTo: '/'
-			});
-	});
-}());
+angular.module('NextNotesApp').filter('trusted', function($sce){
+  return function(html){
+    return $sce.trustAsHtml(html)
+  }
+});

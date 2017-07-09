@@ -81,6 +81,7 @@ class NextNoteService {
 	 * @throws \Exception
 	 */
 	public function create($note, $userId) {
+		var_dump($note);
 		if (is_array($note)) {
 			$entity = new NextNote();
 			$entity->setName($note['title']);

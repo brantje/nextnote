@@ -32,7 +32,8 @@
 		</thead>
 		<tbody>
 		<tr class="listing" ng-repeat="note in localNoteList | noteGroupFilter:noteGroupFilter | filter:list_filter | orderBy:list_sorting.what:list_sorting.reverse">
-			<td title="{{ note.title }}" p="undefined" class="file pointer" ng-click="editNote(note)">{{ note.title }}</td>
+			<td title="{{ note.title }}" p="undefined" class="file pointer" ng-if="hasPermission(note, 'update')" ng-click="editNote(note)">{{ note.title }}</td>
+			<td title="{{ note.title }}" p="undefined" class="file pointer"  ng-if="!hasPermission(note, 'update')"  ng-click="viewNote(note)">{{ note.title }}</td>
 			<td class="actions" ng-if="list_filter.deleted === 0">
 				<div id="note-{{ note.id }}-sdelete" class="buttons delete-note"  ng-if="hasPermission(note, 'delete')" ng-click="deleteNote(note)">
 					<span tooltip="Delete note" class="pointer buttons delete"></span>
