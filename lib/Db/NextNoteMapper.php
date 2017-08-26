@@ -69,7 +69,7 @@ class NextNoteMapper extends Mapper {
 			$partsTxt = implode('', array_map(function ($part) {
 				return $part['note'];
 			}, $noteParts));
-			$note->setNote($arr['note'] . $partsTxt);
+			$note->setNote($item['note'] . $partsTxt);
 
 			$results[] = $note;
 		}
