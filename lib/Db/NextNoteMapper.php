@@ -64,6 +64,13 @@ class NextNoteMapper extends Mapper {
 			 * @var $note NextNote
 			 */
 			$note = $this->makeEntityFromDBResult($item);
+			/* fetch note parts */
+			$noteParts = $this->getNoteParts($note);
+			$partsTxt = implode('', array_map(function ($part) {
+				return $part['note'];
+			}, $noteParts));
+			$note->setNote($item['note'] . $partsTxt);
+
 			$results[] = $note;
 		}
 		return array_shift($results);
@@ -215,11 +222,6 @@ class NextNoteMapper extends Mapper {
 		$note->setMtime($arr['mtime']);
 		$note->setDeleted($arr['deleted']);
 		$note->setUid($arr['uid']);
-		$noteParts = $this->getNoteParts($note);
-		$partsTxt = implode('', array_map(function ($part) {
-			return $part['note'];
-		}, $noteParts));
-		$note->setNote($arr['note'] . $partsTxt);
 		return $note;
 	}
 }

@@ -43,14 +43,10 @@
 				getNoteById: function(noteId) {
 					noteId = parseInt(noteId);
 					var deferred = $q.defer();
-					if ($rootScope.notes && $rootScope.notes.hasOwnProperty(noteId)) {
-						deferred.resolve(new NoteFactory($rootScope.notes[noteId]));
-					} else {
-						NoteFactory.get({id: noteId}, function(note) {
-							$rootScope.notes[note.id] = note;
-							deferred.resolve(note);
-						});
-					}
+					NoteFactory.get({id: noteId}, function(note) {
+						$rootScope.notes[note.id] = note;
+						deferred.resolve(note);
+					});
 					return deferred.promise;
 				},
 				save: NoteFactory.save,
