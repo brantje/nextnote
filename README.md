@@ -43,8 +43,7 @@ Did you found a bug? Report it or fix it and send a PR.
 - [ ] Develop an app for Android/iOS (We really need help with this, so PR's welcome!)
    
 ## Chat
-There is a [Gitter](https://gitter.im/nextnotes/Lobby) chatroom available.
- 
+There is a [Telegram](https://t.me/NextNote) chatroom available.
    
 ## Installation
 - Place this app in **nextcloud/apps/nextnote** (Rename the extracted ZIP to "nextnote" or you will receive errors)
