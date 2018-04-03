@@ -59,8 +59,7 @@ script('nextnote', 'app/filters/noteFilter');
 /*build-css-start*/
 style('nextnote', 'app');
 /*build-css-end*/
-$sharemode = \OCP\Config::getAppValue('nextnote', 'sharemode', 'merge');
-echo '<script nonce="test"> var shareMode = "'. $sharemode .'"</script>';
+echo '<script nonce="test"> var shareMode = "'. $_['shareMode'] .'"</script>';
 ?>
 <input type="hidden" name="nextNonce" id="nextNonce" value="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" />
 <div id="app" ng-app="NextNotesApp" ng-controller="MainCtrl">

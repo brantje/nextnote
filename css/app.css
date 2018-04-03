@@ -283,6 +283,9 @@ a.editable-empty:focus {
   margin-left: 15pt;
   width: 26pt; }
 
+.app-nextnote .button {
+  display: inline-block; }
+
 .edit {
   opacity: 0.3; }
   .edit:hover {
