@@ -30,7 +30,6 @@ use OCP\AppFramework\Db\Mapper;
 
 class NextNoteMapper extends Mapper {
 	private $utils;
-	private $maxNoteFieldLength = 2621440;
 
 	public function __construct(IDBConnection $db, Utils $utils) {
 		parent::__construct($db, 'ownnote');
@@ -120,7 +119,7 @@ class NextNoteMapper extends Mapper {
 	public function create($note) {
 		$len = mb_strlen($note->getNote());
 		$parts = false;
-		if ($len > $this->maxNoteFieldLength) {
+		if ($len > Utils::$maxPartSize) {
 			$parts = $this->utils->splitContent($note->getNote());
 			$note->setNote('');
 		}
@@ -153,7 +152,7 @@ class NextNoteMapper extends Mapper {
 		$parts = false;
 		$this->deleteNoteParts($note);
 
-		if ($len > $this->maxNoteFieldLength) {
+		if ($len > Utils::$maxPartSize) {
 			$parts = $this->utils->splitContent($note->getNote());
 			$note->setNote('');
 		}

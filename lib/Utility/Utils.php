@@ -30,6 +30,8 @@ class Utils {
      * Gets the unix epoch UTC timestamp
      * @return int
      */
+    public static $maxPartSize = 2621440;
+
 	public static function getTime() {
 		return (new \DateTime())->getTimestamp();
 	}
@@ -56,7 +58,7 @@ class Utils {
 	 * @return array
 	 */
 	public function splitContent($str) {
-		$maxlength = 2621440; // 5 Megs (2 bytes per character)
+		$maxlength = Utils::$maxPartSize; // 5 Megs (2 bytes per character)
 		$count = 0;
 		$strarray = array();
 		while (true) {
