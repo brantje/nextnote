@@ -21,7 +21,7 @@
  *
  */
 
-\OCP\Util::addScript('nextnote', 'admin');
+//\OCP\Util::addScript('nextnote', 'admin');
 
 $folder = $_['folder'];
 $sharemode = $_['sharemode'];
