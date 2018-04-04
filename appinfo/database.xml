@@ -32,6 +32,7 @@
 				<type>text</type>
 				<notnull>true</notnull>
 				<length>255</length>
+				<default></default>
 			</field>
 			<field>
 				<name>shared</name>
