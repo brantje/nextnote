@@ -54,7 +54,7 @@
 		console.log('App loaded');
 		$rootScope.list_sorting = {
 			what: 'name',
-			reverse: false
+			reverse: true
 		};
 		$rootScope.noteGroupFilter = {
 			grouping: 'all'
