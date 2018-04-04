@@ -52,11 +52,13 @@ class Utils {
 	public static function getUserInfo($uid){
 		$um = \OC::$server->getUserManager();
 		$u = $um->get($uid);
-		$user = [
-			'display_name' => $u->getDisplayName(),
-			'uid' => $uid,
-			'avatar' => $u->getAvatarImage(32)
-		];
+		if($u) {
+			$user = [
+				'display_name' => $u->getDisplayName(),
+				'uid' => $uid,
+				'avatar' => $u->getAvatarImage(32)
+			];
+		}
 		return $user;
 	}
 
