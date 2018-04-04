@@ -32,7 +32,7 @@ Did you found a bug? Report it or fix it and send a PR.
   - [x] Services
 - [x] Switch to a AngularJS frontend
 - [X] Rename namespace from OwnNotes to NextNotes
-- [ ] Implement note sharing
+- [x] Implement note sharing
 - [ ] Implement hierarchical structure for groups (PR's welcome!)
 - [ ] Add markdown support
 - [ ] Import from [Notes](https://github.com/nextcloud/notes) app.
