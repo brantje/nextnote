@@ -40,8 +40,13 @@ class ShareApiController extends ApiController {
 	 * @NoCSRFRequired
 	 */
 	public function share($noteid, $shareType, $shareWith, $publicUpload, $password, $permissions) {
+		$shareType = intval($shareType);
 		//Todo check if resharing is allowed
-		return Share::shareItem('nextnote', intval($noteid), intval($shareType), $shareWith, intval($permissions));
+		if($shareType === 1){
+			return ShareFix::shareItem('nextnote', intval($noteid), intval($shareType), $shareWith, intval($permissions));
+		} else {
+			return Share::shareItem('nextnote', intval($noteid), intval($shareType), $shareWith, intval($permissions));
+		}
 	}
 
 	/**
