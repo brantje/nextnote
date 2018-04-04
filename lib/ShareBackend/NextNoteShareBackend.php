@@ -23,6 +23,7 @@
 
 namespace OCA\NextNote\ShareBackend;
 
+use OC\Share\Share;
 use OCA\NextNote\Db\NextNote;
 use \OCP\Share_Backend;
 
@@ -35,7 +36,7 @@ class NextNoteShareBackend implements Share_Backend {
 	}
 
 	public function getSharedNotes(){
-		return \OCP\Share::getItemsSharedWith('nextnote', 'populated_shares');
+		return Share::getItemsSharedWith('nextnote', 'populated_shares');
 	}
 
 	/**
@@ -154,7 +155,7 @@ class NextNoteShareBackend implements Share_Backend {
 			return true;
 		}
 		// check share permissions
-		$shared_note = \OCP\Share::getItemSharedWith('nextnote', $note->getId(), 'populated_shares')[0];
+		$shared_note = Share::getItemSharedWith('nextnote', $note->getId(), 'populated_shares')[0];
 		return $shared_note['permissions'] & $permission;
 	}
 }

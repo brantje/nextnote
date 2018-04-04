@@ -30,6 +30,7 @@ use OCA\NextNote\Utility\UnauthorizedJSONResponse;
 use OCA\NextNote\Utility\Utils;
 use \OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Constants;
 use OCP\IConfig;
 use OCP\ILogger;
 use \OCP\IRequest;
@@ -134,7 +135,7 @@ class NextNoteApiController extends ApiController {
 			return new NotFoundJSONResponse();
 		}
 
-		if (!$this->shareBackend->checkPermissions(\OCP\Constants::PERMISSION_UPDATE, $entity)) {
+		if (!$this->shareBackend->checkPermissions(Constants::PERMISSION_UPDATE, $entity)) {
 			return new UnauthorizedJSONResponse();
 		}
 
@@ -152,7 +153,7 @@ class NextNoteApiController extends ApiController {
 			return new NotFoundJSONResponse();
 		}
 
-		if (!$this->shareBackend->checkPermissions(\OCP\Constants::PERMISSION_DELETE, $entity)) {
+		if (!$this->shareBackend->checkPermissions(Constants::PERMISSION_DELETE, $entity)) {
 			return new UnauthorizedJSONResponse();
 		}
 
@@ -168,7 +169,7 @@ class NextNoteApiController extends ApiController {
 	private function formatApiResponse($note){
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$acl = [
-			'permissions' => \OCP\Constants::PERMISSION_ALL
+			'permissions' => Constants::PERMISSION_ALL
 		];
 		if($uid !== $note['uid']){
 			$aclRoles = \OCP\Share::getItemSharedWith('nextnote', $note['id'], 'populated_shares');
