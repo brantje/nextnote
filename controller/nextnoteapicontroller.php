@@ -23,6 +23,7 @@
 
 namespace OCA\NextNote\Controller;
 
+use OCA\NextNote\Fixtures\ShareFix;
 use OCA\NextNote\Service\NextNoteService;
 use OCA\NextNote\ShareBackend\NextNoteShareBackend;
 use OCA\NextNote\Utility\NotFoundJSONResponse;
@@ -35,7 +36,7 @@ use OCP\IConfig;
 use OCP\ILogger;
 use \OCP\IRequest;
 use OCP\IUserManager;
-use OCP\User;
+use OCP\Share;
 
 
 class NextNoteApiController extends ApiController {
@@ -44,13 +45,16 @@ class NextNoteApiController extends ApiController {
 	private $noteService;
 	private $shareBackend;
 	private $userManager;
+	private $shareManager;
 
-	public function __construct($appName, IRequest $request, ILogger $logger, IConfig $config, NextNoteService $noteService, NextNoteShareBackend $shareBackend, IUserManager $userManager) {
+	public function __construct($appName, IRequest $request,
+								ILogger $logger, IConfig $config, NextNoteService $noteService, NextNoteShareBackend $shareBackend, IUserManager $userManager, Share\IManager $shareManager) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->noteService = $noteService;
 		$this->shareBackend = $shareBackend;
 		$this->userManager = $userManager;
+		$this->shareManager = $shareManager;
 	}
 
 	/**
@@ -172,21 +176,21 @@ class NextNoteApiController extends ApiController {
 			'permissions' => Constants::PERMISSION_ALL
 		];
 		/*
- 		 * @FIXME
+ 		 * @FIXME*/
 		 if($uid !== $note['uid']){
-			$aclRoles = \OCP\Share::getItemSharedWith('nextnote', $note['id'], 'populated_shares');
+			$aclRoles = ShareFix::getItemSharedWith('nextnote', $note['id'], 'populated_shares');
 			$acl = Utils::getItemByProperty('share_with', $uid, $aclRoles);
 
-		}*/
+		}
 		$note['owner'] = Utils::getUserInfo($note['uid']);
 		$note['permissions'] = $acl['permissions'];
 		$shared_with = [];
 		/*
-		 * @FIXME
-		$shared_with = \OCP\Share::getUsersItemShared('nextnote', $note['id'], $note['uid']);
+		 * @FIXME*/
+		$shared_with = ShareFix::getUsersItemShared('nextnote', $note['id'], $note['uid']);
 		foreach ($shared_with as &$u){
 			$u = Utils::getUserInfo($u);
-		}*/
+		}
 		$note['shared_with'] = ($note['uid'] == $uid) ? $shared_with : [$uid];
 		unset($note['uid']);
 		return $note;

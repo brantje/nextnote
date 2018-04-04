@@ -14,7 +14,7 @@ namespace OCA\NextNote\Controller;
 use \OCP\AppFramework\ApiController;
 use \OCP\IRequest;
 use OC\Share\Share;
-
+use OCA\NextNote\Fixtures\ShareFix;
 
 
 class ShareApiController extends ApiController {
@@ -57,7 +57,7 @@ class ShareApiController extends ApiController {
 	 * @NoCSRFRequired
 	 */
 	public function setpermissions($itemSource, $shareType, $shareWith, $permissions) {
-		return;
-		//@FIXME return \OCP\Share::setPermissions('nextnote', intval($itemSource), intval($shareType), $shareWith, intval($permissions));
+		//@FIXME
+		return ShareFix::setPermissions('nextnote', intval($itemSource), intval($shareType), $shareWith, intval($permissions));
 	}
 }
