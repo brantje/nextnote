@@ -189,6 +189,7 @@ class NextNoteApiController extends ApiController {
 		foreach ($shared_with as &$u){
 			$u = Utils::getUserInfo($u);
 		}
+
 		$note['shared_with'] = ($note['uid'] == $uid) ? $shared_with : [$uid];
 		unset($note['uid']);
 		return $note;

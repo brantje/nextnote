@@ -97,15 +97,15 @@ class NextNoteShareBackend implements Share_Backend {
 		if ($format === 'shares') {
 			return $items;
 		}
-		
+
 		// get the ownnote ids
 		$ids = Array();
 		foreach($items as $item) {
 			$ids[] = $item['item_source'];
 		}
-		
+
 		// get notes from database
-		$select_clause = "SELECT id, uid, name, grouping, mtime, deleted FROM *PREFIX*ownnote WHERE id in (";
+		$select_clause = "SELECT id, uid, name, grouping, mtime, deleted FROM *PREFIX*nextnote WHERE id in (";
 		$select_clause .= implode(',', $ids);
 		$select_clause .= ") ORDER BY id";
 		$q = $this->db->executeQuery($select_clause, array());
@@ -120,7 +120,7 @@ class NextNoteShareBackend implements Share_Backend {
 			}
 			$results = $full_items;
 		}
-		
+
 		return $results;
 	}
 	

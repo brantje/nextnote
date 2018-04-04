@@ -231,7 +231,7 @@ class ShareFix extends Share{
 	public static function getUsersItemShared($itemType, $itemSource, $uidOwner, $includeCollections = false, $checkExpireDate = true) {
 
 		$users = array();
-		$items = self::getItems($itemType, $itemSource, null, null, $uidOwner, self::FORMAT_NONE, null, -1, $includeCollections, false, $checkExpireDate);
+		$items = self::getItems($itemType, $itemSource, self::$shareTypeUserAndGroups, null, $uidOwner, self::FORMAT_NONE, null, -1, $includeCollections, false, $checkExpireDate);
 		if ($items) {
 			foreach ($items as $item) {
 				if ((int)$item['share_type'] === self::SHARE_TYPE_USER) {
