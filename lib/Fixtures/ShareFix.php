@@ -76,7 +76,7 @@ class ShareFix extends Share{
 					$message = 'Setting permissions for %s failed,'
 						.' because the permissions exceed permissions granted to %s';
 					$message_t = $l->t('Setting permissions for %s failed, because the permissions exceed permissions granted to %s', array($itemSource, \OC_User::getUser()));
-					self::log('OCP\Share', sprintf($message, $itemSource, \OC_User::getUser()), \OCP\Util::DEBUG);
+					self::log('NextNote\Fixtures\ShareFix', sprintf($message, $itemSource, \OC_User::getUser()), \OCP\Util::DEBUG);
 					throw new \Exception($message_t);
 				}
 			}
@@ -88,7 +88,7 @@ class ShareFix extends Share{
 				->setParameter(':permissions', $permissions);
 			$qb->execute();
 			if ($itemType === 'file' || $itemType === 'folder') {
-				\OC_Hook::emit('OCP\Share', 'post_update_permissions', array(
+				\OC_Hook::emit('NextNote\Fixtures\ShareFix', 'post_update_permissions', array(
 					'itemType' => $itemType,
 					'itemSource' => $itemSource,
 					'shareType' => $shareType,
@@ -200,7 +200,7 @@ class ShareFix extends Share{
 		$message = 'Setting permissions for %s failed, because the item was not found';
 		$message_t = $l->t('Setting permissions for %s failed, because the item was not found', array($itemSource));
 
-		self::log('OCP\Share', sprintf($message, $itemSource), \OCP\Util::DEBUG);
+		self::log('NextNote\Fixtures\ShareFix', sprintf($message, $itemSource), \OCP\Util::DEBUG);
 		throw new \Exception($message_t);
 	}
 
@@ -280,7 +280,7 @@ class ShareFix extends Share{
 		if ($backend->isShareTypeAllowed($shareType) === false) {
 			$message = 'Sharing %s failed, because the backend does not allow shares from type %i';
 			$message_t = $l->t('Sharing %s failed, because the backend does not allow shares from type %i', array($itemSourceName, $shareType));
-			self::log('OCP\Share', sprintf($message, $itemSourceName, $shareType), \OCP\Util::DEBUG);
+			self::log('NextNote\Fixtures\ShareFix', sprintf($message, $itemSourceName, $shareType), \OCP\Util::DEBUG);
 			throw new \Exception($message_t);
 		}
 
@@ -312,13 +312,13 @@ class ShareFix extends Share{
 			if ($shareWith == $uidOwner) {
 				$message = 'Sharing %s failed, because you can not share with yourself';
 				$message_t = $l->t('Sharing %s failed, because you can not share with yourself', [$itemName]);
-				self::log('OCP\Share', sprintf($message, $itemSourceName), \OCP\Util::DEBUG);
+				self::log('NextNote\Fixtures\ShareFix', sprintf($message, $itemSourceName), \OCP\Util::DEBUG);
 				throw new \Exception($message_t);
 			}
 			if (!\OC::$server->getUserManager()->userExists($shareWith)) {
 				$message = 'Sharing %s failed, because the user %s does not exist';
 				$message_t = $l->t('Sharing %s failed, because the user %s does not exist', array($itemSourceName, $shareWith));
-				self::log('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
+				self::log('NextNote\Fixtures\ShareFix', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
 				throw new \Exception($message_t);
 			}
 			if ($shareWithinGroupOnly) {
@@ -339,7 +339,7 @@ class ShareFix extends Share{
 					$message = 'Sharing %s failed, because the user '
 						.'%s is not a member of any groups that %s is a member of';
 					$message_t = $l->t('Sharing %s failed, because the user %s is not a member of any groups that %s is a member of', array($itemName, $shareWith, $uidOwner));
-					self::log('OCP\Share', sprintf($message, $itemName, $shareWith, $uidOwner), \OCP\Util::DEBUG);
+					self::log('NextNote\Fixtures\ShareFix', sprintf($message, $itemName, $shareWith, $uidOwner), \OCP\Util::DEBUG);
 					throw new \Exception($message_t);
 				}
 			}
@@ -352,7 +352,7 @@ class ShareFix extends Share{
 				if ($checkExists['uid_owner'] != $uidOwner || $checkExists['share_type'] == $shareType) {
 					$message = 'Sharing %s failed, because this item is already shared with %s';
 					$message_t = $l->t('Sharing %s failed, because this item is already shared with %s', array($itemSourceName, $shareWith));
-					self::log('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
+					self::log('NextNote\Fixtures\ShareFix', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
 					throw new \Exception($message_t);
 				}
 			}
@@ -364,7 +364,7 @@ class ShareFix extends Share{
 				if ($checkExists['uid_owner'] != $uidOwner || $checkExists['share_type'] == $shareType) {
 					$message = 'Sharing %s failed, because this item is already shared with user %s';
 					$message_t = $l->t('Sharing %s failed, because this item is already shared with user %s', array($itemSourceName, $shareWith));
-					self::log('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::ERROR);
+					self::log('NextNote\Fixtures\ShareFix', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::ERROR);
 					throw new \Exception($message_t);
 				}
 			}
@@ -372,7 +372,7 @@ class ShareFix extends Share{
 			if (!\OC::$server->getGroupManager()->groupExists($shareWith)) {
 				$message = 'Sharing %s failed, because the group %s does not exist';
 				$message_t = $l->t('Sharing %s failed, because the group %s does not exist', array($itemSourceName, $shareWith));
-				self::log('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
+				self::log('NextNote\Fixtures\ShareFix', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
 				throw new \Exception($message_t);
 			}
 			if ($shareWithinGroupOnly) {
@@ -382,7 +382,7 @@ class ShareFix extends Share{
 					$message = 'Sharing %s failed, because '
 						. '%s is not a member of the group %s';
 					$message_t = $l->t('Sharing %s failed, because %s is not a member of the group %s', array($itemSourceName, $uidOwner, $shareWith));
-					self::log('OCP\Share', sprintf($message, $itemSourceName, $uidOwner, $shareWith), \OCP\Util::DEBUG);
+					self::log('NextNote\Fixtures\ShareFix', sprintf($message, $itemSourceName, $uidOwner, $shareWith), \OCP\Util::DEBUG);
 					throw new \Exception($message_t);
 				}
 			}
@@ -394,7 +394,7 @@ class ShareFix extends Share{
 				if ($checkExists['share_with'] === $shareWith && $checkExists['share_type'] === \OCP\Share::SHARE_TYPE_GROUP) {
 					$message = 'Sharing %s failed, because this item is already shared with %s';
 					$message_t = $l->t('Sharing %s failed, because this item is already shared with %s', array($itemSourceName, $shareWith));
-					self::log('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
+					self::log('NextNote\Fixtures\ShareFix', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
 					throw new \Exception($message_t);
 				}
 			}
@@ -419,7 +419,7 @@ class ShareFix extends Share{
 			// Future share types need to include their own conditions
 			$message = 'Share type %s is not valid for %s';
 			$message_t = $l->t('Share type %s is not valid for %s', array($shareType, $itemSource));
-			self::log('OCP\Share', sprintf($message, $shareType, $itemSource), \OCP\Util::DEBUG);
+			self::log('NextNote\Fixtures\ShareFix', sprintf($message, $shareType, $itemSource), \OCP\Util::DEBUG);
 			throw new \Exception($message_t);
 		}
 
@@ -675,7 +675,7 @@ class ShareFix extends Share{
 				$message = 'Sharing %s failed, because the user %s is the original sharer';
 				$message_t = $l->t('Sharing failed, because the user %s is the original sharer', [$shareWith]);
 
-				self::log('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
+				self::log('NextNote\Fixtures\ShareFix', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
 				throw new \Exception($message_t);
 			}
 		}
@@ -687,7 +687,7 @@ class ShareFix extends Share{
 					$message = 'Sharing %s failed, because the permissions exceed permissions granted to %s';
 					$message_t = $l->t('Sharing %s failed, because the permissions exceed permissions granted to %s', array($itemSourceName, $uidOwner));
 
-					self::log('OCP\Share', sprintf($message, $itemSourceName, $uidOwner), \OCP\Util::DEBUG);
+					self::log('NextNote\Fixtures\ShareFix', sprintf($message, $itemSourceName, $uidOwner), \OCP\Util::DEBUG);
 					throw new \Exception($message_t);
 				} else {
 					// TODO Don't check if inside folder
@@ -719,7 +719,7 @@ class ShareFix extends Share{
 				$message = 'Sharing %s failed, because resharing is not allowed';
 				$message_t = $l->t('Sharing %s failed, because resharing is not allowed', array($itemSourceName));
 
-				self::log('OCP\Share', sprintf($message, $itemSourceName), \OCP\Util::DEBUG);
+				self::log('NextNote\Fixtures\ShareFix', sprintf($message, $itemSourceName), \OCP\Util::DEBUG);
 				throw new \Exception($message_t);
 			}
 		} else {
@@ -732,7 +732,7 @@ class ShareFix extends Share{
 				$message = 'Sharing %s failed, because the sharing backend for '
 					.'%s could not find its source';
 				$message_t = $l->t('Sharing %s failed, because the sharing backend for %s could not find its source', array($itemSource, $itemType));
-				self::log('OCP\Share', sprintf($message, $itemSource, $itemType), \OCP\Util::DEBUG);
+				self::log('NextNote\Fixtures\ShareFix', sprintf($message, $itemSource, $itemType), \OCP\Util::DEBUG);
 				throw new \Exception($message_t);
 			}
 			if ($backend instanceof \OCP\Share_Backend_File_Dependent) {
@@ -747,7 +747,7 @@ class ShareFix extends Share{
 					$message = 'Sharing %s failed, because the file could not be found in the file cache';
 					$message_t = $l->t('Sharing %s failed, because the file could not be found in the file cache', array($itemSource));
 
-					self::log('OCP\Share', sprintf($message, $itemSource), \OCP\Util::DEBUG);
+					self::log('NextNote\Fixtures\ShareFix', sprintf($message, $itemSource), \OCP\Util::DEBUG);
 					throw new \Exception($message_t);
 				}
 			} else {
@@ -827,7 +827,7 @@ class ShareFix extends Share{
 			if ($date > $maxDate) {
 				$warning = 'Cannot set expiration date. Shares cannot expire later than ' . $maxDays . ' after they have been shared';
 				$warning_t = $l->t('Cannot set expiration date. Shares cannot expire later than %s after they have been shared', array($maxDays));
-				self::log('OCP\Share', $warning, \OCP\Util::WARN);
+				self::log('NextNote\Fixtures\ShareFix', $warning, \OCP\Util::WARN);
 				throw new \Exception($warning_t);
 			}
 		}
@@ -835,7 +835,7 @@ class ShareFix extends Share{
 		if ($date < $today) {
 			$message = 'Cannot set expiration date. Expiration date is in the past';
 			$message_t = $l->t('Cannot set expiration date. Expiration date is in the past');
-			self::log('OCP\Share', $message, \OCP\Util::WARN);
+			self::log('NextNote\Fixtures\ShareFix', $message, \OCP\Util::WARN);
 			throw new \Exception($message_t);
 		}
 
