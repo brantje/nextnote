@@ -13,7 +13,7 @@ namespace OCA\NextNote\Controller;
 
 use \OCP\AppFramework\ApiController;
 use \OCP\IRequest;
-
+use OC\Share\Share;
 
 
 
@@ -29,9 +29,9 @@ class ShareApiController extends ApiController {
 	 */
 	public function getShares($noteid, $shared_with_me, $reshares) {
 		if ($shared_with_me) {
-			return \OCP\Share::getItemSharedWith('nextnote', $noteid, 'shares');
+			//@FIXME return \OCP\Share::getItemSharedWith('nextnote', $noteid, 'shares');
 		} else if ($reshares) {
-			return array_values(\OCP\Share::getItemShared('nextnote', $noteid, 'shares'));
+			return array_values(Share::getItemShared('nextnote', $noteid, 'shares'));
 		}
 	}
 
@@ -41,7 +41,7 @@ class ShareApiController extends ApiController {
 	 */
 	public function share($noteid, $shareType, $shareWith, $publicUpload, $password, $permissions) {
 		//Todo check if resharing is allowed
-		return \OCP\Share::shareItem('nextnote', intval($noteid), intval($shareType), $shareWith, intval($permissions));
+		return Share::shareItem('nextnote', intval($noteid), intval($shareType), $shareWith, intval($permissions));
 	}
 
 	/**
@@ -49,7 +49,7 @@ class ShareApiController extends ApiController {
 	 * @NoCSRFRequired
 	 */
 	public function unshare($itemSource, $shareType, $shareWith) {
-		return \OCP\Share::unshare('nextnote', intval($itemSource), intval($shareType), $shareWith);
+		return Share::unshare('nextnote', intval($itemSource), intval($shareType), $shareWith);
 	}
 
 	/**
@@ -57,6 +57,7 @@ class ShareApiController extends ApiController {
 	 * @NoCSRFRequired
 	 */
 	public function setpermissions($itemSource, $shareType, $shareWith, $permissions) {
-		return \OCP\Share::setPermissions('nextnote', intval($itemSource), intval($shareType), $shareWith, intval($permissions));
+		return;
+		//@FIXME return \OCP\Share::setPermissions('nextnote', intval($itemSource), intval($shareType), $shareWith, intval($permissions));
 	}
 }

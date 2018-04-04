@@ -171,17 +171,22 @@ class NextNoteApiController extends ApiController {
 		$acl = [
 			'permissions' => Constants::PERMISSION_ALL
 		];
-		if($uid !== $note['uid']){
+		/*
+ 		 * @FIXME
+		 if($uid !== $note['uid']){
 			$aclRoles = \OCP\Share::getItemSharedWith('nextnote', $note['id'], 'populated_shares');
 			$acl = Utils::getItemByProperty('share_with', $uid, $aclRoles);
 
-		}
+		}*/
 		$note['owner'] = Utils::getUserInfo($note['uid']);
 		$note['permissions'] = $acl['permissions'];
+		$shared_with = [];
+		/*
+		 * @FIXME
 		$shared_with = \OCP\Share::getUsersItemShared('nextnote', $note['id'], $note['uid']);
 		foreach ($shared_with as &$u){
 			$u = Utils::getUserInfo($u);
-		}
+		}*/
 		$note['shared_with'] = ($note['uid'] == $uid) ? $shared_with : [$uid];
 		unset($note['uid']);
 		return $note;
