@@ -34,6 +34,7 @@ class NextNoteService {
 
 	private $noteMapper;
 	private $utils;
+	private $sharing;
 
 	public function __construct(NextNoteMapper $noteMapper, Utils $utils, NextNoteShareBackend $shareBackend) {
 		$this->noteMapper = $noteMapper;

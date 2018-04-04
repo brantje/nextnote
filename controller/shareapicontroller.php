@@ -28,9 +28,7 @@ class ShareApiController extends ApiController {
 	 * @NoCSRFRequired
 	 */
 	public function getShares($noteid, $shared_with_me, $reshares) {
-		if ($shared_with_me) {
-			//@FIXME return \OCP\Share::getItemSharedWith('nextnote', $noteid, 'shares');
-		} else if ($reshares) {
+		if ($reshares) {
 			return array_values(Share::getItemShared('nextnote', $noteid, 'shares'));
 		}
 	}

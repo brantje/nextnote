@@ -31,7 +31,6 @@ use \OCP\Share_Backend;
 class NextNoteShareBackend implements Share_Backend {
 
 	private $db;
-	private static $defaultPermissions = 31;
 	public function __construct() {
 		$this->db = \OC::$server->getDatabaseConnection();
 	}
@@ -75,7 +74,7 @@ class NextNoteShareBackend implements Share_Backend {
 	/**
 	 * Converts the shared item sources back into the item in the specified format
 	 * @param array $items Shared items
-	 * @param int $format
+	 * @param int|string $format
 	 * @return array
 	 *
 	 * The items array is a 3-dimensional array with the item_source as the
@@ -95,9 +94,6 @@ class NextNoteShareBackend implements Share_Backend {
 	 * @since 5.0.0
 	 */
 	public function formatItems($items, $format, $parameters = null) {
-		if ($format === 'shares') {
-			return $items;
-		}
 
 		// get the ownnote ids
 		$ids = Array();
@@ -114,7 +110,7 @@ class NextNoteShareBackend implements Share_Backend {
 		$results = $q->fetchAll();
 
 		// add permissions to items
-		if ($format === 'populated_shares') {
+		if (is_string($format) && $format === 'populated_shares') {
 			$full_items = Array();
 			foreach($results as $index => $result) {
 				$full_items[] = array_merge($items[$index], $result);

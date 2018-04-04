@@ -31,7 +31,6 @@ class UnauthorizedJSONResponse extends JSONResponse {
 
     /**
      * Creates a new json response with a not found status code.
-     * @param array $response_data
      */
     public function __construct() {
         parent::__construct(null, Http::STATUS_UNAUTHORIZED);

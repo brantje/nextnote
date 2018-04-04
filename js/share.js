@@ -211,7 +211,7 @@ window.Ownnote.Share = {};
               var federatedCloudSharingDoc =
                   '<a target="_blank" class="icon-info svg shareWithRemoteInfo" ' +
                   'href="{docLink}" title="' + t('core',
-                      'Share with people on other ownCloud/Nextcloud using the syntax username@example.com') +
+                      'Share with users, groups or remote users …\'') +
                   '"></a>';
               html += federatedCloudSharingDoc.replace('{docLink}',
                   oc_appconfig.core.federatedCloudShareDoc);
@@ -220,7 +220,7 @@ window.Ownnote.Share = {};
             html += '<ul id="shareWithList">';
             html += '</ul>';
             var linksAllowed = $('#allowShareWithLink').val() === 'yes';
-
+            var defaultExpireMessage = '';
             if (link && linksAllowed) {
               html += '<div id="link" class="linkShare">';
               html += '<span class="icon-loading-small hidden"></span>';
@@ -230,7 +230,7 @@ window.Ownnote.Share = {};
                   '<label for="linkCheckbox">' + t('core', 'Share link') + '</label>';
               html += '<br />';
 
-              var defaultExpireMessage = '';
+
               if ((itemType === 'folder' || itemType === 'file') &&
                   oc_appconfig.core.defaultExpireDateEnforced) {
                 defaultExpireMessage =
