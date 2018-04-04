@@ -94,6 +94,9 @@ class NextNoteShareBackend implements Share_Backend {
 	 * @since 5.0.0
 	 */
 	public function formatItems($items, $format, $parameters = null) {
+		if ($format === 'shares') {
+			return $items;
+		}
 
 		// get the ownnote ids
 		$ids = Array();
