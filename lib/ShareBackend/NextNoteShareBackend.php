@@ -155,8 +155,10 @@ class NextNoteShareBackend implements Share_Backend {
 		if ($uid === $note->getUid()) {
 			return true;
 		}
+
 		// check share permissions
-		$shared_note = ShareFix::getItemSharedWith('nextnote', $note->getId(), 'populated_shares')[0];
-		return $shared_note['permissions'] & $permission;
+		$gotPerm = ShareFix::getPermissions('nextnote', $note->getId(), $uid);
+
+		return $gotPerm & $permission;
 	}
 }

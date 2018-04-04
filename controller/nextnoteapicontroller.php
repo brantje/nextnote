@@ -139,6 +139,7 @@ class NextNoteApiController extends ApiController {
 			return new NotFoundJSONResponse();
 		}
 
+
 		if (!$this->shareBackend->checkPermissions(Constants::PERMISSION_UPDATE, $entity)) {
 			return new UnauthorizedJSONResponse();
 		}

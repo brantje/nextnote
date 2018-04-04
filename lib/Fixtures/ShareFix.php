@@ -27,14 +27,15 @@ use OC\Share\Helper;
 use OC\Share\Share;
 use OCA\NextNote\Utility\Utils;
 
-class ShareFix extends Share{
+class ShareFix extends Share {
 
-	private static function log($level, $message, $context){
+	private static function log($level, $message, $context) {
 		\OC::$server->getLogger()->log($level, $message, $context);
 	}
 
 	/**
 	 * Set the permissions of an item for a specific user or group
+	 *
 	 * @param string $itemType
 	 * @param string $itemSource
 	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
@@ -47,12 +48,12 @@ class ShareFix extends Share{
 		$l = \OC::$server->getL10N('lib');
 		$connection = \OC::$server->getDatabaseConnection();
 
-		$intArrayToLiteralArray = function($intArray, $eb) {
-			return array_map(function($int) use ($eb) {
+		$intArrayToLiteralArray = function ($intArray, $eb) {
+			return array_map(function ($int) use ($eb) {
 				return $eb->literal((int)$int, 'integer');
 			}, $intArray);
 		};
-		$sanitizeItem = function($item) {
+		$sanitizeItem = function ($item) {
 			$item['id'] = (int)$item['id'];
 			$item['premissions'] = (int)$item['permissions'];
 			return $item;
@@ -74,7 +75,7 @@ class ShareFix extends Share{
 				$dbresult->closeCursor();
 				if (~(int)$result['permissions'] & $permissions) {
 					$message = 'Setting permissions for %s failed,'
-						.' because the permissions exceed permissions granted to %s';
+						. ' because the permissions exceed permissions granted to %s';
 					$message_t = $l->t('Setting permissions for %s failed, because the permissions exceed permissions granted to %s', array($itemSource, \OC_User::getUser()));
 					self::log('NextNote\Fixtures\ShareFix', sprintf($message, $itemSource, \OC_User::getUser()), \OCP\Util::DEBUG);
 					throw new \Exception($message_t);
@@ -140,15 +141,15 @@ class ShareFix extends Share{
 
 				// Remove the permissions for all reshares of this item
 				if (!empty($ids)) {
-					$ids = "'".implode("','", $ids)."'";
+					$ids = "'" . implode("','", $ids) . "'";
 					// TODO this should be done with Doctrine platform objects
 					if (\OC::$server->getConfig()->getSystemValue("dbtype") === 'oci') {
 						$andOp = 'BITAND(`permissions`, ?)';
 					} else {
 						$andOp = '`permissions` & ?';
 					}
-					$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = '.$andOp
-						.' WHERE `id` IN ('.$ids.')');
+					$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = ' . $andOp
+						. ' WHERE `id` IN (' . $ids . ')');
 					$query->execute(array($permissions));
 				}
 
@@ -206,6 +207,7 @@ class ShareFix extends Share{
 
 	/**
 	 * Get the item of item type shared with the current user
+	 *
 	 * @param string $itemType
 	 * @param string $itemTarget
 	 * @param int $format (optional) Format type must be defined by the backend
@@ -223,14 +225,12 @@ class ShareFix extends Share{
 
 	/**
 	 * Get all users an item is shared with
+	 *
 	 * @param string $itemType
 	 * @param string $itemSource
-	 * @param string $uidOwner
-	 * @param boolean $includeCollections
-	 * @param boolean $checkExpireDate
 	 * @return array Return array of users
 	 */
-	public static function getUsersItemShared($itemType, $itemSource, $uidOwner, $includeCollections = false, $checkExpireDate = true) {
+	public static function getUsersItemShared($itemType, $itemSource) {
 
 		$users = array();
 		$queryArgs = [
@@ -239,16 +239,16 @@ class ShareFix extends Share{
 		];
 		$where = '`item_type` = ?';
 		$where .= ' AND `item_source`= ?';
-		$q = 'SELECT * FROM `*PREFIX*share` WHERE '.$where;
+		$q = 'SELECT * FROM `*PREFIX*share` WHERE ' . $where;
 		$query = \OC_DB::prepare($q);
 
 		$result = $query->execute($queryArgs);
 		while ($row = $result->fetchRow()) {
-			if($row['share_type'] == self::SHARE_TYPE_USER){
+			if ($row['share_type'] == self::SHARE_TYPE_USER) {
 				$u = Utils::getUserInfo($row['share_with']);
 				$users[] = $u['display_name'];
 			}
-			if($row['share_type'] == self::SHARE_TYPE_GROUP){
+			if ($row['share_type'] == self::SHARE_TYPE_GROUP) {
 				$users[] = $row['share_with'];
 			}
 		}
@@ -259,6 +259,7 @@ class ShareFix extends Share{
 
 	/**
 	 * Share an item with a user, group, or via private link
+	 *
 	 * @param string $itemType
 	 * @param string $itemSource
 	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
@@ -337,7 +338,7 @@ class ShareFix extends Share{
 				$inGroup = array_intersect($groupsOwner, $groupsShareWith);
 				if (empty($inGroup)) {
 					$message = 'Sharing %s failed, because the user '
-						.'%s is not a member of any groups that %s is a member of';
+						. '%s is not a member of any groups that %s is a member of';
 					$message_t = $l->t('Sharing %s failed, because the user %s is not a member of any groups that %s is a member of', array($itemName, $shareWith, $uidOwner));
 					self::log('NextNote\Fixtures\ShareFix', sprintf($message, $itemName, $shareWith, $uidOwner), \OCP\Util::DEBUG);
 					throw new \Exception($message_t);
@@ -431,6 +432,7 @@ class ShareFix extends Share{
 
 	/**
 	 * Put shared item into the database
+	 *
 	 * @param string $itemType Item type
 	 * @param string $itemSource Item source
 	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
@@ -453,7 +455,7 @@ class ShareFix extends Share{
 		$groupItemTarget = $itemTarget = $fileSource = $parent = 0;
 
 		$result = self::checkReshare($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions, $itemSourceName, $expirationDate);
-		if(!empty($result)) {
+		if (!empty($result)) {
 			$parent = $result['parent'];
 			$itemSource = $result['itemSource'];
 			$fileSource = $result['fileSource'];
@@ -491,19 +493,19 @@ class ShareFix extends Share{
 
 			// add group share to table and remember the id as parent
 			$queriesToExecute['groupShare'] = array(
-				'itemType'			=> $itemType,
-				'itemSource'		=> $itemSource,
-				'itemTarget'		=> $groupItemTarget,
-				'shareType'			=> $shareType,
-				'shareWith'			=> $shareWith['group'],
-				'uidOwner'			=> $uidOwner,
-				'permissions'		=> $permissions,
-				'shareTime'			=> time(),
-				'fileSource'		=> $fileSource,
-				'fileTarget'		=> $groupFileTarget,
-				'token'				=> $token,
-				'parent'			=> $parent,
-				'expiration'		=> $expirationDate,
+				'itemType' => $itemType,
+				'itemSource' => $itemSource,
+				'itemTarget' => $groupItemTarget,
+				'shareType' => $shareType,
+				'shareWith' => $shareWith['group'],
+				'uidOwner' => $uidOwner,
+				'permissions' => $permissions,
+				'shareTime' => time(),
+				'fileSource' => $fileSource,
+				'fileTarget' => $groupFileTarget,
+				'token' => $token,
+				'parent' => $parent,
+				'expiration' => $expirationDate,
 			);
 
 		} else {
@@ -547,11 +549,11 @@ class ShareFix extends Share{
 				$itemTarget = $sourceExists['item_target'];
 
 				// for group shares we don't need a additional entry if the target is the same
-				if($isGroupShare && $groupItemTarget === $itemTarget) {
+				if ($isGroupShare && $groupItemTarget === $itemTarget) {
 					continue;
 				}
 
-			} elseif(!$sourceExists && !$isGroupShare)  {
+			} elseif (!$sourceExists && !$isGroupShare) {
 
 				$itemTarget = Helper::generateTarget($itemType, $itemSource, $userShareType, $user,
 					$uidOwner, $suggestedItemTarget, $parent);
@@ -564,7 +566,7 @@ class ShareFix extends Share{
 								$parentFolders[$user]['folder'] = $fileTarget;
 							}
 						} else if (isset($parentFolder[$user])) {
-							$fileTarget = $parentFolder[$user]['folder'].$itemSource;
+							$fileTarget = $parentFolder[$user]['folder'] . $itemSource;
 							$parent = $parentFolder[$user]['id'];
 						}
 					} else {
@@ -597,19 +599,19 @@ class ShareFix extends Share{
 			}
 
 			$queriesToExecute[] = array(
-				'itemType'			=> $itemType,
-				'itemSource'		=> $itemSource,
-				'itemTarget'		=> $itemTarget,
-				'shareType'			=> $userShareType,
-				'shareWith'			=> $user,
-				'uidOwner'			=> $uidOwner,
-				'permissions'		=> $permissions,
-				'shareTime'			=> time(),
-				'fileSource'		=> $fileSource,
-				'fileTarget'		=> $fileTarget,
-				'token'				=> $token,
-				'parent'			=> $parent,
-				'expiration'		=> $expirationDate,
+				'itemType' => $itemType,
+				'itemSource' => $itemSource,
+				'itemTarget' => $itemTarget,
+				'shareType' => $userShareType,
+				'shareWith' => $user,
+				'uidOwner' => $uidOwner,
+				'permissions' => $permissions,
+				'shareTime' => time(),
+				'fileSource' => $fileSource,
+				'fileTarget' => $fileTarget,
+				'token' => $token,
+				'parent' => $parent,
+				'expiration' => $expirationDate,
 			);
 
 		}
@@ -695,7 +697,7 @@ class ShareFix extends Share{
 
 					$result['expirationDate'] = $expirationDate;
 					// $checkReshare['expiration'] could be null and then is always less than any value
-					if(isset($checkReshare['expiration']) && $checkReshare['expiration'] < $expirationDate) {
+					if (isset($checkReshare['expiration']) && $checkReshare['expiration'] < $expirationDate) {
 						$result['expirationDate'] = $checkReshare['expiration'];
 					}
 
@@ -730,7 +732,7 @@ class ShareFix extends Share{
 			$result['expirationDate'] = $expirationDate;
 			if (!$backend->isValidSource($itemSource, $uidOwner)) {
 				$message = 'Sharing %s failed, because the sharing backend for '
-					.'%s could not find its source';
+					. '%s could not find its source';
 				$message_t = $l->t('Sharing %s failed, because the sharing backend for %s could not find its source', array($itemSource, $itemType));
 				self::log('NextNote\Fixtures\ShareFix', sprintf($message, $itemSource, $itemType), \OCP\Util::DEBUG);
 				throw new \Exception($message_t);
@@ -767,9 +769,9 @@ class ShareFix extends Share{
 	private static function insertShare(array $shareData) {
 
 		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` ('
-			.' `item_type`, `item_source`, `item_target`, `share_type`,'
-			.' `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`,'
-			.' `file_target`, `token`, `parent`, `expiration`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
+			. ' `item_type`, `item_source`, `item_target`, `share_type`,'
+			. ' `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`,'
+			. ' `file_target`, `token`, `parent`, `expiration`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
 		$query->bindValue(1, $shareData['itemType']);
 		$query->bindValue(2, $shareData['itemSource']);
 		$query->bindValue(3, $shareData['itemTarget']);
@@ -787,7 +789,7 @@ class ShareFix extends Share{
 
 		$id = false;
 		if ($result) {
-			$id =  \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*share');
+			$id = \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*share');
 		}
 
 		return $id;
@@ -840,6 +842,45 @@ class ShareFix extends Share{
 		}
 
 		return $date;
+	}
+
+	public static function getPermissions($itemType, $itemSource, $uid) {
+		$uid = \OC::$server->getUserSession()->getUser();
+		$gm = \OC::$server->getGroupManager();
+
+		$users = array();
+		$queryArgs = [
+			$itemType,
+			$itemSource,
+			$uid->getUID()
+		];
+		$where = '`item_type` = ?';
+		$where .= ' AND `item_source`= ?';
+		$where .= ' AND (`share_with` = ? AND `share_type`= 0 ';
+
+		$user_groups = $gm->getUserGroupIds($uid);
+
+		foreach ($user_groups as $group) {
+			$where .= ' OR (`share_with` = ? AND `share_type`=1)';
+			$queryArgs[] = $group;
+		}
+		$where .= ')';
+
+		$q = 'SELECT * FROM `*PREFIX*share` WHERE ' . $where;
+
+
+		$query = \OC_DB::prepare($q);
+
+		$result = $query->execute($queryArgs);
+		$permissions = 0;
+		while ($row = $result->fetchRow()) {
+			if ($row['permissions'] > $permissions) {
+				$permissions = $row['permissions'];
+			}
+		}
+
+
+		return $permissions;
 	}
 
 }
