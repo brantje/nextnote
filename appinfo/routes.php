@@ -46,4 +46,8 @@ $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'nextnote_api#update', 'url' => '/api/v2.0/note/{id}', 'verb' => 'PUT'),
 	array('name' => 'nextnote_api#delete', 'url' => '/api/v2.0/note/{id}', 'verb' => 'DELETE'),
 
+
+	array('name' => 'settings#saveAdminSetting', 'url' => '/api/v2.0/settings', 'verb' => 'POST'),
+	array('name' => 'settings#getSettings', 'url' => '/api/v2.0/settings', 'verb' => 'GET'),
+
 )));
