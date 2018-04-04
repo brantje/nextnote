@@ -25,6 +25,7 @@ namespace OCA\NextNote\Fixtures;
 
 use OC\Share\Helper;
 use OC\Share\Share;
+use OCA\NextNote\Utility\Utils;
 
 class ShareFix extends Share{
 
@@ -212,9 +213,10 @@ class ShareFix extends Share{
 	 * @param boolean $includeCollections (optional)
 	 * @return mixed Return depends on format
 	 */
-	public static function getItemSharedWith($itemType, $itemTarget, $format = self::FORMAT_NONE,
+	public static function getItemSharedWith($itemType, $itemTarget, $format = parent::FORMAT_NONE,
 											 $parameters = null, $includeCollections = false) {
-		return self::getItems($itemType, $itemTarget, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format,
+
+		return self::getItems($itemType, $itemTarget, parent::$shareTypeUserAndGroups, \OC_User::getUser(), null, self::FORMAT_NONE,
 			$parameters, 1, $includeCollections);
 	}
 
@@ -231,27 +233,26 @@ class ShareFix extends Share{
 	public static function getUsersItemShared($itemType, $itemSource, $uidOwner, $includeCollections = false, $checkExpireDate = true) {
 
 		$users = array();
-		$items = self::getItems($itemType, $itemSource, self::$shareTypeUserAndGroups, null, $uidOwner, self::FORMAT_NONE, null, -1, $includeCollections, false, $checkExpireDate);
-		if ($items) {
-			foreach ($items as $item) {
-				if ((int)$item['share_type'] === self::SHARE_TYPE_USER) {
-					$users[] = $item['share_with'];
-				} else if ((int)$item['share_type'] === self::SHARE_TYPE_GROUP) {
+		$queryArgs = [
+			$itemType,
+			$itemSource
+		];
+		$where = '`item_type` = ?';
+		$where .= ' AND `item_source`= ?';
+		$q = 'SELECT * FROM `*PREFIX*share` WHERE '.$where;
+		$query = \OC_DB::prepare($q);
 
-					$group = \OC::$server->getGroupManager()->get($item['share_with']);
-					$userIds = [];
-					if ($group) {
-						$users = $group->searchUsers('', -1, 0);
-						foreach ($users as $user) {
-							$userIds[] = $user->getUID();
-						}
-						return $userIds;
-					}
-
-					$users = array_merge($users, $userIds);
-				}
+		$result = $query->execute($queryArgs);
+		while ($row = $result->fetchRow()) {
+			if($row['share_type'] == self::SHARE_TYPE_USER){
+				$u = Utils::getUserInfo($row['share_with']);
+				$users[] = $u['display_name'];
+			}
+			if($row['share_type'] == self::SHARE_TYPE_GROUP){
+				$users[] = $row['share_with'];
 			}
 		}
+
 		return $users;
 	}
 

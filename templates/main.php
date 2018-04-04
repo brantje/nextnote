@@ -47,6 +47,7 @@ script('nextnote', 'app/services/NoteService');
 script('nextnote', 'app/factory/NoteFactory');
 script('nextnote', 'app/directives/tooltip');
 script('nextnote', 'app/filters/noteFilter');
+script('nextnote', 'app/filters/objectKeysLength');
 script('nextnote', 'app/filters/trusted');
 /*build-js-end*/
 
