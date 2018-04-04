@@ -18,4 +18,8 @@
             <step>OCA\NextNote\Migration\RenameTable</step>
         </post-migration>
     </repair-steps>
+    <settings>
+        <admin>\OCA\NextNote\Settings\AdminSettings</admin>
+        <admin-section>\OCA\NextNote\Settings\AdminSection</admin-section>
+    </settings>
 </info>
