@@ -25,12 +25,10 @@ namespace OCA\NextNote\Controller;
 
 
 use OCA\NextNote\Service\SettingsService;
-use OCP\IConfig;
 use \OCP\IRequest;
 use \OCP\AppFramework\Http\TemplateResponse;
 use \OCP\AppFramework\Controller;
-use \OCP\AppFramework\Http\ContentSecurityPolicy;
-use \OCP\Util;
+
 
 class PageController extends Controller {
 

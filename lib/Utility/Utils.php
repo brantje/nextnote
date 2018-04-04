@@ -23,8 +23,6 @@
 
 namespace OCA\NextNote\Utility;
 
-use OCP\IL10N;
-
 class Utils {
     /**
      * Gets the unix epoch UTC timestamp

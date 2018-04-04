@@ -27,12 +27,10 @@ use OC\Files\View;
 
 use OCA\NextNote\Controller\NextNoteApiController;
 use OCA\NextNote\Controller\PageController;
-use OCP\IConfig;
-use OCP\IDBConnection;
 
 use OCP\AppFramework\App;
 use OCP\IL10N;
-use OCP\Util;
+
 
 class Application extends App {
 	public function __construct() {
