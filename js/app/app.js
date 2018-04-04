@@ -53,8 +53,8 @@
 		editableOptions.theme = 'bs2';
 		console.log('App loaded');
 		$rootScope.list_sorting = {
-			what: 'mtime',
-			reverse: true
+			what: 'name',
+			reverse: false
 		};
 		$rootScope.noteGroupFilter = {
 			grouping: 'all'
