@@ -229,6 +229,11 @@ a.editable-empty:focus {
     border-top: 1px solid #EEE; }
     .listingSort tr > td.actions {
       width: 30%; }
+      .listingSort tr > td.actions .share.shared {
+        width: 70px;
+        line-height: 34px;
+        background-position-x: 0;
+        text-align: right; }
     .listingSort tr > td.info {
       width: 25%; }
 
@@ -253,7 +258,7 @@ a.editable-empty:focus {
 
 .file {
   font-weight: bold;
-  /*width: 60%;*/ }
+  width: 60%; }
 
 .filesort {
   /*width: 60%;*/ }
@@ -267,11 +272,9 @@ a.editable-empty:focus {
     line-height: 26pt; }
 
 .info {
-  color: #A0A0A0;
   /*width: 30%;*/ }
 
 .modified {
-  color: #A0A0A0;
   display: inline-block;
   width: 100%; }
 
@@ -594,6 +597,14 @@ a.editable-empty:focus {
 
 .ui-button.ui-button-icon-only {
   min-height: auto !important; }
+
+.view-note-container h1 {
+  font-size: 28px;
+  line-height: 28px;
+  margin-bottom: 10px; }
+.view-note-container .noteContent, .view-note-container h1 {
+  padding-left: 10pt;
+  padding-right: 10pt; }
 
 .edit-note-container #controls {
   left: 0 !important; }

@@ -23,8 +23,6 @@
 
 namespace OCA\NextNote\Utility;
 
-use OCP\IL10N;
-
 class Utils {
     /**
      * Gets the unix epoch UTC timestamp
@@ -47,9 +45,19 @@ class Utils {
 	 * @return string
 	 */
 	public static function getNameByUid($uid){
+		$u = Utils::getUserInfo($uid);
+		return $u['display_name'];
+	}
+
+	public static function getUserInfo($uid){
 		$um = \OC::$server->getUserManager();
 		$u = $um->get($uid);
-		return $u->getDisplayName();
+		$user = [
+			'display_name' => $u->getDisplayName(),
+			'uid' => $uid,
+			'avatar' => $u->getAvatarImage(32)
+		];
+		return $user;
 	}
 
 	/**
@@ -73,5 +81,19 @@ class Utils {
 		return $strarray;
 	}
 
-
+	/**
+	 * @param $key
+	 * @param $value
+	 * @param $array
+	 * @return int|null|string
+	 * @internal param $ $
+	 */
+	public static function getItemByProperty($key, $value, $array) {
+		foreach ($array as $_key => $val) {
+			if ($val[$key] === $value) {
+				return $val;
+			}
+		}
+		return null;
+	}
 }

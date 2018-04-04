@@ -20,38 +20,30 @@
  *
  */
 
-(function() {
-
+(function () {
 	'use strict';
 
 	/**
-	 * @ngdoc overview
-	 * @name NextNotesApp
+	 * @ngdoc function
+	 * @name NextNotesApp.controller:MainCtrl
 	 * @description
-	 * # passmanApp
-	 *
-	 * Defines routes for the application
+	 * # MainCtrl
+	 * Controller of the NextNotesApp
 	 */
-	angular.module('NextNotesApp').config(function($routeProvider) {
-		$routeProvider
-			.when('/', {
-				templateUrl: 'views/list.html',
-				controller: 'NoteListCtrl'
-			})
-			.when('/note/edit/:noteId', {
-				templateUrl: 'views/note/edit.html',
-				controller: 'NoteEditCtrl'
-			})
-			.when('/note/view/:noteId', {
-				templateUrl: 'views/note/view.html',
-				controller: 'NoteViewCtrl'
-			})
-			.when('/note/new', {
-				templateUrl: 'views/note/edit.html',
-				controller: 'NoteEditCtrl'
-			})
-			.otherwise({
-				redirectTo: '/'
+	angular.module('NextNotesApp').controller('NoteViewCtrl', [
+		'$scope',
+		'$routeParams',
+		'$location',
+		'NoteService',
+		function ($scope, $routeParams, $location, NoteService) {
+			var noteId = ($routeParams.noteId) ? $routeParams.noteId : null;
+			NoteService.getNoteById(noteId).then(function (note) {
+				$scope.note = angular.copy(note);
 			});
-	});
+			$scope.goBack = function () {
+				$location.path('/');
+			};
+
+		}]);
+
 }());

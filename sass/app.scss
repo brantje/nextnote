@@ -66,6 +66,12 @@
     border-top: 1px solid #EEE;
     &.actions {
       width: 30%;
+      .share.shared{
+        width: 70px;
+        line-height: 34px;
+        background-position-x: 0;
+        text-align: right;
+      }
     }
     &.info {
       width: 25%;
@@ -97,7 +103,7 @@
 
 .file {
   font-weight: bold;
-  /*width: 60%;*/
+  width: 60%;
 }
 
 .filesort {
@@ -115,12 +121,11 @@
 }
 
 .info {
-  color: #A0A0A0;
+
   /*width: 30%;*/
 }
 
 .modified {
-  color: #A0A0A0;
   display: inline-block;
   width: 100%;
 }
@@ -554,7 +559,17 @@
 .ui-button.ui-button-icon-only{
   min-height: auto !important;
 }
-
+.view-note-container{
+  h1{
+    font-size: 28px;
+    line-height: 28px;
+    margin-bottom: 10px;
+  }
+  .noteContent, h1{
+    padding-left: 10pt;
+    padding-right: 10pt;
+  }
+}
 .edit-note-container{
   #controls{
     left: 0 !important;

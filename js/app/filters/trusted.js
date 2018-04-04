@@ -1,9 +1,8 @@
-<?php
 /**
- * Nextcloud - NextNote
+ * Nextcloud - NextNotes
  *
- * @copyright Copyright (c) 2015, Ben Curtis <ownclouddev@nosolutions.com>
- * @copyright Copyright (c) 2017, Sander Brand (brantje@gmail.com)
+ * @copyright Copyright (c) 2016, Sander Brand (brantje@gmail.com)
+ * @copyright Copyright (c) 2016, Marcos Zuriaga Miguel (wolfi@wolfi.es)
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,15 +20,8 @@
  *
  */
 
-namespace OCA\NextNote\AppInfo;
-
-
-use OCA\NextNote\AppInfo\Application;
-
-require_once __DIR__ . '/autoload.php';
-
-$app = new Application(); // \AppInfo\Application();
-$app->registerNavigationEntry();
-
-\OC\Share\Share::registerBackend ('nextnote', '\OCA\NextNote\ShareBackend\NextNoteShareBackend');
-\OCP\App::registerAdmin('nextnote', 'admin');
+angular.module('NextNotesApp').filter('trusted', function($sce){
+  return function(html){
+    return $sce.trustAsHtml(html)
+  }
+});

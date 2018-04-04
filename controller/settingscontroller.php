@@ -24,8 +24,6 @@
 namespace OCA\NextNote\Controller;
 
 use OCP\IL10N;
-use OCP\Settings\ISettings;
-use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\ApiController;
 use OCP\IRequest;

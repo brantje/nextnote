@@ -1,9 +1,9 @@
 <?php
 /**
- * Nextcloud - NextNote
+ * Nextcloud - namespace OCA\Nextnote
  *
- * @copyright Copyright (c) 2015, Ben Curtis <ownclouddev@nosolutions.com>
- * @copyright Copyright (c) 2017, Sander Brand (brantje@gmail.com)
+ * @copyright Copyright (c) 2016, Sander Brand (brantje@gmail.com)
+ * @copyright Copyright (c) 2016, Marcos Zuriaga Miguel (wolfi@wolfi.es)
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,15 +21,18 @@
  *
  */
 
-namespace OCA\NextNote\AppInfo;
+namespace OCA\NextNote\Utility;
 
 
-use OCA\NextNote\AppInfo\Application;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
 
-require_once __DIR__ . '/autoload.php';
+class UnauthorizedJSONResponse extends JSONResponse {
 
-$app = new Application(); // \AppInfo\Application();
-$app->registerNavigationEntry();
-
-\OC\Share\Share::registerBackend ('nextnote', '\OCA\NextNote\ShareBackend\NextNoteShareBackend');
-\OCP\App::registerAdmin('nextnote', 'admin');
+    /**
+     * Creates a new json response with a not found status code.
+     */
+    public function __construct() {
+        parent::__construct(null, Http::STATUS_UNAUTHORIZED);
+    }
+}

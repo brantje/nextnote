@@ -1,0 +1,10 @@
+<div id="ownnote" class="view-note-container">
+	<div id="controls">
+		<span class="indent"><div class="button" ng-click="goBack()">Go back</div></span>
+	</div>
+	<div class="listingBlank"><!-- --></div>
+	<h1><b>{{ note.title }}</b></h1>
+	<div ng-bind-html="note.content | trusted" class="noteContent">
+
+	</div>
+</div>

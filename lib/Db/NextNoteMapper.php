@@ -123,11 +123,11 @@ class NextNoteMapper extends Mapper {
 			$parts = $this->utils->splitContent($note->getNote());
 			$note->setNote('');
 		}
-
 		$note->setShared(false);
 		/**
 		 * @var $note NextNote
 		 */
+
 		$note = parent::insert($note);
 
 		if ($parts) {

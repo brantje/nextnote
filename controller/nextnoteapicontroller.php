@@ -23,25 +23,38 @@
 
 namespace OCA\NextNote\Controller;
 
+use OCA\NextNote\Fixtures\ShareFix;
 use OCA\NextNote\Service\NextNoteService;
+use OCA\NextNote\ShareBackend\NextNoteShareBackend;
 use OCA\NextNote\Utility\NotFoundJSONResponse;
+use OCA\NextNote\Utility\UnauthorizedJSONResponse;
+use OCA\NextNote\Utility\Utils;
 use \OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Constants;
 use OCP\IConfig;
 use OCP\ILogger;
 use \OCP\IRequest;
-use \OCA\NextNote\Lib\Backend;
+use OCP\IUserManager;
+use OCP\Share;
 
 
 class NextNoteApiController extends ApiController {
 
 	private $config;
 	private $noteService;
+	private $shareBackend;
+	private $userManager;
+	private $shareManager;
 
-	public function __construct($appName, IRequest $request, ILogger $logger, IConfig $config, NextNoteService $noteService) {
+	public function __construct($appName, IRequest $request,
+								ILogger $logger, IConfig $config, NextNoteService $noteService, NextNoteShareBackend $shareBackend, IUserManager $userManager, Share\IManager $shareManager) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->noteService = $noteService;
+		$this->shareBackend = $shareBackend;
+		$this->userManager = $userManager;
+		$this->shareManager = $shareManager;
 	}
 
 	/**
@@ -55,6 +68,14 @@ class NextNoteApiController extends ApiController {
 	public function index($deleted = false, $group = false) {
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$results = $this->noteService->findNotesFromUser($uid, $deleted, $group);
+		foreach ($results as &$note) {
+			if (is_array($note)) {
+				$note = $this->noteService->find($note['id']);
+			}
+			$note = $note->jsonSerialize();
+			$note = $this->formatApiResponse($note);
+
+		}
 		return new JSONResponse($results);
 	}
 
@@ -64,12 +85,13 @@ class NextNoteApiController extends ApiController {
 	 * @TODO Add etag / lastmodified
 	 */
 	public function get($id) {
-		$results = $this->noteService->find($id);
-		//@TODO for sharing add access check
-		if (!$results) {
+		$result = $this->noteService->find($id);
+		if (!$result) {
 			return new NotFoundJSONResponse();
 		}
-		return new JSONResponse($results);
+		//@todo Check access
+		$result = $result->jsonSerialize();
+		return new JSONResponse($this->formatApiResponse($result));
 	}
 
 
@@ -78,7 +100,7 @@ class NextNoteApiController extends ApiController {
 	 * @NoCSRFRequired
 	 */
 	public function create($title, $grouping, $content) {
-		if($title == "" || !$title){
+		if ($title == "" || !$title) {
 			return new JSONResponse(['error' => 'title is missing']);
 		}
 		$note = [
@@ -88,8 +110,9 @@ class NextNoteApiController extends ApiController {
 			'note' => $content
 		];
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
-		$result = $this->noteService->create($note, $uid);
-		return new JSONResponse($result);
+		$result = $this->noteService->create($note, $uid)->jsonSerialize();
+		\OC_Hook::emit('OCA\NextNote', 'post_create_note', ['note' => $note]);
+		return new JSONResponse($this->formatApiResponse($result));
 	}
 
 	/**
@@ -97,9 +120,10 @@ class NextNoteApiController extends ApiController {
 	 * @NoCSRFRequired
 	 */
 	public function update($id, $title, $grouping, $content, $deleted) {
-		if($title == "" || !$title){
+		if ($title == "" || !$title) {
 			return new JSONResponse(['error' => 'title is missing']);
 		}
+
 
 		$note = [
 			'id' => $id,
@@ -107,16 +131,22 @@ class NextNoteApiController extends ApiController {
 			'name' => $title,
 			'grouping' => $grouping,
 			'note' => $content,
-            'deleted' => $deleted
+			'deleted' => $deleted
 		];
-        //@TODO for sharing add access check
+		//@TODO for sharing add access check
 		$entity = $this->noteService->find($id);
 		if (!$entity) {
 			return new NotFoundJSONResponse();
 		}
 
-		$results = $this->noteService->update($note);
-		return new JSONResponse($results);
+
+		if (!$this->shareBackend->checkPermissions(Constants::PERMISSION_UPDATE, $entity)) {
+			return new UnauthorizedJSONResponse();
+		}
+
+		$results = $this->noteService->update($note)->jsonSerialize();
+		\OC_Hook::emit('OCA\NextNote', 'post_update_note', ['note' => $note]);
+		return new JSONResponse($this->formatApiResponse($results));
 	}
 
 	/**
@@ -128,10 +158,40 @@ class NextNoteApiController extends ApiController {
 		if (!$entity) {
 			return new NotFoundJSONResponse();
 		}
-        //@TODO for sharing add access check
+
+		if (!$this->shareBackend->checkPermissions(Constants::PERMISSION_DELETE, $entity)) {
+			return new UnauthorizedJSONResponse();
+		}
+
 		$this->noteService->delete($id);
-		$result = (object) ['success' => true];
+		$result = (object)['success' => true];
+		\OC_Hook::emit('OCA\NextNote', 'post_delete_note', ['note_id' => $id]);
 		return new JSONResponse($result);
 	}
 
+	/**
+	 * @param $note array
+	 * @return array
+	 */
+	private function formatApiResponse($note) {
+		$uid = \OC::$server->getUserSession()->getUser()->getUID();
+		$acl = [
+			'permissions' => Constants::PERMISSION_ALL
+		];
+		if ($uid !== $note['uid']) {
+			$aclRoles = ShareFix::getItemSharedWith('nextnote', $note['id'], 'populated_shares');
+			$acl['permissions'] = $aclRoles['permissions'];
+		}
+		$note['owner'] = Utils::getUserInfo($note['uid']);
+		$note['permissions'] = $acl['permissions'];
+
+		$shared_with = ShareFix::getUsersItemShared('nextnote', $note['id'], $note['uid']);
+		foreach ($shared_with as &$u) {
+			$u = Utils::getUserInfo($u);
+		}
+
+		$note['shared_with'] = ($note['uid'] == $uid) ? $shared_with : [$uid];
+		unset($note['uid']);
+		return $note;
+	}
 }

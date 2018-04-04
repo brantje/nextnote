@@ -20,7 +20,7 @@
  *
  */
 
-(function() {
+(function () {
 	'use strict';
 
 	/**
@@ -31,63 +31,66 @@
 	 * List Controller
 	 */
 	angular.module('NextNotesApp')
-		.controller('NoteListCtrl', ['$scope', '$rootScope', '$location', 'NoteService', function($scope, $rootScope, $location, NoteService) {
-			$scope.editNote = function(note) {
+		.controller('NoteListCtrl', ['$scope', '$rootScope', '$location', 'NoteService', function ($scope, $rootScope, $location, NoteService) {
+			$scope.editNote = function (note) {
+				if (note.deleted === 1) {
+					return;
+				}
 				$location.path('/note/edit/' + note.id);
 			};
+			$scope.viewNote = function (note) {
+				if (note.deleted === 1) {
+					return;
+				}
+				$location.path('/note/view/' + note.id);
+			};
 
-			$scope.newNote = function(note) {
+			$scope.newNote = function (note) {
 				$location.path('/note/new');
 			};
 
-			$scope.deleteNote = function(note) {
+			$scope.deleteNote = function (note) {
 
-				NoteService.getNoteById(note.id).then(function(_note) {
-					if(note.deleted === 0) {
-            _note.$softDelete().then(function(result) {
-              $rootScope.notes[result.id] = result;
-              note.deleted = 1;
-            });
-          }
-          if(note.deleted === 1){
-					  _note.$delete().then(function() {
-              var idx = $scope.localNoteList.indexOf(note);
-              $scope.localNoteList.splice(idx, 1);
-            });
-          }
+				NoteService.getNoteById(note.id).then(function (_note) {
+					if (note.deleted === 0) {
+						_note.$softDelete().then(function (result) {
+							$rootScope.notes[result.id] = result;
+							note.deleted = 1;
+						});
+					}
+					if (note.deleted === 1) {
+						_note.$delete().then(function () {
+							var idx = $scope.localNoteList.indexOf(note);
+							$scope.localNoteList.splice(idx, 1);
+						});
+					}
 				});
 
 			};
-			$scope.resotoreNote = function(note) {
-				NoteService.getNoteById(note.id).then(function(_note) {
-					_note.$restore().then(function(result) {
+			$scope.resotoreNote = function (note) {
+				NoteService.getNoteById(note.id).then(function (_note) {
+					_note.$restore().then(function (result) {
 						$rootScope.notes[result.id] = result;
-                        note.deleted = 0;
-                    });
+						note.deleted = 0;
+					});
 				});
 			};
 
-			var init = function() {
-				var locaList = $.map(angular.copy($rootScope.notes), function(value, index) {
+			var init = function () {
+				$scope.localNoteList = $.map(angular.copy($rootScope.notes), function (value, index) {
 					if (typeof value === 'object' && value.hasOwnProperty('id')) {
 						return [value];
 					}
 				});
-				$scope.localNoteList = locaList;
 			};
 			if ($rootScope.notes) {
 				init();
 			}
 
-			$rootScope.$on('nextnotes_notes_loaded', function() {
+			$rootScope.$on('nextnotes_notes_loaded', function () {
 				init();
 			});
 
-			$scope.changeOrder = function() {
-				console.log('change order');
-				vm.orderReverse = !vm.orderReverse;
-				vm.items = $filter('orderBy')(vm.items, 'name', vm.orderReverse);
-			};
 
 		}]);
 

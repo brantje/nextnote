@@ -28,12 +28,20 @@
 	 * # NoteService
 	 * Service in the NextNotesApp.
 	 */
-	angular.module('NextNotesApp')
-		.service('NoteService', ['$rootScope', 'NoteFactory', '$timeout', '$q', function($rootScope, NoteFactory, $timeout, $q) {
+	angular.module('NextNotesApp').service('NoteService', [
+		'$rootScope',
+		'NoteFactory',
+		'$timeout',
+		'$q',
+		function($rootScope, NoteFactory, $timeout, $q) {
 			var newNoteTemplate = {
 				'title': '',
 				'content': '',
-				'group': ''
+				'group': '',
+				'owner': {
+					'uid': OC.getCurrentUser().uid
+				},
+				'permissions': OC.PERMISSION_ALL
 			};
 
 			return {
@@ -50,7 +58,7 @@
 					return deferred.promise;
 				},
 				save: NoteFactory.save,
-				update: NoteFactory.update
+				update: NoteFactory.update,
 
 			};
 		}]);
