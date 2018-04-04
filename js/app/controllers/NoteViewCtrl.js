@@ -20,30 +20,30 @@
  *
  */
 
-(function() {
-  'use strict';
+(function () {
+	'use strict';
 
-  /**
-   * @ngdoc function
-   * @name NextNotesApp.controller:MainCtrl
-   * @description
-   * # MainCtrl
-   * Controller of the NextNotesApp
-   */
-  angular.module('NextNotesApp').controller('NoteViewCtrl', [
-    '$scope',
-    '$routeParams',
-    '$location',
-    'NoteService',
-    function($scope, $routeParams, $location, NoteService) {
-      var noteId = ($routeParams.noteId) ? $routeParams.noteId : null;
-      NoteService.getNoteById(noteId).then(function(note) {
-        $scope.note = angular.copy(note);
-      });
-      $scope.goBack = function() {
-        $location.path('/');
-      };
-      
-    }]);
+	/**
+	 * @ngdoc function
+	 * @name NextNotesApp.controller:MainCtrl
+	 * @description
+	 * # MainCtrl
+	 * Controller of the NextNotesApp
+	 */
+	angular.module('NextNotesApp').controller('NoteViewCtrl', [
+		'$scope',
+		'$routeParams',
+		'$location',
+		'NoteService',
+		function ($scope, $routeParams, $location, NoteService) {
+			var noteId = ($routeParams.noteId) ? $routeParams.noteId : null;
+			NoteService.getNoteById(noteId).then(function (note) {
+				$scope.note = angular.copy(note);
+			});
+			$scope.goBack = function () {
+				$location.path('/');
+			};
+
+		}]);
 
 }());

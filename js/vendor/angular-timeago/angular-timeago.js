@@ -677,6 +677,9 @@ angular.module('yaru22.angular-timeago').factory('timeAgo', ["$filter", "timeAgo
 
 angular.module('yaru22.angular-timeago').filter('timeAgo', ["nowTime", "timeAgo", function(nowTime, timeAgo) {
   function timeAgoFilter(value, format, timezone) {
+    if(value.length < 12){
+		value = value * 1000;
+    }
     var fromTime = timeAgo.parse(value);
     var diff = nowTime() - fromTime;
     return timeAgo.inWords(diff, fromTime, format, timezone);
