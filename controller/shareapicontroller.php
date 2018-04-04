@@ -43,10 +43,12 @@ class ShareApiController extends ApiController {
 		$shareType = intval($shareType);
 		//Todo check if resharing is allowed
 		if($shareType === 1){
-			return ShareFix::shareItem('nextnote', intval($noteid), intval($shareType), $shareWith, intval($permissions));
+			$result = ShareFix::shareItem('nextnote', intval($noteid), intval($shareType), $shareWith, intval($permissions));
 		} else {
-			return Share::shareItem('nextnote', intval($noteid), intval($shareType), $shareWith, intval($permissions));
+			$result = Share::shareItem('nextnote', intval($noteid), intval($shareType), $shareWith, intval($permissions));
 		}
+		\OC_Hook::emit('OCA\NextNote', 'post_share_note', ['note_id' => $noteid]);
+		return $result;
 	}
 
 	/**
@@ -54,7 +56,9 @@ class ShareApiController extends ApiController {
 	 * @NoCSRFRequired
 	 */
 	public function unshare($itemSource, $shareType, $shareWith) {
-		return Share::unshare('nextnote', intval($itemSource), intval($shareType), $shareWith);
+		$result = Share::unshare('nextnote', intval($itemSource), intval($shareType), $shareWith);
+		\OC_Hook::emit('OCA\NextNote', 'post_unshare_note', ['note_id' => $itemSource]);
+		return $result;
 	}
 
 	/**
@@ -63,7 +67,7 @@ class ShareApiController extends ApiController {
 	 */
 	public function setpermissions($itemSource, $shareType, $shareWith, $permissions) {
 		$result = ShareFix::setPermissions('nextnote', intval($itemSource), intval($shareType), $shareWith, intval($permissions));
-		\OC_Hook::emit('OCA\NextNote', 'post_update_permissions', ['note_id' => $itemSource]);
+		\OC_Hook::emit('OCA\NextNote', 'post_update_note_share_permissions', ['note_id' => $itemSource]);
 		return $result;
 	}
 }
