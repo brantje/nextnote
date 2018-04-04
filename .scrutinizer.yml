@@ -3,6 +3,7 @@ filter:
         - 'js/vendor*'
         - 'l10n/'
         - 'tests/'
+        - 'lib/Fixtures/ShareFix.php'
 
 imports:
     - javascript
