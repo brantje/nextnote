@@ -27,6 +27,11 @@ use OC\Share\Helper;
 use OC\Share\Share;
 
 class ShareFix extends Share{
+
+	private static function log($level, $message, $context){
+		\OC::$server->getLogger()->log($level, $message, $context);
+	}
+
 	/**
 	 * Set the permissions of an item for a specific user or group
 	 * @param string $itemType
@@ -70,7 +75,7 @@ class ShareFix extends Share{
 					$message = 'Setting permissions for %s failed,'
 						.' because the permissions exceed permissions granted to %s';
 					$message_t = $l->t('Setting permissions for %s failed, because the permissions exceed permissions granted to %s', array($itemSource, \OC_User::getUser()));
-					\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSource, \OC_User::getUser()), \OCP\Util::DEBUG);
+					self::log('OCP\Share', sprintf($message, $itemSource, \OC_User::getUser()), \OCP\Util::DEBUG);
 					throw new \Exception($message_t);
 				}
 			}
@@ -194,7 +199,7 @@ class ShareFix extends Share{
 		$message = 'Setting permissions for %s failed, because the item was not found';
 		$message_t = $l->t('Setting permissions for %s failed, because the item was not found', array($itemSource));
 
-		\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSource), \OCP\Util::DEBUG);
+		self::log('OCP\Share', sprintf($message, $itemSource), \OCP\Util::DEBUG);
 		throw new \Exception($message_t);
 	}
 
@@ -209,7 +214,7 @@ class ShareFix extends Share{
 	 */
 	public static function getItemSharedWith($itemType, $itemTarget, $format = self::FORMAT_NONE,
 											 $parameters = null, $includeCollections = false) {
-		return parent::getItems($itemType, $itemTarget, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format,
+		return self::getItems($itemType, $itemTarget, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format,
 			$parameters, 1, $includeCollections);
 	}
 

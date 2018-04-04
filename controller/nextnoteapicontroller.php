@@ -184,9 +184,7 @@ class NextNoteApiController extends ApiController {
 		}
 		$note['owner'] = Utils::getUserInfo($note['uid']);
 		$note['permissions'] = $acl['permissions'];
-		$shared_with = [];
-		/*
-		 * @FIXME*/
+
 		$shared_with = ShareFix::getUsersItemShared('nextnote', $note['id'], $note['uid']);
 		foreach ($shared_with as &$u){
 			$u = Utils::getUserInfo($u);
