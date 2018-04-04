@@ -39,7 +39,7 @@ $application->registerRoutes($this, array('routes' => array(
 
 
 	// V2.0 API
-	array('name' => 'ownnotev2_api#preflighted_cors', 'url' => '/api/v2.0/{path}', 'verb' => 'OPTIONS', 'requirements' => array('path' => '.+')),
+	array('name' => 'nextnote_api#preflighted_cors', 'url' => '/api/v2.0/{path}', 'verb' => 'OPTIONS', 'requirements' => array('path' => '.+')),
 	array('name' => 'nextnote_api#index', 'url' => '/api/v2.0/note', 'verb' => 'GET'),
 	array('name' => 'nextnote_api#create', 'url' => '/api/v2.0/note', 'verb' => 'POST'),
 	array('name' => 'nextnote_api#get', 'url' => '/api/v2.0/note/{id}', 'verb' => 'GET'),

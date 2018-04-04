@@ -5,7 +5,7 @@
 	<overwrite>false</overwrite>
 	<charset>utf8</charset>
 	<table>
-		<name>*dbprefix*ownnote</name>
+		<name>*dbprefix*nextnote</name>
 		<declaration>
 			<field>
 				<name>id</name>
@@ -60,7 +60,7 @@
 		</declaration>
 	</table>
 	<table>
-		<name>*dbprefix*ownnote_parts</name>
+		<name>*dbprefix*nextnote_parts</name>
 		<declaration>
 			<field>
 				<name>pid</name>

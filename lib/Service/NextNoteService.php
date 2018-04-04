@@ -84,7 +84,7 @@ class NextNoteService {
 			$note = $entity;
 		}
 		if (!$note instanceof NextNote) {
-			throw new \Exception("Expected OwnNote object!");
+			throw new \Exception("Expected NextNote object!");
 		}
 		return $this->noteMapper->create($note);
 	}
@@ -110,7 +110,7 @@ class NextNoteService {
 			$note = $entity;
 		}
 		if (!$note instanceof NextNote) {
-			throw new \Exception("Expected OwnNote object!");
+			throw new \Exception("Expected NextNote object!");
 		}
 
 		// @TODO check if we can enable this without issues

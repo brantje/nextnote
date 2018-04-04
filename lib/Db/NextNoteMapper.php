@@ -32,7 +32,7 @@ class NextNoteMapper extends Mapper {
 	private $utils;
 
 	public function __construct(IDBConnection $db, Utils $utils) {
-		parent::__construct($db, 'ownnote');
+		parent::__construct($db, 'nextnote');
 		$this->utils = $utils;
 	}
 
@@ -56,7 +56,7 @@ class NextNoteMapper extends Mapper {
 			$params[] = $deleted;
 			$deletedSql = 'and n.deleted = ?';
 		}
-		$sql = "SELECT id, uid, name, grouping, shared, mtime, deleted, note FROM *PREFIX*ownnote n WHERE n.id= ? $uidSql $deletedSql";
+		$sql = "SELECT id, uid, name, grouping, shared, mtime, deleted, note FROM *PREFIX*nextnote n WHERE n.id= ? $uidSql $deletedSql";
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			/**
@@ -95,7 +95,7 @@ class NextNoteMapper extends Mapper {
 			$deletedSql = 'and n.deleted = ?';
 			$params[] = $deleted;
 		}
-		$sql = "SELECT id, uid, name, grouping, shared, mtime, deleted, note FROM *PREFIX*ownnote n WHERE `uid` = ? $groupSql $deletedSql";
+		$sql = "SELECT id, uid, name, grouping, shared, mtime, deleted, note FROM *PREFIX*nextnote n WHERE `uid` = ? $groupSql $deletedSql";
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			/**
@@ -174,7 +174,7 @@ class NextNoteMapper extends Mapper {
 	 * @param $content
 	 */
 	public function createNotePart(NextNote $note, $content) {
-		$sql = "INSERT INTO *PREFIX*ownnote_parts VALUES (NULL, ?, ?);";
+		$sql = "INSERT INTO *PREFIX*nextnote_parts VALUES (NULL, ?, ?);";
 		$this->execute($sql, array($note->getId(), $content));
 	}
 
@@ -184,7 +184,7 @@ class NextNoteMapper extends Mapper {
 	 * @param NextNote $note
 	 */
 	public function deleteNoteParts(NextNote $note) {
-		$sql = 'DELETE FROM *PREFIX*ownnote_parts where id = ?';
+		$sql = 'DELETE FROM *PREFIX*nextnote_parts where id = ?';
 		$this->execute($sql, array($note->getId()));
 	}
 
@@ -195,7 +195,7 @@ class NextNoteMapper extends Mapper {
 	 * @return array
 	 */
 	public function getNoteParts(NextNote $note) {
-		$sql = 'SELECT * from *PREFIX*ownnote_parts where id = ?';
+		$sql = 'SELECT * from *PREFIX*nextnote_parts where id = ?';
 		return $this->execute($sql, array($note->getId()))->fetchAll();
 	}
 
