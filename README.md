@@ -31,7 +31,7 @@ Did you found a bug? Report it or fix it and send a PR.
   - [x] Mappers
   - [x] Services
 - [x] Switch to a AngularJS frontend
-- [ ] Rename namespace from OwnNotes to NextNotes
+- [X] Rename namespace from OwnNotes to NextNotes
 - [ ] Implement note sharing
 - [ ] Implement hierarchical structure for groups (PR's welcome!)
 - [ ] Add markdown support
