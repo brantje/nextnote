@@ -69,7 +69,7 @@ class NextNoteApiController extends ApiController {
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$results = $this->noteService->findNotesFromUser($uid, $deleted, $group);
 		foreach ($results as &$note) {
-			if(is_array($note)){
+			if (is_array($note)) {
 				$note = $this->noteService->find($note['id']);
 			}
 			$note = $note->jsonSerialize();
@@ -100,7 +100,7 @@ class NextNoteApiController extends ApiController {
 	 * @NoCSRFRequired
 	 */
 	public function create($title, $grouping, $content) {
-		if($title == "" || !$title){
+		if ($title == "" || !$title) {
 			return new JSONResponse(['error' => 'title is missing']);
 		}
 		$note = [
@@ -119,10 +119,9 @@ class NextNoteApiController extends ApiController {
 	 * @NoCSRFRequired
 	 */
 	public function update($id, $title, $grouping, $content, $deleted) {
-		if($title == "" || !$title){
+		if ($title == "" || !$title) {
 			return new JSONResponse(['error' => 'title is missing']);
 		}
-
 
 
 		$note = [
@@ -131,9 +130,9 @@ class NextNoteApiController extends ApiController {
 			'name' => $title,
 			'grouping' => $grouping,
 			'note' => $content,
-            'deleted' => $deleted
+			'deleted' => $deleted
 		];
-        //@TODO for sharing add access check
+		//@TODO for sharing add access check
 		$entity = $this->noteService->find($id);
 		if (!$entity) {
 			return new NotFoundJSONResponse();
@@ -163,7 +162,7 @@ class NextNoteApiController extends ApiController {
 		}
 
 		$this->noteService->delete($id);
-		$result = (object) ['success' => true];
+		$result = (object)['success' => true];
 		return new JSONResponse($result);
 	}
 
@@ -171,14 +170,12 @@ class NextNoteApiController extends ApiController {
 	 * @param $note array
 	 * @return array
 	 */
-	private function formatApiResponse($note){
+	private function formatApiResponse($note) {
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$acl = [
 			'permissions' => Constants::PERMISSION_ALL
 		];
-		/*
- 		 * @FIXME*/
-		 if($uid !== $note['uid']){
+		if ($uid !== $note['uid']) {
 			$aclRoles = ShareFix::getItemSharedWith('nextnote', $note['id'], 'populated_shares');
 			$acl['permissions'] = $aclRoles['permissions'];
 		}
@@ -186,9 +183,7 @@ class NextNoteApiController extends ApiController {
 		$note['permissions'] = $acl['permissions'];
 
 		$shared_with = ShareFix::getUsersItemShared('nextnote', $note['id'], $note['uid']);
-//		var_dump($shared_with);
-//		exit;
-		foreach ($shared_with as &$u){
+		foreach ($shared_with as &$u) {
 			$u = Utils::getUserInfo($u);
 		}
 
