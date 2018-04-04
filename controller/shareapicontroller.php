@@ -62,7 +62,8 @@ class ShareApiController extends ApiController {
 	 * @NoCSRFRequired
 	 */
 	public function setpermissions($itemSource, $shareType, $shareWith, $permissions) {
-		//@FIXME
-		return ShareFix::setPermissions('nextnote', intval($itemSource), intval($shareType), $shareWith, intval($permissions));
+		$result = ShareFix::setPermissions('nextnote', intval($itemSource), intval($shareType), $shareWith, intval($permissions));
+		\OC_Hook::emit('OCA\NextNote', 'post_update_permissions', ['note_id' => $itemSource]);
+		return $result;
 	}
 }

@@ -111,6 +111,7 @@ class NextNoteApiController extends ApiController {
 		];
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$result = $this->noteService->create($note, $uid)->jsonSerialize();
+		\OC_Hook::emit('OCA\NextNote', 'post_create_note', ['note' => $note]);
 		return new JSONResponse($this->formatApiResponse($result));
 	}
 
@@ -144,6 +145,7 @@ class NextNoteApiController extends ApiController {
 		}
 
 		$results = $this->noteService->update($note)->jsonSerialize();
+		\OC_Hook::emit('OCA\NextNote', 'post_update_note', ['note' => $note]);
 		return new JSONResponse($this->formatApiResponse($results));
 	}
 
@@ -163,6 +165,7 @@ class NextNoteApiController extends ApiController {
 
 		$this->noteService->delete($id);
 		$result = (object)['success' => true];
+		\OC_Hook::emit('OCA\NextNote', 'post_delete_note', ['note_id' => $id]);
 		return new JSONResponse($result);
 	}
 
