@@ -12,10 +12,38 @@ var NextCloudFileBrowserDialogue = function(field_name, url, type, win) {
 		}
 
 		if (file.type === 'file') {
+			var allowedExtensions = ['png', 'jpg', 'jpeg'];
+			var extension = file.name.split('.').pop();
+			if(allowedExtensions.indexOf(extension) < 0){
+				$('#mceNextcloudFileBrowser').dialog('destroy');
+				var allowedList = allowedExtensions.join("<li>");
+				OCdialogs.message(
+					'<div class="message">File extension is not allowed!<br />Allowed extensions:<br /><ul><li>'+ allowedList+'</ul></div>',
+					'Error',
+					'alert',
+					OCdialogs.OK_BUTTON,
+					null,
+					null,
+					true
+				);
+				return;
+			}
+
+
 			var filePath = currentPath + file.name;
-			var remotePath = OC.linkToRemote('webdav') + filePath;
-			win.document.getElementById(field_name).value = remotePath;
-			$('#mceNextcloudFileBrowser').dialog('destroy');
+			var xhr = new XMLHttpRequest();
+			xhr.onload = function() {
+				var reader = new FileReader();
+				reader.onloadend = function() {
+					win.document.getElementById(field_name).value = reader.result;
+					$('#mceNextcloudFileBrowser').dialog('destroy');
+
+				};
+				reader.readAsDataURL(xhr.response);
+			};
+			xhr.open('GET', OC.linkToRemote('webdav') + filePath);
+			xhr.responseType = 'blob';
+			xhr.send();
 		}
 	}
 
