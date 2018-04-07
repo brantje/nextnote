@@ -56,10 +56,8 @@ You can also use this script developed by [enoch85](https://github.com/enoch85):
 #!/bin/bash
 
 # Install git if not existing
-if [ "$(dpkg-query -W -f='${Status}' "git" 2>/dev/null | grep -c "ok installed")" == "1" ]
+if [ "$(dpkg-query -W -f='${Status}' "git" 2>/dev/null | grep -c "ok installed")" != "1" ]
 then
-    sleep 0.1
-else
     apt update -q4
     apt install git -y
 fi
