@@ -19,7 +19,6 @@ Did you found a bug? Report it or fix it and send a PR.
 ## Features
 - Import from Evernote
 - Full fledged WYSIWYG editor
-- Ability to save files to a folder as HTML files (untested)
 - Share a note with a user or group
 - Note grouping/categorization
 - Archive notes
@@ -33,6 +32,7 @@ Did you found a bug? Report it or fix it and send a PR.
 - [x] Switch to a AngularJS frontend
 - [X] Rename namespace from OwnNotes to NextNotes
 - [x] Implement note sharing
+- [ ] Ability to save files to a folder as HTML files (untested)
 - [ ] Implement hierarchical structure for groups (PR's welcome!)
 - [ ] Add markdown support
 - [ ] Import from [Notes](https://github.com/nextcloud/notes) app.
