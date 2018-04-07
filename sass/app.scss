@@ -947,3 +947,13 @@
     display: none !important;
   }
 }
+.oc-dialog{
+  z-index: 999999;
+  .message{
+    padding-left: 35px;
+    li{
+      list-style: disc;
+      margin-left: 15px;
+    }
+  }
+}

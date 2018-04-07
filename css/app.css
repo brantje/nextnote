@@ -889,5 +889,12 @@ a.editable-empty:focus {
 @media (min-width: 1200px) {
   .hidden-lg {
     display: none !important; } }
+.oc-dialog {
+  z-index: 999999; }
+  .oc-dialog .message {
+    padding-left: 35px; }
+    .oc-dialog .message li {
+      list-style: disc;
+      margin-left: 15px; }
 
 /*# sourceMappingURL=app.css.map */

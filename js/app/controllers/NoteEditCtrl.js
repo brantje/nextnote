@@ -84,7 +84,7 @@
 					'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc help bdesk_photo',
 				],
 				extended_valid_elements: 'form[name|id|action|method|enctype|accept-charset|onsubmit|onreset|target],input[id|name|type|value|size|maxlength|checked|accept|src|width|height|disabled|readonly|tabindex|accesskey|onfocus|onblur|onchange|onselect|onclick|onkeyup|onkeydown|required|style],textarea[id|name|rows|cols|maxlength|disabled|readonly|tabindex|accesskey|onfocus|onblur|onchange|onselect|onclick|onkeyup|onkeydown|required|style],option[name|id|value|selected|style],select[id|name|type|value|size|maxlength|checked|width|height|disabled|readonly|tabindex|accesskey|onfocus|onblur|onchange|onselect|onclick|multiple|style]',
-				toolbar1: 'print | undo redo | styleselect fontselect | bold italic strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist table outdent indent | link image media bdesk_photo | codesample help | code ',
+				toolbar1: 'print | undo redo | styleselect fontselect | bold italic strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist table outdent indent | link image bdesk_photo | codesample help | code ',
 				image_advtab: true,
 				allow_html_data_urls: true,
 				allow_script_urls: true,
