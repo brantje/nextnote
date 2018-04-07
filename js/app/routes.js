@@ -34,10 +34,10 @@
 	 */
 	angular.module('NextNotesApp').config(function($routeProvider) {
 		$routeProvider
-			.when('/', {
+			/* .when('/', {
 				templateUrl: 'views/list.html',
 				controller: 'NoteListCtrl'
-			})
+			}) */
 			.when('/note/edit/:noteId', {
 				templateUrl: 'views/note/edit.html',
 				controller: 'NoteEditCtrl'

@@ -50,16 +50,26 @@
 			};
 			$scope.new_group = '';
 
-			var noteId = ($routeParams.noteId) ? $routeParams.noteId : null;
-			if (noteId) {
-				NoteService.getNoteById(noteId).then(function (note) {
-					$scope.note = note;
-					$scope.noteShadowCopy = angular.copy(note);
-					console.log($scope.note);
-				});
+			function loadNote() {
+				var noteId = ($routeParams.noteId) ? $routeParams.noteId : null;
+				if (noteId) {
+					NoteService.getNoteById(noteId).then(function (note) {
+						$scope.note = note;
+						$scope.noteShadowCopy = angular.copy(note);
+					});
+				} else {
+					$scope.note = NoteService.newNote();
+					$scope.noteShadowCopy = new NoteFactory(angular.copy($scope.note));
+				}
+			}
+
+
+			if($rootScope.notes){
+				loadNote();
 			} else {
-				$scope.note = NoteService.newNote();
-				$scope.noteShadowCopy = new NoteFactory(angular.copy($scope.note));
+				$rootScope.$on('nextnotes_notes_loaded', function () {
+					loadNote();
+				});
 			}
 
 			var o = $('#ownnote').offset();
@@ -80,7 +90,7 @@
 				allow_script_urls: true,
 				paste_data_images: true,
 				width: '100%',
-				height: h - 140,
+				height: h - 155,
 				autoresize_min_height: h - 140,
 				autoresize_max_height: h - 140,
 				file_picker_types: 'file image media',
@@ -114,23 +124,22 @@
 					$scope.noteShadowCopy.grouping = angular.copy($scope.new_group);
 				}
 
+
 				$scope.noteShadowCopy.$save().then(function (result) {
 					result.mtime = result.mtime * 1000;
 					$rootScope.notes[result.id] = result;
-					if (autoSave) {
-						$scope.autoSaved = true;
-						$timeout(function () {
-							$scope.autoSaved = false;
-						}, 2500);
-					} else {
-						$location.path('/');
-						$rootScope.$emit('refresh_notes');
-					}
+					$scope.autoSaved = true;
+					$timeout(function () {
+						$scope.autoSaved = false;
+					}, 2500);
+					$rootScope.$emit('refresh_notes');
 				});
 			};
 
 			var autoSaveTimer;
 			var initialSave = true;
+
+
 			var watcher = $scope.$watch('[noteShadowCopy.title, noteShadowCopy.content]',
 				function () {
 					if (autoSaveTimer) {
@@ -148,21 +157,12 @@
 							return;
 						}
 						autoSaveTimer = $timeout(function () {
-							$scope.saveNote(true);
-						}, 15000);
+							if($routeParams.noteId) {
+								$scope.saveNote(true);
+							}
+						}, 1000);
 					}
 				});
-
-			$scope.cancelEdit = function () {
-				$scope.note.mtime = $scope.note.mtime * 1000;
-				$location.path('/');
-			};
-
-			$rootScope.$broadcast('show_sidebar', false);
-
-			$scope.$on('$destroy', function () {
-				$rootScope.$emit('show_sidebar', true);
-			});
 
 		}]);
 }());

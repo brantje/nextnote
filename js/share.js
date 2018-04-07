@@ -1280,3 +1280,19 @@ $(document).ready(function () {
 
   });
 });
+
+$(document).ready(function () {
+
+    $('body').on('click', '.file.pointer', function (e) {
+		if($(window).width() <= 994) {
+			setTimeout(function () {
+				$('#ownnote').animate({scrollLeft: $(window).width()}, 750);
+			}, 50);
+		}
+	});
+    $('body').on('click', '#canceledit, #grouplist .group', function (e) {
+        if($(window).width() <= 994) {
+			$('#ownnote').animate({scrollLeft: 0}, 750);
+		}
+	});
+});

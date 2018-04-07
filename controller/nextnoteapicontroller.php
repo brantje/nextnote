@@ -187,7 +187,10 @@ class NextNoteApiController extends ApiController {
 
 		$shared_with = ShareFix::getUsersItemShared('nextnote', $note['id'], $note['uid']);
 		foreach ($shared_with as &$u) {
-			$u = Utils::getUserInfo($u);
+			$info = Utils::getUserInfo($u);
+			if($info) {
+				$u = $info;
+			}
 		}
 
 		$note['shared_with'] = ($note['uid'] == $uid) ? $shared_with : [$uid];

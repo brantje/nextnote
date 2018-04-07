@@ -1,31 +1,41 @@
 <div id="ownnote" class="edit-note-container">
-	<div id="controls">
+	<div class="controls">
 		<span id="newfile" class="indent">
 			<span ng-if="hasPermission(noteShadowCopy, 'update')">
 				Name:
-				<input type="text" class="fileinput" ng-model="noteShadowCopy.title">
+				<input type="text" class="fileinput"
+					   ng-model="$parent.noteShadowCopy.title">
 				&nbsp;&nbsp;
 				Group:
-				<select id="groupname" ng-model="noteShadowCopy.grouping">
+				<select id="groupname"
+						ng-model="$parent.noteShadowCopy.grouping">
 					<option value="">Not grouped</option>
 					<option value="_new">New group</option>
-					<option ng-repeat="group in note_groups" value="{{group.name}}">{{group.name}}</option>
+					<option ng-repeat="group in note_groups"
+							value="{{group.name}}" ng-if="group.name">{{group.name}}</option>
 				</select>
-				<input type="text" placeholder="group title" ng-show="noteShadowCopy.grouping === '_new'" ng-model="new_group">
+				<input type="text" placeholder="group title"
+					   ng-show="noteShadowCopy.grouping === '_new'"
+					   ng-model="$parent.new_group"> {{ $parent.new_group }}
 				<div class="button" ng-click="saveNote()">Save</div>
+
 			</span>
-			<span ng-if="!hasPermission(noteShadowCopy, 'update')" style="padding-right: 10px;">
+
+			<span ng-if="!hasPermission(noteShadowCopy, 'update')"
+				  style="padding-right: 10px;">
 				<b>{{ noteShadowCopy.title }}</b>
 				You don't have permissions to edit this note
 			</span>
-			<div id="canceledit" class="button" ng-click="cancelEdit()">Cancel</div>
+
+			<div id="canceledit" class="button">Back</div>
 
 			<div class="pull-right autosave" ng-class="{'shown': autoSaved }">
 				Saved!
 			</div>
 		</span>
 	</div>
-	<textarea ui-tinymce="tinymceOptions" ng-model="noteShadowCopy.content" ng-disabled="!hasPermission(noteShadowCopy, 'update')">
+	<textarea ui-tinymce="tinymceOptions" ng-model="noteShadowCopy.content"
+			  ng-disabled="!hasPermission(noteShadowCopy, 'update')">
 
 	</textarea>
 </div>

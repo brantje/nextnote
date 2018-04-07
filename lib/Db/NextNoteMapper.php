@@ -102,6 +102,7 @@ class NextNoteMapper extends Mapper {
 			 * @var $note NextNote
 			 */
 			$note = $this->makeEntityFromDBResult($item);
+			$note->setNote($item['note']);
 			$results[] = $note;
 		}
 		return $results;

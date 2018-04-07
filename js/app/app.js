@@ -20,7 +20,7 @@
  *
  */
 
-(function() {
+(function () {
 	'use strict';
 
 	/**
@@ -44,12 +44,12 @@
 			'yaru22.angular-timeago',
 			'xeditable'
 		])
-		.config(['$httpProvider', function($httpProvider) {
-		/** global: oc_requesttoken */
-		$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
-	}]).config(['$qProvider', function($qProvider) {
+		.config(['$httpProvider', function ($httpProvider) {
+			/** global: oc_requesttoken */
+			$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
+		}]).config(['$qProvider', function ($qProvider) {
 		$qProvider.errorOnUnhandledRejections(false);
-	}]).run(['$rootScope', 'NoteFactory', 'editableOptions', function($rootScope, NoteFactory, editableOptions) {
+	}]).run(['$rootScope', 'NoteFactory', 'editableOptions', function ($rootScope, NoteFactory, editableOptions) {
 		editableOptions.theme = 'bs2';
 		console.log('App loaded');
 		$rootScope.list_sorting = {
@@ -65,75 +65,91 @@
 		$rootScope.OC = OC;
 		$rootScope.sidebar_shown = true;
 
-		$rootScope.$on('show_sidebar', function(evt, state) {
+		$rootScope.$on('show_sidebar', function (evt, state) {
 			$rootScope.sidebar_shown = state;
-    });
+		});
 
-		function loadNotes() {
-            NoteFactory.query(function(notes) {
-                console.log('Notes received', notes);
-                $rootScope.notes = notes;
-                $rootScope.$broadcast('nextnotes_notes_loaded');
-                $rootScope.keys = Object.keys;
+		function loadNotes () {
+			NoteFactory.query(function (notes) {
+				console.log('Notes received', notes);
+				$rootScope.notes = notes;
+				$rootScope.$broadcast('nextnotes_notes_loaded');
+				$rootScope.keys = Object.keys;
 
-                // Fix nextcloud's behaviour because templates are injected with JS.
-                $rootScope.$on('$viewContentLoaded', function() {
-                    $(window).trigger('resize');
-                });
-                $(window).trigger('resize');
+				// Fix nextcloud's behaviour because templates are injected with JS.
+				$rootScope.$on('$viewContentLoaded', function () {
+					$(window).trigger('resize');
+				});
+				$(window).trigger('resize');
 
 
-                //Setup locale data
-                $rootScope.dateFormat = moment.localeData().longDateFormat('L').replace(/D/g, 'd').replace(/Y/g, 'y');
-                $rootScope.dateFormatLong = moment.localeData().longDateFormat('L').replace(/D/g, 'd').replace(/Y/g, 'y') + ' H:mm';
-            });
-        }
-        loadNotes();
-		$rootScope.$on('refresh_notes', function() {
-            loadNotes();
-        });
+				//Setup locale data
+				$rootScope.dateFormat = moment.localeData().longDateFormat('L').replace(/D/g, 'd').replace(/Y/g, 'y');
+				$rootScope.dateFormatLong = moment.localeData().longDateFormat('L').replace(/D/g, 'd').replace(/Y/g, 'y') + ' H:mm';
+			});
+		}
+
+		loadNotes();
+		$rootScope.$on('refresh_notes', function () {
+			loadNotes();
+		});
 
 
 		// Setup a watcher on the notes so groups are always correct
 		// @TODO Implement multi level support
 
 
-    var getGroupIndexByName = function(groupName) {
-      for(var i = 0; i < $rootScope.note_groups.length; i++){
-        if(groupName === $rootScope.note_groups[i].name){
-          return i;
-        }
-      }
-      return -1;
-    };
+		var getGroupIndexByName = function (groupName) {
+			for (var i = 0; i < $rootScope.note_groups.length; i++) {
+				if (groupName === $rootScope.note_groups[i].name) {
+					return i;
+				}
+			}
+			return -1;
+		};
 
-		$rootScope.$watch('[notes, list_filter]', function(n) {
+		$rootScope.$watch('[notes, list_filter]', function (n) {
 			if (!n) {
 				return;
 			}
 
-      $rootScope.note_groups = [];
-      $rootScope.note_count = 0;
+			$rootScope.note_groups = [];
+			$rootScope.note_count = 0;
 
 			var notes = $rootScope.notes;
-			angular.forEach(notes, function(note) {
+			angular.forEach(notes, function (note) {
 				if (note.hasOwnProperty('id')) {
-					if(note.deleted !== $rootScope.list_filter.deleted){
+					var name;
+					if (note.deleted !== $rootScope.list_filter.deleted) {
 						return;
 					}
-          $rootScope.note_count++;
-					var idx = getGroupIndexByName(note.grouping);
+					$rootScope.note_count++;
+					if(shareMode === 'standalone'){
+						name = (OC.getCurrentUser().uid === note.owner.uid ) ? note.grouping : note.grouping + ' ('+ note.owner.uid +')';
+					} else {
+						name = note.grouping;
+					}
+					var idx = getGroupIndexByName(name);
 					if (shareMode === 'merge' && idx === -1 && note.grouping !== '_new' && note.grouping !== '') {
 						$rootScope.note_groups.push({
-							name: note.grouping,
+							name: name,
 							note_count: 1
 						});
 					}
+					if (shareMode === 'standalone' && idx === -1 && note.grouping !== '_new' && note.grouping !== '') {
+							$rootScope.note_groups.push({
+							name: name,
+							note_count: 1
+						});
+					}
+					if (shareMode === 'standalone' && idx !== -1 && note.grouping !== '_new' && note.grouping !== '') {
+						$rootScope.note_groups[idx].note_count++;
+					}
 					if (shareMode === 'merge' && idx !== -1 && note.grouping !== '_new' && note.grouping !== '') {
-            $rootScope.note_groups[idx].note_count++;
+						$rootScope.note_groups[idx].note_count++;
 					}
 				}
 			});
-		} , true);
+		}, true);
 	}]);
 }());

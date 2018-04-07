@@ -52,7 +52,7 @@ class NextNote extends Entity implements  \JsonSerializable{
 	protected $grouping;
 	protected $uid;
 	protected $mtime;
-	protected $deleted;
+	protected $deleted = 0;
 	protected $note;
 	protected $shared;
 	public function __construct() {

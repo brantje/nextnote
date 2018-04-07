@@ -20,21 +20,8 @@
  *
  */
 
-angular.module('NextNotesApp').filter('noteGroupFilter', ['$filter', function ($filter) {
-	return function (items, filterBy) {
-		var filtered = [];
-		if (filterBy.hasOwnProperty('grouping') && filterBy.grouping === 'all') {
-			return items;
-		}
-		if (filterBy.hasOwnProperty('grouping') && filterBy.grouping === '') {
-			angular.forEach(items, function (item) {
-				if (item.grouping === '') {
-					filtered.push(item);
-				}
-			});
-			return filtered;
-		}
-
-		return $filter('filter')(items, {grouping: filterBy.grouping}, true);
+angular.module('NextNotesApp').filter('htmlToPlaintext', function(){
+	return function(text) {
+		return  text ? String(text).replace(/<[^>]+>/gm, '') : '';
 	};
-}]);
+});

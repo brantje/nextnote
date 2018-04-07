@@ -58,6 +58,8 @@ class Utils {
 				'uid' => $uid,
 				'avatar' => $u->getAvatarImage(32)
 			];
+		} else {
+			return false;
 		}
 		return $user;
 	}

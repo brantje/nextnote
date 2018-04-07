@@ -65,8 +65,8 @@
   tr > td {
     border-top: 1px solid #EEE;
     &.actions {
-      width: 30%;
-      .share.shared{
+      width: 50%;
+      .share.shared {
         width: 70px;
         line-height: 34px;
         background-position-x: 0;
@@ -75,6 +75,7 @@
     }
     &.info {
       width: 25%;
+      padding-right: 15px;
     }
   }
 }
@@ -103,7 +104,39 @@
 
 .file {
   font-weight: bold;
-  width: 60%;
+  line-height: 15px;
+  width: 350px;
+  @media screen and (max-width: 1200px){
+    width: 150px;
+  }
+  .caption {
+    width: 100px;
+
+    @media screen and (min-width: 420px){
+      width: 180px;
+    }
+    @media screen and (min-width: 720px){
+      width: 450px;
+    }
+    @media screen and (min-width: 920px){
+      width: 600px;
+    }
+    @media screen and (min-width: 994px){
+      width: 150px;
+    }
+    @media screen and (min-width: 1600px){
+      width: 300px;
+    }
+    display: inline-block;
+    small {
+      color: #959595;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+      display: block;
+    }
+  }
 }
 
 .filesort {
@@ -117,6 +150,49 @@
     display: inline-block;
     float: right;
     line-height: 26pt;
+  }
+}
+
+.view-container {
+  @media screen and(max-width: 994px){
+    width: 200%;
+  }
+  .view-left {
+    float: left;
+    width: 50%;
+  }
+  .view-right {
+    float: left;
+    width: 50%;
+    height: calc(100vh - 45px);
+    overflow: auto;
+    border-left: 1px solid #c9c9c9;
+    .controls{
+      padding-left: 0;
+      @media screen and (max-width: 994px){
+        padding-left: 35px;
+      }
+      .note-title-form .newgroupinput {
+        display: none;
+      }
+      .autosave {
+        font-size: 16px;
+        line-height: 44px;
+        height: 44px;
+        padding-right: 15px;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s 0.5s, opacity 0.5s linear;
+        &.shown {
+          visibility: visible;
+          opacity: 1;
+          transition: opacity 0.5s linear;
+        }
+      }
+      .back{
+        display: inline-block;
+      }
+    }
   }
 }
 
@@ -140,8 +216,8 @@
 
 }
 
-.app-nextnote{
-  .button{
+.app-nextnote {
+  .button {
     display: inline-block;
   }
 }
@@ -227,23 +303,6 @@
 
 .newfile, #controls .note-title-form .newgroupinput {
   display: none;
-}
-
-#controls {
-  .autosave {
-    font-size: 16px;
-    line-height: 44px;
-    height: 44px;
-    padding-right: 15px;
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s 0.5s, opacity 0.5s linear;
-    &.shown {
-      visibility: visible;
-      opacity: 1;
-      transition: opacity 0.5s linear;
-    }
-  }
 }
 
 .fileinput {
@@ -424,32 +483,55 @@
     font-weight: bold;
   }
 }
-
+#ownnote{
+  overflow: hidden;
+}
 #ownnote-l10n {
   display: none;
 }
 
-#dropdown.shareDropDown #shareWith {
-  width: 165px;
-}
+#dropdown.shareDropDown {
+  @media screen and (max-width: 1785px) {
+    clear: both;
+  }
+  #shareWith {
+    width: 165px;
+  }
+  #shareWithList li {
+    background-color: #dfdfdf;
+    .unshare {
+      float: right;
+    }
+    .avatar {
+      float: left;
+    }
+    .username {
+      float: left;
+      height: 32px;
+      line-height: 32px;
+      padding-left: 15px;
+      &:after {
+        clear: both;
+        display: table;
+      }
 
-#shareWithList li {
-  background-color: #dfdfdf;
-  .unshare {
-    float: right;
-  }
-  .avatar {
-    float: left;
-  }
-  .username {
-    float: left;
-    height: 32px;
-    line-height: 32px;
-    padding-left: 15px;
-  }
-  .sharingOptionsGroup {
-    height: 32px;
-    line-height: 32px;
+    }
+    .sharingOptionsGroup {
+      &:before {
+        clear: both;
+        display: table;
+        content: "";
+      }
+      display: block;
+      //clear: both;
+      //height: 32px;
+      line-height: 32px;
+      @media screen and (max-width: 1280px) {
+        label {
+          display: block;
+        }
+      }
+    }
   }
 }
 
@@ -556,23 +638,287 @@
   }
 }
 
-.ui-button.ui-button-icon-only{
+.ui-button.ui-button-icon-only {
   min-height: auto !important;
 }
-.view-note-container{
-  h1{
+
+.view-note-container {
+  h1 {
     font-size: 28px;
     line-height: 28px;
     margin-bottom: 10px;
   }
-  .noteContent, h1{
+  .noteContent, h1 {
     padding-left: 10pt;
     padding-right: 10pt;
   }
 }
-.edit-note-container{
-  #controls{
+
+.edit-note-container {
+  .controls {
+    position: static;
     left: 0 !important;
+
   }
 }
-/*# sourceMappingURL=style.css.map */
+.app-nextnote {
+  @media only screen and (max-width: 1280px) {
+    #body-login #header {
+      padding-top: 10px;
+    }
+    /* line 7, /var/www/nextcloud14/core/css/mobile.scss */
+    #body-login .wrapper {
+      display: flex;
+      flex-direction: row;
+      align-self: center;
+      align-items: center;
+    }
+    /* line 15, /var/www/nextcloud14/core/css/mobile.scss */
+    #update-notification {
+      display: none !important;
+    }
+    /* line 20, /var/www/nextcloud14/core/css/mobile.scss */
+    #dropdown {
+      margin-right: 10% !important;
+      width: 80% !important;
+    }
+    /* line 26, /var/www/nextcloud14/core/css/mobile.scss */
+    .ui-autocomplete {
+      z-index: 1000 !important;
+    }
+    /* line 31, /var/www/nextcloud14/core/css/mobile.scss */
+    .error-wide {
+      width: 100%;
+      margin-left: 0 !important;
+      box-sizing: border-box;
+    }
+    /* line 40, /var/www/nextcloud14/core/css/mobile.scss */
+    #app-navigation, #app-content {
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+    /* line 49, /var/www/nextcloud14/core/css/mobile.scss */
+    #app-navigation {
+      width: 250px !important;
+    }
+    /* line 53, /var/www/nextcloud14/core/css/mobile.scss */
+    #app-content {
+      width: 100% !important;
+      left: 0 !important;
+      background-color: #fff;
+      overflow-x: hidden !important;
+      z-index: 1000;
+    }
+    /* line 63, /var/www/nextcloud14/core/css/mobile.scss */
+    #body-settings #app-content {
+      overflow-x: auto !important;
+    }
+    /* line 67, /var/www/nextcloud14/core/css/mobile.scss */
+    #app-navigation-toggle {
+      position: fixed;
+      display: inline-block !important;
+      //top: 45px;
+      left: 0;
+      width: 44px;
+      height: 44px;
+      z-index: 200;
+      background-color: rgba(255, 255, 255, .7);
+      cursor: pointer;
+      opacity: 0.6;
+    }
+    /* line 79, /var/www/nextcloud14/core/css/mobile.scss */
+    #app-navigation-toggle:hover, #app-navigation-toggle:focus {
+      opacity: 1;
+    }
+    /* line 85, /var/www/nextcloud14/core/css/mobile.scss */
+    #app-navigation + #app-content #controls {
+      padding-left: 44px;
+    }
+    /* line 90, /var/www/nextcloud14/core/css/mobile.scss */
+    #body-user .app-files.viewer-mode #controls {
+      padding-left: 0 !important;
+    }
+    /* line 93, /var/www/nextcloud14/core/css/mobile.scss */
+    .app-files.viewer-mode #app-navigation-toggle {
+      display: none !important;
+    }
+    /* line 97, /var/www/nextcloud14/core/css/mobile.scss */
+    table.multiselect thead {
+      left: 0 !important;
+    }
+    /* line 103, /var/www/nextcloud14/core/css/mobile.scss */
+    #usersearchform {
+      display: none;
+    }
+    /* line 106, /var/www/nextcloud14/core/css/mobile.scss */
+    #body-settings #controls {
+      min-width: 768px !important;
+    }
+    /* line 112, /var/www/nextcloud14/core/css/mobile.scss */
+    #oc-dialog-filepicker-content .filelist .filesize, #oc-dialog-filepicker-content .filelist .date {
+      display: none;
+    }
+    /* line 116, /var/www/nextcloud14/core/css/mobile.scss */
+    #oc-dialog-filepicker-content .filelist .filename {
+      max-width: 80%;
+    }
+    /* line 122, /var/www/nextcloud14/core/css/mobile.scss */
+    .snapjs-left #app-navigation-toggle, .snapjs-left #controls {
+      top: 0;
+    }
+    /* line 126, /var/www/nextcloud14/core/css/mobile.scss */
+    .snapjs-left table.multiselect thead {
+      top: 44px;
+    }
+  }
+}
+.visible-xs,
+.visible-sm,
+.visible-md,
+.visible-lg {
+  display: none !important;
+}
+@media (max-width: 767px) {
+  .visible-xs {
+    display: block !important;
+  }
+  table.visible-xs {
+    display: table !important;
+  }
+  tr.visible-xs {
+    display: table-row !important;
+  }
+  th.visible-xs,
+  td.visible-xs {
+    display: table-cell !important;
+  }
+}
+@media (max-width: 767px) {
+  .visible-xs-block {
+    display: block !important;
+  }
+}
+@media (max-width: 767px) {
+  .visible-xs-inline {
+    display: inline !important;
+  }
+}
+@media (max-width: 767px) {
+  .visible-xs-inline-block {
+    display: inline-block !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .visible-sm {
+    display: block !important;
+  }
+  table.visible-sm {
+    display: table !important;
+  }
+  tr.visible-sm {
+    display: table-row !important;
+  }
+  th.visible-sm,
+  td.visible-sm {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .visible-sm-block {
+    display: block !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .visible-sm-inline {
+    display: inline !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .visible-sm-inline-block {
+    display: inline-block !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .visible-md {
+    display: block !important;
+  }
+  table.visible-md {
+    display: table !important;
+  }
+  tr.visible-md {
+    display: table-row !important;
+  }
+  th.visible-md,
+  td.visible-md {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .visible-md-block {
+    display: block !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .visible-md-inline {
+    display: inline !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .visible-md-inline-block {
+    display: inline-block !important;
+  }
+}
+@media (min-width: 1200px) {
+  .visible-lg {
+    display: block !important;
+  }
+  table.visible-lg {
+    display: table !important;
+  }
+  tr.visible-lg {
+    display: table-row !important;
+  }
+  th.visible-lg,
+  td.visible-lg {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 1200px) {
+  .visible-lg-block {
+    display: block !important;
+  }
+}
+@media (min-width: 1200px) {
+  .visible-lg-inline {
+    display: inline !important;
+  }
+}
+@media (min-width: 1200px) {
+  .visible-lg-inline-block {
+    display: inline-block !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .hidden-xs {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .hidden-sm {
+    display: none !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .hidden-md {
+    display: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .hidden-lg {
+    display: none !important;
+  }
+}

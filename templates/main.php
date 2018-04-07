@@ -49,6 +49,7 @@ script('nextnote', 'app/directives/tooltip');
 script('nextnote', 'app/filters/noteFilter');
 script('nextnote', 'app/filters/objectKeysLength');
 script('nextnote', 'app/filters/trusted');
+script('nextnote', 'app/filters/strip_html');
 /*build-js-end*/
 
 
@@ -104,7 +105,8 @@ echo '<script nonce="test"> var shareMode = "'. $_['shareMode'] .'"</script>';
 	</div>
 
 	<div id="app-content">
-		<div id="app-navigation-toggle" class="icon-menu" style="display:none;"></div>
-		<ng-view></ng-view>
+		<div ng-controller="NoteListCtrl">
+			<div ng-include="'views/list.html'"></div>
+		</div>
 	</div>
 </div>

@@ -228,14 +228,15 @@ a.editable-empty:focus {
   .listingSort tr > td {
     border-top: 1px solid #EEE; }
     .listingSort tr > td.actions {
-      width: 30%; }
+      width: 50%; }
       .listingSort tr > td.actions .share.shared {
         width: 70px;
         line-height: 34px;
         background-position-x: 0;
         text-align: right; }
     .listingSort tr > td.info {
-      width: 25%; }
+      width: 25%;
+      padding-right: 15px; }
 
 .listingBlank {
   height: 40pt;
@@ -258,7 +259,36 @@ a.editable-empty:focus {
 
 .file {
   font-weight: bold;
-  width: 60%; }
+  line-height: 15px;
+  width: 350px; }
+  @media screen and (max-width: 1200px) {
+    .file {
+      width: 150px; } }
+  .file .caption {
+    width: 100px;
+    display: inline-block; }
+    @media screen and (min-width: 420px) {
+      .file .caption {
+        width: 180px; } }
+    @media screen and (min-width: 720px) {
+      .file .caption {
+        width: 450px; } }
+    @media screen and (min-width: 920px) {
+      .file .caption {
+        width: 600px; } }
+    @media screen and (min-width: 994px) {
+      .file .caption {
+        width: 150px; } }
+    @media screen and (min-width: 1600px) {
+      .file .caption {
+        width: 300px; } }
+    .file .caption small {
+      color: #959595;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+      display: block; }
 
 .filesort {
   /*width: 60%;*/ }
@@ -270,6 +300,40 @@ a.editable-empty:focus {
     display: inline-block;
     float: right;
     line-height: 26pt; }
+
+@media screen and (max-width: 994px) {
+  .view-container {
+    width: 200%; } }
+.view-container .view-left {
+  float: left;
+  width: 50%; }
+.view-container .view-right {
+  float: left;
+  width: 50%;
+  height: calc(100vh - 45px);
+  overflow: auto;
+  border-left: 1px solid #c9c9c9; }
+  .view-container .view-right .controls {
+    padding-left: 0; }
+    @media screen and (max-width: 994px) {
+      .view-container .view-right .controls {
+        padding-left: 35px; } }
+    .view-container .view-right .controls .note-title-form .newgroupinput {
+      display: none; }
+    .view-container .view-right .controls .autosave {
+      font-size: 16px;
+      line-height: 44px;
+      height: 44px;
+      padding-right: 15px;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s 0.5s, opacity 0.5s linear; }
+      .view-container .view-right .controls .autosave.shown {
+        visibility: visible;
+        opacity: 1;
+        transition: opacity 0.5s linear; }
+    .view-container .view-right .controls .back {
+      display: inline-block; }
 
 .info {
   /*width: 30%;*/ }
@@ -350,19 +414,6 @@ a.editable-empty:focus {
 
 .newfile, #controls .note-title-form .newgroupinput {
   display: none; }
-
-#controls .autosave {
-  font-size: 16px;
-  line-height: 44px;
-  height: 44px;
-  padding-right: 15px;
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s 0.5s, opacity 0.5s linear; }
-  #controls .autosave.shown {
-    visibility: visible;
-    opacity: 1;
-    transition: opacity 0.5s linear; }
 
 .fileinput {
   width: 80pt;
@@ -502,26 +553,41 @@ a.editable-empty:focus {
     text-decoration: underline;
     font-weight: bold; }
 
+#ownnote {
+  overflow: hidden; }
+
 #ownnote-l10n {
   display: none; }
 
+@media screen and (max-width: 1785px) {
+  #dropdown.shareDropDown {
+    clear: both; } }
 #dropdown.shareDropDown #shareWith {
   width: 165px; }
-
-#shareWithList li {
+#dropdown.shareDropDown #shareWithList li {
   background-color: #dfdfdf; }
-  #shareWithList li .unshare {
+  #dropdown.shareDropDown #shareWithList li .unshare {
     float: right; }
-  #shareWithList li .avatar {
+  #dropdown.shareDropDown #shareWithList li .avatar {
     float: left; }
-  #shareWithList li .username {
+  #dropdown.shareDropDown #shareWithList li .username {
     float: left;
     height: 32px;
     line-height: 32px;
     padding-left: 15px; }
-  #shareWithList li .sharingOptionsGroup {
-    height: 32px;
+    #dropdown.shareDropDown #shareWithList li .username:after {
+      clear: both;
+      display: table; }
+  #dropdown.shareDropDown #shareWithList li .sharingOptionsGroup {
+    display: block;
     line-height: 32px; }
+    #dropdown.shareDropDown #shareWithList li .sharingOptionsGroup:before {
+      clear: both;
+      display: table;
+      content: ""; }
+    @media screen and (max-width: 1280px) {
+      #dropdown.shareDropDown #shareWithList li .sharingOptionsGroup label {
+        display: block; } }
 
 .mce-container .mce-window-head {
   height: 20px !important; }
@@ -609,9 +675,205 @@ a.editable-empty:focus {
   padding-left: 10pt;
   padding-right: 10pt; }
 
-.edit-note-container #controls {
+.edit-note-container .controls {
+  position: static;
   left: 0 !important; }
 
-/*# sourceMappingURL=style.css.map */
+@media only screen and (max-width: 1280px) {
+  .app-nextnote {
+    /* line 7, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 15, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 20, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 26, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 31, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 40, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 49, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 53, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 63, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 67, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 79, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 85, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 90, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 93, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 97, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 103, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 106, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 112, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 116, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 122, /var/www/nextcloud14/core/css/mobile.scss */
+    /* line 126, /var/www/nextcloud14/core/css/mobile.scss */ }
+    .app-nextnote #body-login #header {
+      padding-top: 10px; }
+    .app-nextnote #body-login .wrapper {
+      display: flex;
+      flex-direction: row;
+      align-self: center;
+      align-items: center; }
+    .app-nextnote #update-notification {
+      display: none !important; }
+    .app-nextnote #dropdown {
+      margin-right: 10% !important;
+      width: 80% !important; }
+    .app-nextnote .ui-autocomplete {
+      z-index: 1000 !important; }
+    .app-nextnote .error-wide {
+      width: 100%;
+      margin-left: 0 !important;
+      box-sizing: border-box; }
+    .app-nextnote #app-navigation, .app-nextnote #app-content {
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0; }
+    .app-nextnote #app-navigation {
+      width: 250px !important; }
+    .app-nextnote #app-content {
+      width: 100% !important;
+      left: 0 !important;
+      background-color: #fff;
+      overflow-x: hidden !important;
+      z-index: 1000; }
+    .app-nextnote #body-settings #app-content {
+      overflow-x: auto !important; }
+    .app-nextnote #app-navigation-toggle {
+      position: fixed;
+      display: inline-block !important;
+      left: 0;
+      width: 44px;
+      height: 44px;
+      z-index: 200;
+      background-color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      opacity: 0.6; }
+    .app-nextnote #app-navigation-toggle:hover, .app-nextnote #app-navigation-toggle:focus {
+      opacity: 1; }
+    .app-nextnote #app-navigation + #app-content #controls {
+      padding-left: 44px; }
+    .app-nextnote #body-user .app-files.viewer-mode #controls {
+      padding-left: 0 !important; }
+    .app-nextnote .app-files.viewer-mode #app-navigation-toggle {
+      display: none !important; }
+    .app-nextnote table.multiselect thead {
+      left: 0 !important; }
+    .app-nextnote #usersearchform {
+      display: none; }
+    .app-nextnote #body-settings #controls {
+      min-width: 768px !important; }
+    .app-nextnote #oc-dialog-filepicker-content .filelist .filesize, .app-nextnote #oc-dialog-filepicker-content .filelist .date {
+      display: none; }
+    .app-nextnote #oc-dialog-filepicker-content .filelist .filename {
+      max-width: 80%; }
+    .app-nextnote .snapjs-left #app-navigation-toggle, .app-nextnote .snapjs-left #controls {
+      top: 0; }
+    .app-nextnote .snapjs-left table.multiselect thead {
+      top: 44px; } }
+
+.visible-xs,
+.visible-sm,
+.visible-md,
+.visible-lg {
+  display: none !important; }
+
+@media (max-width: 767px) {
+  .visible-xs {
+    display: block !important; }
+
+  table.visible-xs {
+    display: table !important; }
+
+  tr.visible-xs {
+    display: table-row !important; }
+
+  th.visible-xs,
+  td.visible-xs {
+    display: table-cell !important; } }
+@media (max-width: 767px) {
+  .visible-xs-block {
+    display: block !important; } }
+@media (max-width: 767px) {
+  .visible-xs-inline {
+    display: inline !important; } }
+@media (max-width: 767px) {
+  .visible-xs-inline-block {
+    display: inline-block !important; } }
+@media (min-width: 768px) and (max-width: 991px) {
+  .visible-sm {
+    display: block !important; }
+
+  table.visible-sm {
+    display: table !important; }
+
+  tr.visible-sm {
+    display: table-row !important; }
+
+  th.visible-sm,
+  td.visible-sm {
+    display: table-cell !important; } }
+@media (min-width: 768px) and (max-width: 991px) {
+  .visible-sm-block {
+    display: block !important; } }
+@media (min-width: 768px) and (max-width: 991px) {
+  .visible-sm-inline {
+    display: inline !important; } }
+@media (min-width: 768px) and (max-width: 991px) {
+  .visible-sm-inline-block {
+    display: inline-block !important; } }
+@media (min-width: 992px) and (max-width: 1199px) {
+  .visible-md {
+    display: block !important; }
+
+  table.visible-md {
+    display: table !important; }
+
+  tr.visible-md {
+    display: table-row !important; }
+
+  th.visible-md,
+  td.visible-md {
+    display: table-cell !important; } }
+@media (min-width: 992px) and (max-width: 1199px) {
+  .visible-md-block {
+    display: block !important; } }
+@media (min-width: 992px) and (max-width: 1199px) {
+  .visible-md-inline {
+    display: inline !important; } }
+@media (min-width: 992px) and (max-width: 1199px) {
+  .visible-md-inline-block {
+    display: inline-block !important; } }
+@media (min-width: 1200px) {
+  .visible-lg {
+    display: block !important; }
+
+  table.visible-lg {
+    display: table !important; }
+
+  tr.visible-lg {
+    display: table-row !important; }
+
+  th.visible-lg,
+  td.visible-lg {
+    display: table-cell !important; } }
+@media (min-width: 1200px) {
+  .visible-lg-block {
+    display: block !important; } }
+@media (min-width: 1200px) {
+  .visible-lg-inline {
+    display: inline !important; } }
+@media (min-width: 1200px) {
+  .visible-lg-inline-block {
+    display: inline-block !important; } }
+@media (max-width: 767px) {
+  .hidden-xs {
+    display: none !important; } }
+@media (min-width: 768px) and (max-width: 991px) {
+  .hidden-sm {
+    display: none !important; } }
+@media (min-width: 992px) and (max-width: 1199px) {
+  .hidden-md {
+    display: none !important; } }
+@media (min-width: 1200px) {
+  .hidden-lg {
+    display: none !important; } }
 
 /*# sourceMappingURL=app.css.map */
