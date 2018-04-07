@@ -74,7 +74,7 @@ if pull
 then
     exit
 else
-    echo "not sucessfull pull $(date)" > /var/scripts/pull.log
+    echo "not sucessfull pull $(date)" > /var/log/nextnote_pull.log
 fi
 ```
 
