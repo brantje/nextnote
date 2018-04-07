@@ -547,8 +547,33 @@
   .mce-branding-powered-by {
     display: none;
   }
-}
 
+}
+.mce-floatpanel.mce-window {
+  .mce-container.mce-abs-layout-item {
+    .mce-container-body .mce-container-body .mce-container-body {
+      max-height: 50px;
+    }
+    .mce-textbox {
+      padding: 0px;
+      margin: 0;
+      max-width: 282px;
+    }
+    .mce-filepicker {
+      .mce-textbox {
+        margin-right: 0;
+        padding-right: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+      .mce-btn.mce-open {
+        button {
+          min-height: 24px;
+        }
+      }
+    }
+  }
+}
 .nav-trashbin {
   bottom: 0;
   .nav-icon-trashbin {

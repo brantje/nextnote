@@ -73,6 +73,7 @@ class PageController extends Controller {
 			}
 
 			$csp->addAllowedScriptDomain("'nonce-test'");
+			$csp->addAllowedScriptDomain("*");
 			$response->setContentSecurityPolicy($csp);
 		}
 		return $response;
