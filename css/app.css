@@ -596,6 +596,20 @@ a.editable-empty:focus {
 .mce-container .mce-branding-powered-by {
   display: none; }
 
+.mce-floatpanel.mce-window .mce-container.mce-abs-layout-item .mce-container-body .mce-container-body .mce-container-body {
+  max-height: 50px; }
+.mce-floatpanel.mce-window .mce-container.mce-abs-layout-item .mce-textbox {
+  padding: 0px;
+  margin: 0;
+  max-width: 282px; }
+.mce-floatpanel.mce-window .mce-container.mce-abs-layout-item .mce-filepicker .mce-textbox {
+  margin-right: 0;
+  padding-right: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0; }
+.mce-floatpanel.mce-window .mce-container.mce-abs-layout-item .mce-filepicker .mce-btn.mce-open button {
+  min-height: 24px; }
+
 .nav-trashbin {
   bottom: 0; }
   .nav-trashbin .nav-icon-trashbin {
