@@ -49,6 +49,30 @@ There is a [Telegram](https://t.me/NextNote) chatroom available.
 - Place this app in **nextcloud/apps/nextnote** (Rename the extracted ZIP to "nextnote" or you will receive errors)
 - Note: *custom_csp_policy* changes are no longer required
 
+#### Scripted installation
+
+You can also use this script developed by [enoch85](https://github.com/enoch85):
+```
+#!/bin/bash
+
+pull() {
+cd /var/www/nextcloud/apps || exit
+rm -rf nextnote
+git clone https://github.com/brantje/nextnote.git nextnote
+chown -R www-data:www-data /var/www/nextcloud/apps/nextnote
+sudo -u www-data php /var/www/nextcloud/occ app:enable nextnote
+}
+
+if pull
+then
+    exit
+else
+    echo "not sucessfull pull $(date)" > /var/scripts/pull.log
+fi
+```
+
+Simply just run it everytime you want to get the latest master code.
+
 ## Development
 
 NextNotes uses a single `.js` file for the templates.   
