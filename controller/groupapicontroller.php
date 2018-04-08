@@ -24,6 +24,7 @@
 namespace OCA\NextNote\Controller;
 
 use OCA\NextNote\Fixtures\ShareFix;
+use OCA\NextNote\Service\GroupService;
 use OCA\NextNote\Service\NoteService;
 use OCA\NextNote\ShareBackend\NextNoteShareBackend;
 use OCA\NextNote\Utility\NotFoundJSONResponse;
@@ -39,22 +40,20 @@ use OCP\IUserManager;
 use OCP\Share;
 
 
-class NoteApiController extends ApiController {
+class GroupApiController extends ApiController {
 
 	private $config;
-	private $noteService;
+	private $groupService;
 	private $shareBackend;
 	private $userManager;
-	private $shareManager;
 
 	public function __construct($appName, IRequest $request,
-								ILogger $logger, IConfig $config, NoteService $groupService, NextNoteShareBackend $shareBackend, IUserManager $userManager, Share\IManager $shareManager) {
+								ILogger $logger, IConfig $config, GroupService $groupService, NextNoteShareBackend $shareBackend, IUserManager $userManager) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
-		$this->noteService = $groupService;
+		$this->groupService = $groupService;
 		$this->shareBackend = $shareBackend;
 		$this->userManager = $userManager;
-		$this->shareManager = $shareManager;
 	}
 
 	/**
@@ -67,13 +66,13 @@ class NoteApiController extends ApiController {
 	 */
 	public function index($deleted = false, $group = false) {
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
-		$results = $this->noteService->findNotesFromUser($uid, $deleted, $group);
-		foreach ($results as &$note) {
-			if (is_array($note)) {
-				$note = $this->noteService->find($note['id']);
+		$results = $this->groupService->find();
+		foreach ($results as &$group) {
+			if (is_array($group)) {
+				$group = $this->groupService->find($group['id']);
 			}
-			$note = $note->jsonSerialize();
-			$note = $this->formatApiResponse($note);
+			$group = $group->jsonSerialize();
+			$group = $this->formatApiResponse($group);
 
 		}
 		return new JSONResponse($results);
@@ -85,7 +84,7 @@ class NoteApiController extends ApiController {
 	 * @TODO Add etag / lastmodified
 	 */
 	public function get($id) {
-		$result = $this->noteService->find($id);
+		$result = $this->groupService->find($id);
 		if (!$result) {
 			return new NotFoundJSONResponse();
 		}
@@ -99,19 +98,18 @@ class NoteApiController extends ApiController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function create($title, $grouping, $content) {
-		if ($title == "" || !$title) {
-			return new JSONResponse(['error' => 'title is missing']);
+	public function create($name, $color, $parent_id) {
+		if ($name == "" || !$name) {
+			return new JSONResponse(['error' => 'name is missing']);
 		}
-		$note = [
-			'title' => $title,
-			'name' => $title,
-			'grouping' => $grouping,
-			'note' => $content
+		$group = [
+			'parent_id' => $parent_id,
+			'name' => $name,
+			'color' => $color,
 		];
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
-		$result = $this->noteService->create($note, $uid)->jsonSerialize();
-		\OC_Hook::emit('OCA\NextNote', 'post_create_note', ['note' => $note]);
+		$result = $this->groupService->create($group, $uid)->jsonSerialize();
+		\OC_Hook::emit('OCA\NextNote', 'post_create_group', ['group' => $group]);
 		return new JSONResponse($this->formatApiResponse($result));
 	}
 
@@ -119,22 +117,19 @@ class NoteApiController extends ApiController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function update($id, $title, $grouping, $content, $deleted) {
-		if ($title == "" || !$title) {
+	public function update($id, $name, $color, $parent_id) {
+		if ($name == "" || !$name) {
 			return new JSONResponse(['error' => 'title is missing']);
 		}
 
 
-		$note = [
-			'id' => $id,
-			'title' => $title,
-			'name' => $title,
-			'grouping' => $grouping,
-			'note' => $content,
-			'deleted' => $deleted
+		$group = [
+			'parent_id' => $parent_id,
+			'name' => $name,
+			'color' => $color,
 		];
 		//@TODO for sharing add access check
-		$entity = $this->noteService->find($id);
+		$entity = $this->groupService->find($id);
 		if (!$entity) {
 			return new NotFoundJSONResponse();
 		}
@@ -144,8 +139,8 @@ class NoteApiController extends ApiController {
 			return new UnauthorizedJSONResponse();
 		}
 
-		$results = $this->noteService->update($note)->jsonSerialize();
-		\OC_Hook::emit('OCA\NextNote', 'post_update_note', ['note' => $note]);
+		$results = $this->groupService->update($group)->jsonSerialize();
+		\OC_Hook::emit('OCA\NextNote', 'post_update_group', ['group' => $group]);
 		return new JSONResponse($this->formatApiResponse($results));
 	}
 
@@ -154,7 +149,7 @@ class NoteApiController extends ApiController {
 	 * @NoCSRFRequired
 	 */
 	public function delete($id) {
-		$entity = $this->noteService->find($id);
+		$entity = $this->groupService->find($id);
 		if (!$entity) {
 			return new NotFoundJSONResponse();
 		}
@@ -163,38 +158,17 @@ class NoteApiController extends ApiController {
 			return new UnauthorizedJSONResponse();
 		}
 
-		$this->noteService->delete($id);
+		$this->groupService->delete($id);
 		$result = (object)['success' => true];
-		\OC_Hook::emit('OCA\NextNote', 'post_delete_note', ['note_id' => $id]);
+		\OC_Hook::emit('OCA\NextNote', 'post_delete_group', ['group_id' => $id]);
 		return new JSONResponse($result);
 	}
 
 	/**
-	 * @param $note array
+	 * @param $group array
 	 * @return array
 	 */
-	private function formatApiResponse($note) {
-		$uid = \OC::$server->getUserSession()->getUser()->getUID();
-		$acl = [
-			'permissions' => Constants::PERMISSION_ALL
-		];
-		if ($uid !== $note['uid']) {
-			$aclRoles = ShareFix::getItemSharedWith('nextnote', $note['id'], 'populated_shares');
-			$acl['permissions'] = $aclRoles['permissions'];
-		}
-		$note['owner'] = Utils::getUserInfo($note['uid']);
-		$note['permissions'] = $acl['permissions'];
-
-		$shared_with = ShareFix::getUsersItemShared('nextnote', $note['id'], $note['uid']);
-		foreach ($shared_with as &$u) {
-			$info = Utils::getUserInfo($u);
-			if($info) {
-				$u = $info;
-			}
-		}
-
-		$note['shared_with'] = ($note['uid'] == $uid) ? $shared_with : [$uid];
-		unset($note['uid']);
-		return $note;
+	private function formatApiResponse($group) {
+		return $group;
 	}
 }

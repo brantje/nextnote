@@ -37,12 +37,38 @@ class GroupMapper extends Mapper {
 	}
 
 
-	public function find($id) {
-		$params = [$id];
-		$sql = "SELECT * from *PREFIX*nextnote_groups where id = ?";
-		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
-			return $this->makeEntityFromDBResult($item);
+	public function find($group_id, $user_id = null, $deleted = false) {
+		$params = [];
+		$where = [];
+		if($group_id){
+			$where[] = 'g.id= ?';
+			$params[] = $group_id;
 		}
+
+		if ($user_id) {
+			$params[] = $user_id;
+			$where[] = 'g.uid = ?';
+		}
+
+		if ($deleted !== false) {
+			$params[] = $deleted;
+			$where[] = 'g.deleted = ?';
+		}
+		$where = implode(' AND ', $where);
+		if($where){
+			$where = 'WHERE '. $where;
+		}
+		$sql = "SELECT * FROM *PREFIX*nextnote_groups g $where";
+		$results = [];
+		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
+			$results[] = $this->makeEntityFromDBResult($item);
+		}
+
+		if(count($results) === 1){
+			return reset($results);
+		}
+
+		return $results;
 	}
 
    	/**

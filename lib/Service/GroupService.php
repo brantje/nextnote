@@ -44,11 +44,14 @@ class GroupService {
 
 	/**
 	 * Find a group by id
-	 * @param $id
-	 * @return mixed
+	 *
+	 * @param $group_id
+	 * @param null $user_id
+	 * @param bool $deleted
+	 * @return mixed|Group
 	 */
-	public function find($id){
-		return $this->groupMapper->find($id);
+	public function find($group_id, $user_id = null, $deleted = false) {
+		return $this->groupMapper->find($group_id, $user_id, $deleted);
 	}
 
 	/**
