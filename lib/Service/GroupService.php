@@ -1,0 +1,128 @@
+<?php
+/**
+ * Nextcloud - namespace OCA\Nextnote
+ *
+ * @copyright Copyright (c) 2016, Sander Brand (brantje@gmail.com)
+ * @copyright Copyright (c) 2016, Marcos Zuriaga Miguel (wolfi@wolfi.es)
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+namespace OCA\NextNote\Service;
+
+use OCA\NextNote\Db\Group;
+use OCA\NextNote\Db\GroupMapper;
+use OCA\NextNote\ShareBackend\NextNoteShareBackend;
+use OCA\NextNote\Utility\Utils;
+
+
+
+
+class GroupService {
+
+	private $groupMapper;
+	private $utils;
+	private $sharing;
+
+	public function __construct(GroupMapper $groupMapper, Utils $utils, NextNoteShareBackend $shareBackend) {
+		$this->groupMapper = $groupMapper;
+		$this->utils = $utils;
+		$this->sharing = $shareBackend;
+	}
+
+	/**
+	 * Find a group by id
+	 * @param $id
+	 * @return mixed
+	 */
+	public function find($id){
+		return $this->groupMapper->find($id);
+	}
+
+	/**
+	 * Creates a group
+	 *
+	 * @param array|Group $group
+	 * @param $userId
+	 * @return Group
+	 * @throws \Exception
+	 */
+	public function create($group, $userId) {
+		if (is_array($group)) {
+			$entity = new Group();
+			$entity->setName($group['title']);
+			$entity->setParentId($group['parent_id']);
+			$entity->setUid($userId);
+			$entity->setColor($group['color']);
+			$group = $entity;
+		}
+		if (!$group instanceof Group) {
+			throw new \Exception("Expected NextNote object!");
+		}
+		return $this->groupMapper->create($group);
+	}
+
+	/**
+	 * Update a group
+	 *
+	 * @param $group array|Group
+	 * @return Group|bool
+	 * @throws \Exception
+	 * @internal param $userId
+	 * @internal param $vault
+	 */
+	public function update($group) {
+
+		if (is_array($group)) {
+			$entity = $this->find($group['id']);
+			$entity->setName($group['title']);
+			$entity->setParentId($group['parent_id']);
+			$entity->setColor($group['color']);
+			$group = $entity;
+		}
+
+		if (!$group instanceof Group) {
+			throw new \Exception("Expected NextNote object!");
+		}
+
+		return $this->groupMapper->update($group);
+	}
+
+	/**
+	 * Delete a group
+	 *
+	 * @param $group_id
+	 * @param string $user_id
+	 * @return bool
+	 */
+	public function delete($group_id, $user_id = null) {
+		if (!$this->checkPermissions(\OCP\Constants::PERMISSION_DELETE, $group_id)) {
+			return false;
+		}
+
+		$group = $this->groupMapper->find($group_id, $user_id);
+		if ($group instanceof Group) {
+			$this->groupMapper->delete($group);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private function checkPermissions($permission, $nid) {
+		return true;
+	}
+}
