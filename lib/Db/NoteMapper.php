@@ -28,7 +28,7 @@ use OCP\AppFramework\Db\Entity;
 use OCP\IDBConnection;
 use OCP\AppFramework\Db\Mapper;
 
-class NextNoteMapper extends Mapper {
+class NoteMapper extends Mapper {
 	private $utils;
 
 	public function __construct(IDBConnection $db, Utils $utils) {
@@ -41,7 +41,7 @@ class NextNoteMapper extends Mapper {
      * @param $note_id
      * @param null $user_id
      * @param int|bool $deleted
-     * @return NextNote if not found
+     * @return Note if not found
      */
 	public function find($note_id, $user_id = null, $deleted = false) {
 		$params = [$note_id];
@@ -60,7 +60,7 @@ class NextNoteMapper extends Mapper {
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			/**
-			 * @var $note NextNote
+			 * @var $note Note
 			 */
 			$note = $this->makeEntityFromDBResult($item);
 			/* fetch note parts */
@@ -80,7 +80,7 @@ class NextNoteMapper extends Mapper {
 	 * @param $userId
 	 * @param int|bool $deleted
 	 * @param string|bool $group
-	 * @return NextNote[] if not found
+	 * @return Note[] if not found
 	 */
 	public function findNotesFromUser($userId, $deleted = 0, $group = false) {
 		$params = [$userId];
@@ -99,7 +99,7 @@ class NextNoteMapper extends Mapper {
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			/**
-			 * @var $note NextNote
+			 * @var $note Note
 			 */
 			$note = $this->makeEntityFromDBResult($item);
 			$note->setNote($item['note']);
@@ -113,8 +113,8 @@ class NextNoteMapper extends Mapper {
 	/**
 	 * Creates a note
 	 *
-	 * @param NextNote $note
-	 * @return NextNote|Entity
+	 * @param Note $note
+	 * @return Note|Entity
 	 * @internal param $userId
 	 */
 	public function create($note) {
@@ -126,7 +126,7 @@ class NextNoteMapper extends Mapper {
 		}
 		$note->setShared(false);
 		/**
-		 * @var $note NextNote
+		 * @var $note Note
 		 */
 
 		$note = parent::insert($note);
@@ -145,8 +145,8 @@ class NextNoteMapper extends Mapper {
 	/**
 	 * Update note
 	 *
-	 * @param NextNote $note
-	 * @return NextNote|Entity
+	 * @param Note $note
+	 * @return Note|Entity
 	 */
 	public function updateNote($note) {
 		$len = mb_strlen($note->getNote());
@@ -158,7 +158,7 @@ class NextNoteMapper extends Mapper {
 			$note->setNote('');
 		}
 		/**
-		 * @var $note NextNote
+		 * @var $note Note
 		 */
 		$note = parent::update($note);
 		if ($parts) {
@@ -171,10 +171,10 @@ class NextNoteMapper extends Mapper {
 	}
 
 	/**
-	 * @param NextNote $note
+	 * @param Note $note
 	 * @param $content
 	 */
-	public function createNotePart(NextNote $note, $content) {
+	public function createNotePart(Note $note, $content) {
 		$sql = "INSERT INTO *PREFIX*nextnote_parts VALUES (NULL, ?, ?);";
 		$this->execute($sql, array($note->getId(), $content));
 	}
@@ -182,9 +182,9 @@ class NextNoteMapper extends Mapper {
 	/**
 	 * Delete the note parts
 	 *
-	 * @param NextNote $note
+	 * @param Note $note
 	 */
-	public function deleteNoteParts(NextNote $note) {
+	public function deleteNoteParts(Note $note) {
 		$sql = 'DELETE FROM *PREFIX*nextnote_parts where id = ?';
 		$this->execute($sql, array($note->getId()));
 	}
@@ -192,19 +192,19 @@ class NextNoteMapper extends Mapper {
 	/**
 	 * Get the note parts
 	 *
-	 * @param NextNote $note
+	 * @param Note $note
 	 * @return array
 	 */
-	public function getNoteParts(NextNote $note) {
+	public function getNoteParts(Note $note) {
 		$sql = 'SELECT * from *PREFIX*nextnote_parts where id = ?';
 		return $this->execute($sql, array($note->getId()))->fetchAll();
 	}
 
 	/**
-	 * @param NextNote $note
+	 * @param Note $note
 	 * @return bool
 	 */
-	public function deleteNote(NextNote $note) {
+	public function deleteNote(Note $note) {
 		$this->deleteNoteParts($note);
 		parent::delete($note);
 		return true;
@@ -212,10 +212,10 @@ class NextNoteMapper extends Mapper {
 
 	/**
 	 * @param $arr
-	 * @return NextNote
+	 * @return Note
 	 */
 	public function makeEntityFromDBResult($arr) {
-		$note = new NextNote();
+		$note = new Note();
 		$note->setId($arr['id']);
 		$note->setName($arr['name']);
 		$note->setGrouping($arr['grouping']);

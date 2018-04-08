@@ -23,10 +23,10 @@
 
 namespace OCA\NextNote\Service;
 
-use OCA\NextNote\Db\NextNote;
+use OCA\NextNote\Db\Note;
 use OCA\NextNote\ShareBackend\NextNoteShareBackend;
 use OCA\NextNote\Utility\Utils;
-use OCA\NextNote\Db\NextNoteMapper;
+use OCA\NextNote\Db\NoteMapper;
 
 
 
@@ -36,7 +36,7 @@ class NextNoteService {
 	private $utils;
 	private $sharing;
 
-	public function __construct(NextNoteMapper $noteMapper, Utils $utils, NextNoteShareBackend $shareBackend) {
+	public function __construct(NoteMapper $noteMapper, Utils $utils, NextNoteShareBackend $shareBackend) {
 		$this->noteMapper = $noteMapper;
 		$this->utils = $utils;
 		$this->sharing = $shareBackend;
@@ -48,7 +48,7 @@ class NextNoteService {
 	 * @param $userId
 	 * @param int|bool $deleted
 	 * @param string|bool $grouping
-	 * @return NextNote[]
+	 * @return Note[]
 	 */
 	public function findNotesFromUser($userId, $deleted = false, $grouping = false) {
 		// Get shares
@@ -65,7 +65,7 @@ class NextNoteService {
 	 * @param $note_id
 	 * @param $user_id
 	 * @param bool|int $deleted
-	 * @return NextNote
+	 * @return Note
 	 * @internal param $vault_id
 	 */
 	public function find($note_id, $user_id = null, $deleted = false) {
@@ -76,14 +76,14 @@ class NextNoteService {
 	/**
 	 * Creates a note
 	 *
-	 * @param array|NextNote $note
+	 * @param array|Note $note
 	 * @param $userId
-	 * @return NextNote
+	 * @return Note
 	 * @throws \Exception
 	 */
 	public function create($note, $userId) {
 		if (is_array($note)) {
-			$entity = new NextNote();
+			$entity = new Note();
 			$entity->setName($note['title']);
 			$entity->setUid($userId);
 			$entity->setGrouping($note['grouping']);
@@ -91,8 +91,8 @@ class NextNoteService {
 			$entity->setMtime(time());
 			$note = $entity;
 		}
-		if (!$note instanceof NextNote) {
-			throw new \Exception("Expected NextNote object!");
+		if (!$note instanceof Note) {
+			throw new \Exception("Expected Note object!");
 		}
 		return $this->noteMapper->create($note);
 	}
@@ -100,8 +100,8 @@ class NextNoteService {
 	/**
 	 * Update vault
 	 *
-	 * @param $note array|NextNote
-	 * @return NextNote|bool
+	 * @param $note array|Note
+	 * @return Note|bool
 	 * @throws \Exception
 	 * @internal param $userId
 	 * @internal param $vault
@@ -117,8 +117,8 @@ class NextNoteService {
 			$entity->setMtime(time());
 			$note = $entity;
 		}
-		if (!$note instanceof NextNote) {
-			throw new \Exception("Expected NextNote object!");
+		if (!$note instanceof Note) {
+			throw new \Exception("Expected Note object!");
 		}
 
 		// @TODO check if we can enable this without issues
@@ -155,7 +155,7 @@ class NextNoteService {
 		}
 
 		$note = $this->noteMapper->find($note_id, $user_id);
-		if ($note instanceof NextNote) {
+		if ($note instanceof Note) {
 			$this->noteMapper->deleteNote($note);
 			return true;
 		} else {

@@ -44,7 +44,7 @@ use \OCP\AppFramework\Db\Entity;
  */
 
 
-class NextNote extends Entity implements  \JsonSerializable{
+class Note extends Entity implements  \JsonSerializable{
 
 	use EntityJSONSerializer;
 

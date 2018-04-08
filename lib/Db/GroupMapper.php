@@ -49,7 +49,7 @@ class GroupMapper extends Mapper {
 	 * Creates a group
 	 *
 	 * @param Group|Entity $note
-	 * @return NextNote|Entity
+	 * @return Note|Entity
 	 * @internal param $userId
 	 */
 	public function create(Entity $note) {

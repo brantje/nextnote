@@ -27,8 +27,7 @@ use OCA\NextNote\Db\Group;
 use OCA\NextNote\Db\GroupMapper;
 use OCA\NextNote\ShareBackend\NextNoteShareBackend;
 use OCA\NextNote\Utility\Utils;
-
-
+use OCP\AppFramework\Db\Entity;
 
 
 class GroupService {
@@ -57,7 +56,7 @@ class GroupService {
 	 *
 	 * @param array|Group $group
 	 * @param $userId
-	 * @return Group
+	 * @return Group|Entity
 	 * @throws \Exception
 	 */
 	public function create($group, $userId) {
@@ -70,7 +69,7 @@ class GroupService {
 			$group = $entity;
 		}
 		if (!$group instanceof Group) {
-			throw new \Exception("Expected NextNote object!");
+			throw new \Exception("Expected Note object!");
 		}
 		return $this->groupMapper->create($group);
 	}
@@ -79,7 +78,7 @@ class GroupService {
 	 * Update a group
 	 *
 	 * @param $group array|Group
-	 * @return Group|bool
+	 * @return Group|Entity|bool
 	 * @throws \Exception
 	 * @internal param $userId
 	 * @internal param $vault
@@ -95,7 +94,7 @@ class GroupService {
 		}
 
 		if (!$group instanceof Group) {
-			throw new \Exception("Expected NextNote object!");
+			throw new \Exception("Expected Note object!");
 		}
 
 		return $this->groupMapper->update($group);
