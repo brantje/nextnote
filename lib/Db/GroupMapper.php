@@ -58,12 +58,12 @@ class GroupMapper extends Mapper {
 		if($where){
 			$where = 'WHERE '. $where;
 		}
-		$sql = "SELECT * FROM *PREFIX*nextnote_groups g $where";
+		$sql = "SELECT g.*, COUNT(n.id) as note_count FROM *PREFIX*nextnote_groups g LEFT JOIN *PREFIX*nextnote n ON g.name=n.grouping $where  GROUP BY g.id";
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			$results[] = $this->makeEntityFromDBResult($item);
 		}
-
+//		var_dump($results);
 		if(count($results) === 1){
 			return reset($results);
 		}
@@ -93,7 +93,7 @@ class GroupMapper extends Mapper {
 		if($where){
 			$where = 'WHERE '. $where;
 		}
-		$sql = "SELECT * FROM *PREFIX*nextnote_groups g $where";
+		$sql = "SELECT g.*, COUNT(n.id) as note_count FROM *PREFIX*nextnote_groups g LEFT JOIN *PREFIX*nextnote n ON g.name=n.grouping $where  GROUP BY g.id";
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			$results[] = $this->makeEntityFromDBResult($item);
@@ -109,12 +109,13 @@ class GroupMapper extends Mapper {
    	/**
 	 * Creates a group
 	 *
-	 * @param Group|Entity $note
+	 * @param Group|Entity $group
 	 * @return Note|Entity
 	 * @internal param $userId
 	 */
-	public function create(Entity $note) {
-		return parent::insert($note);
+	public function create(Entity $group) {
+		$group->setNoteCount(null);
+		return parent::insert($group);
 	}
 
 	/**
@@ -124,6 +125,7 @@ class GroupMapper extends Mapper {
 	 * @return Group|Entity
 	 */
 	public function update(Entity $group) {
+		$group->setNoteCount(null);
 		return parent::update($group);
 	}
 
@@ -142,12 +144,12 @@ class GroupMapper extends Mapper {
 	 * @return Group
 	 */
 	public function makeEntityFromDBResult($arr) {
-
 		$group = new Group();
 		$group->setId($arr['id']);
 		$group->setName($arr['name']);
 		$group->setParentId($arr['parent_id']);
 		$group->setColor($arr['color']);
+		$group->setNoteCount($arr['note_count']);
 		$group->setDeleted($arr['deleted']);
 
 		return $group;

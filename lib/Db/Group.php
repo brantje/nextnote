@@ -22,6 +22,7 @@
  */
 
 namespace OCA\NextNote\Db;
+
 use \OCP\AppFramework\Db\Entity;
 
 /**
@@ -37,12 +38,12 @@ use \OCP\AppFramework\Db\Entity;
  * @method string getGuid()
  * @method string getColor()
  * @method string setColor(string $value)
-  * @method void setDeleted(integer $value)
+ * @method void setDeleted(integer $value)
  * @method integer getDeleted()
+ * @method void setNoteCount(integer $value)
+ * @method integer getNoteCount()
  */
-
-
-class Group extends Entity implements  \JsonSerializable{
+class Group extends Entity implements \JsonSerializable {
 
 	use EntityJSONSerializer;
 
@@ -52,11 +53,15 @@ class Group extends Entity implements  \JsonSerializable{
 	protected $parentId;
 	protected $color;
 	protected $deleted;
+	protected $noteCount;
+
 	public function __construct() {
 		// add types in constructor
 		$this->addType('parentId', 'integer');
 		$this->addType('deleted', 'integer');
+		$this->addType('note_count', 'integer');
 	}
+
 	/**
 	 * Turns entity attributes into an array
 	 */
@@ -67,6 +72,7 @@ class Group extends Entity implements  \JsonSerializable{
 			'parent_id' => $this->getParentId(),
 			'name' => $this->getName(),
 			'color' => $this->getColor(),
+			'note_count' => $this->getNoteCount(),
 			'permissions' => 31
 		];
 	}
