@@ -589,12 +589,13 @@ a.editable-empty:focus {
       #dropdown.shareDropDown #shareWithList li .sharingOptionsGroup label {
         display: block; } }
 
+.mce-branding {
+  display: none !important; }
+
 .mce-container .mce-window-head {
   height: 20px !important; }
   .mce-container .mce-window-head .mce-title img {
     display: none; }
-.mce-container .mce-branding-powered-by {
-  display: none; }
 
 .mce-floatpanel.mce-window .mce-container.mce-abs-layout-item .mce-textbox {
   padding: 0px;

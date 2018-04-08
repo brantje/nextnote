@@ -534,7 +534,9 @@
     }
   }
 }
-
+.mce-branding {
+  display: none !important;
+}
 .mce-container {
   .mce-window-head {
     .mce-title {
@@ -544,9 +546,7 @@
     }
     height: 20px !important;
   }
-  .mce-branding-powered-by {
-    display: none;
-  }
+
 
 }
 .mce-floatpanel.mce-window {
