@@ -91,6 +91,7 @@
 				paste_data_images: true,
 				width: '100%',
 				height: h - 155,
+				browser_spellcheck: true,
 				autoresize_min_height: h - 140,
 				autoresize_max_height: h - 140,
 				file_picker_types: 'file image media',

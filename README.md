@@ -16,6 +16,14 @@ Changes:
 The whole app has been rebuild, so there will be some bugs in there.   
 Did you found a bug? Report it or fix it and send a PR.
 
+## Screenshots
+![Desktop](https://i.imgur.com/0uahxKS.png)   
+
+![Mobile 1](https://i.imgur.com/DhYzfHO.png)   
+
+![Mobile 2](https://i.imgur.com/0daW6nc.png)   
+
+
 ## Features
 - Import from Evernote
 - Full fledged WYSIWYG editor
