@@ -39,7 +39,7 @@ use OCP\IUserManager;
 use OCP\Share;
 
 
-class NextNoteApiController extends ApiController {
+class NoteApiController extends ApiController {
 
 	private $config;
 	private $noteService;
