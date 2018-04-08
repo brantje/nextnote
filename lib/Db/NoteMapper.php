@@ -56,7 +56,7 @@ class NoteMapper extends Mapper {
 			$params[] = $deleted;
 			$deletedSql = 'and n.deleted = ?';
 		}
-		$sql = "SELECT id, uid, name, grouping, shared, mtime, deleted, note FROM *PREFIX*nextnote n WHERE n.id= ? $uidSql $deletedSql";
+		$sql = "SELECT * FROM *PREFIX*nextnote n WHERE n.id= ? $uidSql $deletedSql";
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			/**
@@ -95,7 +95,7 @@ class NoteMapper extends Mapper {
 			$deletedSql = 'and n.deleted = ?';
 			$params[] = $deleted;
 		}
-		$sql = "SELECT id, uid, name, grouping, shared, mtime, deleted, note FROM *PREFIX*nextnote n WHERE `uid` = ? $groupSql $deletedSql";
+		$sql = "SELECT * FROM *PREFIX*nextnote n WHERE `uid` = ? $groupSql $deletedSql";
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			/**
@@ -215,9 +215,11 @@ class NoteMapper extends Mapper {
 	 * @return Note
 	 */
 	public function makeEntityFromDBResult($arr) {
+
 		$note = new Note();
 		$note->setId($arr['id']);
 		$note->setName($arr['name']);
+		$note->setGuid($arr['guid']);
 		$note->setGrouping($arr['grouping']);
 		$note->setMtime($arr['mtime']);
 		$note->setDeleted($arr['deleted']);

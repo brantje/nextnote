@@ -16,6 +16,12 @@
 				<length>32</length>
 			</field>
 			<field>
+				<name>guid</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+			<field>
 				<name>uid</name>
 				<type>text</type>
 				<notnull>true</notnull>
@@ -95,6 +101,12 @@
 				<notnull>true</notnull>
 				<autoincrement>1</autoincrement>
 				<length>32</length>
+			</field>
+			<field>
+				<name>guid</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>255</length>
 			</field>
 			<field>
 				<name>parent_id</name>

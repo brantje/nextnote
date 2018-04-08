@@ -48,10 +48,21 @@ class GroupService {
 	 * @param $group_id
 	 * @param null $user_id
 	 * @param bool $deleted
-	 * @return mixed|Group
+	 * @return Group[]|Group
 	 */
-	public function find($group_id, $user_id = null, $deleted = false) {
+	public function find($group_id=null, $user_id = null, $deleted = false) {
 		return $this->groupMapper->find($group_id, $user_id, $deleted);
+	}
+	/**
+	 * Find a group by name
+	 *
+	 * @param $group_name string
+	 * @param null $user_id
+	 * @param bool $deleted
+	 * @return Group[]|Group
+	 */
+	public function findByName($group_name=null, $user_id = null, $deleted = false) {
+		return $this->groupMapper->findByName($group_name, $user_id, $deleted);
 	}
 
 	/**

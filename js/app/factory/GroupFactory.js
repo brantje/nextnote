@@ -21,7 +21,7 @@
  */
 
 angular.module('NextNotesApp').
-    factory('NoteFactory', function($resource, $http) {
+    factory('GroupFactory', function($resource, $http) {
       var group = $resource(
           OC.generateUrl('apps/nextnote/api/v2.0/group') + '/:id', {id: '@id'}, {
             query: {

@@ -16,6 +16,7 @@
     <repair-steps>
         <post-migration>
             <step>OCA\NextNote\Migration\RenameTable</step>
+            <step>OCA\NextNote\Migration\MigrateGroups</step>
         </post-migration>
     </repair-steps>
     <settings>

@@ -71,6 +71,41 @@ class GroupMapper extends Mapper {
 		return $results;
 	}
 
+
+	public function findByName($group_name, $user_id = null, $deleted = false) {
+		$params = [];
+		$where = [];
+		if($group_name){
+			$where[] = 'g.name= ?';
+			$params[] = $group_name;
+		}
+
+		if ($user_id) {
+			$params[] = $user_id;
+			$where[] = 'g.uid = ?';
+		}
+
+		if ($deleted !== false) {
+			$params[] = $deleted;
+			$where[] = 'g.deleted = ?';
+		}
+		$where = implode(' AND ', $where);
+		if($where){
+			$where = 'WHERE '. $where;
+		}
+		$sql = "SELECT * FROM *PREFIX*nextnote_groups g $where";
+		$results = [];
+		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
+			$results[] = $this->makeEntityFromDBResult($item);
+		}
+
+		if(count($results) === 1){
+			return reset($results);
+		}
+
+		return $results;
+	}
+
    	/**
 	 * Creates a group
 	 *
@@ -107,14 +142,16 @@ class GroupMapper extends Mapper {
 	 * @return Group
 	 */
 	public function makeEntityFromDBResult($arr) {
+
 		$group = new Group();
 		$group->setId($arr['id']);
 		$group->setName($arr['name']);
 		$group->setParentId($arr['parent_id']);
-		$group->setColor($group['color']);
+		$group->setColor($arr['color']);
 		$group->setDeleted($arr['deleted']);
 
 		return $group;
 	}
+
 
 }

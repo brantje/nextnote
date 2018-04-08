@@ -33,6 +33,8 @@ use \OCP\AppFramework\Db\Entity;
  * @method string getUid()
  * @method void setName(string $value)
  * @method string getName()
+ * @method void setGuid(string $value)
+ * @method string getGuid()
  * @method string getColor()
  * @method string setColor(string $value)
   * @method void setDeleted(integer $value)
@@ -45,12 +47,14 @@ class Group extends Entity implements  \JsonSerializable{
 	use EntityJSONSerializer;
 
 	protected $name;
-	protected $parent_id;
+	protected $guid;
+	protected $uid;
+	protected $parentId;
 	protected $color;
 	protected $deleted;
 	public function __construct() {
 		// add types in constructor
-		$this->addType('parent_id', 'integer');
+		$this->addType('parentId', 'integer');
 		$this->addType('deleted', 'integer');
 	}
 	/**
@@ -59,6 +63,7 @@ class Group extends Entity implements  \JsonSerializable{
 	public function jsonSerialize() {
 		return [
 			'id' => $this->getId(),
+			'guid' => $this->getGuid(),
 			'parent_id' => $this->getParentId(),
 			'name' => $this->getName(),
 			'color' => $this->getColor(),

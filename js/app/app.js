@@ -49,7 +49,7 @@
 			$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
 		}]).config(['$qProvider', function ($qProvider) {
 		$qProvider.errorOnUnhandledRejections(false);
-	}]).run(['$rootScope', 'NoteFactory', 'editableOptions', function ($rootScope, NoteFactory, editableOptions) {
+	}]).run(['$rootScope', 'NoteFactory', 'editableOptions', 'GroupFactory', function ($rootScope, NoteFactory, editableOptions, GroupFactory) {
 		editableOptions.theme = 'bs2';
 		console.log('App loaded');
 		$rootScope.list_sorting = {
@@ -87,6 +87,10 @@
 				$rootScope.dateFormat = moment.localeData().longDateFormat('L').replace(/D/g, 'd').replace(/Y/g, 'y');
 				$rootScope.dateFormatLong = moment.localeData().longDateFormat('L').replace(/D/g, 'd').replace(/Y/g, 'y') + ' H:mm';
 			});
+			GroupFactory.query(function (groups) {
+				console.log('Groups received', groups);
+				$rootScope.note_groups = groups;
+			});
 		}
 
 		loadNotes();
@@ -98,7 +102,7 @@
 		// Setup a watcher on the notes so groups are always correct
 		// @TODO Implement multi level support
 
-
+		/*
 		var getGroupIndexByName = function (groupName) {
 			for (var i = 0; i < $rootScope.note_groups.length; i++) {
 				if (groupName === $rootScope.note_groups[i].name) {
@@ -150,6 +154,6 @@
 					}
 				}
 			});
-		}, true);
+		}, true);*/
 	}]);
 }());

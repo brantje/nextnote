@@ -23,7 +23,9 @@
 
 namespace OCA\NextNote\Controller;
 
+use OCA\NextNote\Db\Group;
 use OCA\NextNote\Fixtures\ShareFix;
+use OCA\NextNote\Service\GroupService;
 use OCA\NextNote\Service\NoteService;
 use OCA\NextNote\ShareBackend\NextNoteShareBackend;
 use OCA\NextNote\Utility\NotFoundJSONResponse;
@@ -46,12 +48,15 @@ class NoteApiController extends ApiController {
 	private $shareBackend;
 	private $userManager;
 	private $shareManager;
+	private $groupService;
 
 	public function __construct($appName, IRequest $request,
-								ILogger $logger, IConfig $config, NoteService $groupService, NextNoteShareBackend $shareBackend, IUserManager $userManager, Share\IManager $shareManager) {
+								ILogger $logger, IConfig $config, NoteService $noteService, GroupService $groupService,
+								NextNoteShareBackend $shareBackend, IUserManager $userManager, Share\IManager $shareManager) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
-		$this->noteService = $groupService;
+		$this->noteService = $noteService;
+		$this->groupService = $groupService;
 		$this->shareBackend = $shareBackend;
 		$this->userManager = $userManager;
 		$this->shareManager = $shareManager;
@@ -104,12 +109,22 @@ class NoteApiController extends ApiController {
 			return new JSONResponse(['error' => 'title is missing']);
 		}
 		$note = [
+			'guid' => Utils::GUID(),
 			'title' => $title,
 			'name' => $title,
 			'grouping' => $grouping,
 			'note' => $content
 		];
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
+
+		if(count($this->groupService->findByName($grouping)) === 0){
+			$group = new Group();
+			$group->setName($grouping);
+			$group->setUid($uid);
+			$group->setGuid(Utils::GUID());
+			$this->groupService->create($group, $uid);
+		}
+
 		$result = $this->noteService->create($note, $uid)->jsonSerialize();
 		\OC_Hook::emit('OCA\NextNote', 'post_create_note', ['note' => $note]);
 		return new JSONResponse($this->formatApiResponse($result));
@@ -139,9 +154,21 @@ class NoteApiController extends ApiController {
 			return new NotFoundJSONResponse();
 		}
 
+		if(!$entity->getGuid()){
+			$note['guid'] = Utils::GUID();
+		}
 
 		if (!$this->shareBackend->checkPermissions(Constants::PERMISSION_UPDATE, $entity)) {
 			return new UnauthorizedJSONResponse();
+		}
+
+
+		if(count($this->groupService->findByName($grouping)) === 0){
+			$group = new Group();
+			$group->setName($grouping);
+			$group->setUid($entity->getUid());
+			$group->setGuid(Utils::GUID());
+			$this->groupService->create($group, $entity->getUid());
 		}
 
 		$results = $this->noteService->update($note)->jsonSerialize();

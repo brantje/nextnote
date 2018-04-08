@@ -113,6 +113,7 @@ class NoteService {
 			$entity->setName($note['title']);
 			$entity->setGrouping($note['grouping']);
 			$entity->setNote($note['note']);
+			$entity->setGuid($note['guid']);
 			$entity->setDeleted($note['deleted']);
 			$entity->setMtime(time());
 			$note = $entity;

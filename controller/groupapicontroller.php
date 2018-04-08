@@ -23,6 +23,7 @@
 
 namespace OCA\NextNote\Controller;
 
+use OCA\NextNote\Db\Group;
 use OCA\NextNote\Fixtures\ShareFix;
 use OCA\NextNote\Service\GroupService;
 use OCA\NextNote\Service\NoteService;
@@ -48,10 +49,10 @@ class GroupApiController extends ApiController {
 	private $userManager;
 
 	public function __construct($appName, IRequest $request,
-								ILogger $logger, IConfig $config, GroupService $groupService, NextNoteShareBackend $shareBackend, IUserManager $userManager) {
+								ILogger $logger, IConfig $config, GroupService $noteService, NextNoteShareBackend $shareBackend, IUserManager $userManager) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
-		$this->groupService = $groupService;
+		$this->groupService = $noteService;
 		$this->shareBackend = $shareBackend;
 		$this->userManager = $userManager;
 	}
@@ -66,13 +67,10 @@ class GroupApiController extends ApiController {
 	 */
 	public function index($deleted = false, $group = false) {
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
-		$results = $this->groupService->find();
+		$results = $this->groupService->find(null, $uid);
 		foreach ($results as &$group) {
-			if (is_array($group)) {
-				$group = $this->groupService->find($group['id']);
-			}
 			$group = $group->jsonSerialize();
-			$group = $this->formatApiResponse($group);
+			$this->formatApiResponse($group);
 
 		}
 		return new JSONResponse($results);
@@ -106,7 +104,13 @@ class GroupApiController extends ApiController {
 			'parent_id' => $parent_id,
 			'name' => $name,
 			'color' => $color,
+			'guid' => Utils::GUID()
 		];
+
+		if($this->groupService->findByName($name)){
+			return new JSONResponse(['error' => 'Group already exists']);
+		}
+
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$result = $this->groupService->create($group, $uid)->jsonSerialize();
 		\OC_Hook::emit('OCA\NextNote', 'post_create_group', ['group' => $group]);
