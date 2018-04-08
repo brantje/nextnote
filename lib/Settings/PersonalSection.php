@@ -21,69 +21,61 @@
  *
  */
 
-
 namespace OCA\NextNote\Settings;
 
 
-
-use OCA\NextNote\Service\SettingsService;
-use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\Settings\ISettings;
-class AdminSettings implements ISettings {
+use OCP\Settings\IIconSection;
 
-
-	/** @var IL10N */
-	private $l;
-
+class PersonalSection implements IIconSection {
 	/** @var IURLGenerator */
 	private $urlGenerator;
-	private $settingsService;
-
-
-	/**
-	 * Admin constructor.
-	 *
-	 * @param IL10N $l
-	 * @param IURLGenerator $urlGenerator
-	 * @param SettingsService $settingsService
-	 */
-	public function __construct(IL10N $l,
-								IURLGenerator $urlGenerator,
-								SettingsService $settingsService
-	) {
-		$this->l = $l;
+	/** @var IL10N */
+	private $l;
+	public function __construct(IURLGenerator $urlGenerator, IL10N $l) {
 		$this->urlGenerator = $urlGenerator;
-		$this->settingsService = $settingsService;
+		$this->l = $l;
 	}
-
 	/**
-	 * @return TemplateResponse
+	 * returns the relative path to an 16*16 icon describing the section.
+	 * e.g. '/core/img/places/files.svg'
+	 *
+	 * @returns string
+	 * @since 13.0.0
 	 */
-	public function getForm() {
-
-		$params = $this->settingsService->getSettings();
-
-		return new TemplateResponse('nextnote', 'admin', $params);
+	public function getIcon() {
+		return $this->urlGenerator->imagePath('nextnote', 'app-icon.svg');
 	}
-
 	/**
-	 * @return string the section ID, e.g. 'sharing'
+	 * returns the ID of the section. It is supposed to be a lower case string,
+	 * e.g. 'ldap'
+	 *
+	 * @returns string
+	 * @since 9.1
 	 */
-	public function getSection() {
+	public function getID() {
 		return 'nextnote';
 	}
-
+	/**
+	 * returns the translated name as it should be displayed, e.g. 'LDAP / AD
+	 * integration'. Use the L10N service to translate it.
+	 *
+	 * @return string
+	 * @since 9.1
+	 */
+	public function getName() {
+		return $this->l->t('NextNote');
+	}
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
+	 * the settings navigation. The sections are arranged in ascending order of
+	 * the priority values. It is required to return a value between 0 and 99.
 	 *
-	 * keep the server setting at the top, right after "server settings"
+	 * E.g.: 70
+	 * @since 9.1
 	 */
 	public function getPriority() {
 		return 0;
 	}
-
 }

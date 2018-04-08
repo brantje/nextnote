@@ -24,7 +24,7 @@
 \OCP\Util::addScript('nextnote', 'admin');
 
 $folder = $_['folder'];
-$sharemode = $_['sharemode'];
+$sharemode = $_['app']['sharemode'];
 $l = OCP\Util::getL10N('nextnote');
 
 ?>

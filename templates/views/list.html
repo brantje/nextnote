@@ -1,6 +1,4 @@
 <div id="ownnote">
-
-
 	<div class="view-container">
 		<div class="view-left">
 			<div id="controls">
@@ -21,6 +19,14 @@
 						<button id="create" class="button">Create</button>
 						<div id="cancel" class="button">Cancel</div>
 					</form>
+				</div>
+				<div class="view-modes visible-lg">
+					<div class="button view-mode-col" ng-class="{'active': app_config.user.view_mode =='col'}">
+						<i class="fa fa-columns"></i>
+					</div>
+					<div class="button view-mode-single" ng-class="{'active': app_config.user.view_mode =='single'}">
+						<i class="fa fa-arrows-h"></i>
+					</div>
 				</div>
 			</div>
 			<table class="listingSort">

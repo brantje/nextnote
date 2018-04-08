@@ -48,6 +48,7 @@ $application->registerRoutes($this, array('routes' => array(
 
 
 	array('name' => 'settings#saveAdminSetting', 'url' => '/api/v2.0/settings', 'verb' => 'POST'),
+	array('name' => 'settings#saveUserSetting', 'url' => '/api/v2.0/settings-user', 'verb' => 'POST'),
 	array('name' => 'settings#getSettings', 'url' => '/api/v2.0/settings', 'verb' => 'GET'),
 
 	//Sharing

@@ -157,9 +157,33 @@
   @media screen and(max-width: 994px){
     width: 200%;
   }
+
   .view-left {
     float: left;
     width: 50%;
+    height: calc(100vh - 45px);
+    #controls{
+      display: inline;
+      .view-modes{
+        float: right;
+        .button:first-child{
+          border-bottom-right-radius: 0;
+          border-top-right-radius: 0;
+          margin-right: 0;
+          &:not(.active){
+            border-right: none;
+          }
+        }
+        .button:last-child{
+          &:not(.active){
+            border-left: none;
+          }
+          border-bottom-left-radius: 0;
+          border-top-left-radius: 0;
+          margin-left: 0;
+        }
+      }
+    }
   }
   .view-right {
     float: left;
@@ -946,6 +970,9 @@
   .hidden-lg {
     display: none !important;
   }
+}
+.tooltip {
+  z-index: 2001 !important;
 }
 .oc-dialog{
   z-index: 999999;

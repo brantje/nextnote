@@ -32,6 +32,8 @@ class SettingsService {
 	private $config;
 	private $appName;
 	public $settings;
+	public $userSettings;
+
 
 	private $numeric_settings = array(
 		'link_sharing_enabled',
@@ -47,7 +49,24 @@ class SettingsService {
 			'sharemode' => $this->config->getAppValue('nextnote', 'sharemode', 'merge'),
 
 		);
+		$this->userSettings = array(
+			'view_mode' => $this->config->getUserValue($this->userId, 'nextnote', 'view_mode', 'col') // single|col
+		);
 	}
+
+	/**
+	 * Get all settings
+	 *
+	 * @return array
+	 */
+	public function getSettings() {
+		$settings = [
+			'app' => $this->settings,
+			'user' => $this->userSettings
+		];
+		return $settings;
+	}
+
 
 	/**
 	 * Get all app settings
@@ -56,6 +75,15 @@ class SettingsService {
 	 */
 	public function getAppSettings() {
 		return $this->settings;
+	}
+
+	/**
+	 * Get all user settings
+	 *
+	 * @return array
+	 */
+	public function gettUserSettings() {
+		return $this->userSettings;
 	}
 
 	/**
@@ -93,7 +121,7 @@ class SettingsService {
 	 */
 
 	public function setUserSetting($key, $value) {
-		return $this->config->setUserValue($this->userId, $this->appName, $key, $value);
+		return $this->config->setUserValue($this->userId, 'nextnote', $key, $value);
 	}
 
 	/**
