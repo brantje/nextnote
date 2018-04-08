@@ -30,7 +30,7 @@ use OCA\NextNote\Db\NoteMapper;
 
 
 
-class NextNoteService {
+class NoteService {
 
 	private $noteMapper;
 	private $utils;
