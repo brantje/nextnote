@@ -32,7 +32,7 @@ class NoteMapper extends Mapper {
 	private $utils;
 
 	public function __construct(IDBConnection $db, Utils $utils) {
-		parent::__construct($db, 'nextnote');
+		parent::__construct($db, 'nextnote_notes');
 		$this->utils = $utils;
 	}
 
@@ -56,7 +56,7 @@ class NoteMapper extends Mapper {
 			$params[] = $deleted;
 			$deletedSql = 'and n.deleted = ?';
 		}
-		$sql = "SELECT * FROM *PREFIX*nextnote n WHERE n.id= ? $uidSql $deletedSql";
+		$sql = "SELECT * FROM *PREFIX*nextnote_notes n WHERE n.id= ? $uidSql $deletedSql";
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			/**
@@ -95,7 +95,7 @@ class NoteMapper extends Mapper {
 			$deletedSql = 'and n.deleted = ?';
 			$params[] = $deleted;
 		}
-		$sql = "SELECT * FROM *PREFIX*nextnote n WHERE `uid` = ? $groupSql $deletedSql";
+		$sql = "SELECT * FROM *PREFIX*nextnote_notes n WHERE `uid` = ? $groupSql $deletedSql";
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			/**

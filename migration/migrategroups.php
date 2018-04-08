@@ -25,7 +25,9 @@ namespace OCA\NextNote\Migration;
 
 
 use OCA\NextNote\Db\Group;
+use OCA\NextNote\Db\Note;
 use OCA\NextNote\Service\GroupService;
+use OCA\NextNote\Service\NoteService;
 use OCA\NextNote\Utility\Utils;
 use OCP\IDBConnection;
 use OCP\ILogger;
@@ -45,13 +47,15 @@ class MigrateGroups implements IRepairStep {
 	/** @var ILogger */
 	private $logger;
 	private $groupService;
+	private $noteService;
 
 
-	public function __construct(IDBConnection $db, ILogger $logger, GroupService $groupService) {
+	public function __construct(IDBConnection $db, ILogger $logger, GroupService $groupService, NoteService $noteService) {
 		$this->db = $db;
 		$this->logger = $logger;
 		$this->installedVersion = \OC::$server->getConfig()->getAppValue('nextnote', 'installed_version');
 		$this->groupService = $groupService;
+		$this->noteService = $noteService;
 	}
 
 	public function getName() {
@@ -87,6 +91,18 @@ class MigrateGroups implements IRepairStep {
 					}
 				}
 			}
+			$notes = $this->fetchAll('SELECT * FROM *PREFIX*nextnote order by id ASC');
+			foreach($notes as $n){
+				$note = new Note();
+				$note->setGuid(Utils::GUID());
+				$note->setUid($n['uid']);
+				$note->setName($n['name']);
+				$note->setMtime($n['mtime']);
+				$note->setDeleted($n['deleted']);
+				$note->setGrouping($n['grouping']);
+				$this->noteService->create($note, $n['uid']);
+			}
+			$this->db->executeQuery('DROP TABLE *PREFIX*nextnote');
 		}
 	}
 

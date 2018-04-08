@@ -5,7 +5,7 @@
 	<overwrite>false</overwrite>
 	<charset>utf8</charset>
 	<table>
-		<name>*dbprefix*nextnote</name>
+		<name>*dbprefix*nextnote_notes</name>
 		<declaration>
 			<field>
 				<name>id</name>

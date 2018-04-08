@@ -58,7 +58,7 @@ class GroupMapper extends Mapper {
 		if($where){
 			$where = 'WHERE '. $where;
 		}
-		$sql = "SELECT g.*, COUNT(n.id) as note_count FROM *PREFIX*nextnote_groups g LEFT JOIN *PREFIX*nextnote n ON g.name=n.grouping $where  GROUP BY g.id";
+		$sql = "SELECT g.*, COUNT(n.id) as note_count FROM *PREFIX*nextnote_groups g LEFT JOIN *PREFIX*nextnote_notes n ON g.name=n.grouping $where  GROUP BY g.id";
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			$results[] = $this->makeEntityFromDBResult($item);
@@ -93,7 +93,7 @@ class GroupMapper extends Mapper {
 		if($where){
 			$where = 'WHERE '. $where;
 		}
-		$sql = "SELECT g.*, COUNT(n.id) as note_count FROM *PREFIX*nextnote_groups g LEFT JOIN *PREFIX*nextnote n ON g.name=n.grouping $where  GROUP BY g.id";
+		$sql = "SELECT g.*, COUNT(n.id) as note_count FROM *PREFIX*nextnote_groups g LEFT JOIN *PREFIX*nextnote_notes n ON g.name=n.grouping $where  GROUP BY g.id";
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			$results[] = $this->makeEntityFromDBResult($item);
