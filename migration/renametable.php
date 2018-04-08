@@ -62,13 +62,13 @@ class RenameTable implements IRepairStep {
 			$this->db->executeQuery('INSERT INTO `*PREFIX*nextnote` SELECT * FROM *PREFIX*ownnote');
 			$this->db->executeQuery('DROP TABLE *PREFIX*ownnote');
 		} catch (\Exception $exception) {
-			$this->logger->error($exception->getMessage());
+			$this->logger->warning($exception->getMessage());
 		}
 		try {
 			$this->db->executeQuery('INSERT INTO `*PREFIX*nextnote_parts` SELECT * FROM *PREFIX*ownnote_parts');
 			$this->db->executeQuery('DROP TABLE *PREFIX*ownnote_parts');
 		} catch (\Exception $exception) {
-			$this->logger->error($exception->getMessage());
+			$this->logger->warning($exception->getMessage());
 		}
 	}
 

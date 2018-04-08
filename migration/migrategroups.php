@@ -92,8 +92,14 @@ class MigrateGroups implements IRepairStep {
 				}
 			}
 			$notes = $this->fetchAll('SELECT * FROM *PREFIX*nextnote order by id ASC');
+			$maxId = 0;
 			foreach($notes as $n){
+				if($n['id'] > $maxId){
+					$maxId = $n['id'];
+				}
+
 				$note = new Note();
+				$note->setId($n['id']);
 				$note->setGuid(Utils::GUID());
 				$note->setUid($n['uid']);
 				$note->setName($n['name']);
@@ -102,6 +108,8 @@ class MigrateGroups implements IRepairStep {
 				$note->setGrouping($n['grouping']);
 				$this->noteService->create($note, $n['uid']);
 			}
+			$maxId++;
+			$this->db->executeQuery('ALTER TABLE *PREFIX*nextnote_notes AUTO_INCREMENT='. $maxId);
 			$this->db->executeQuery('DROP TABLE *PREFIX*nextnote');
 		}
 	}
