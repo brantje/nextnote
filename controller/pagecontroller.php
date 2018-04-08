@@ -55,7 +55,7 @@ class PageController extends Controller {
 	 */
 	public function index() {
 		$shareMode = $this->config->getAppSetting('sharemode', 'merge'); // merge or standalone
-		$params = array('user' => $this->userId, 'shareMode' => $shareMode, 'config'=> $this->config->getAppSettings());
+		$params = array('user' => $this->userId, 'shareMode' => $shareMode, 'config'=> $this->config->getSettings());
 
 		$response = new TemplateResponse('nextnote', 'main', $params);
 		$ocVersion = \OCP\Util::getVersion();

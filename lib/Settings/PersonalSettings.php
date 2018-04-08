@@ -25,65 +25,61 @@
 namespace OCA\NextNote\Settings;
 
 
-
 use OCA\NextNote\Service\SettingsService;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\Settings\ISettings;
-class AdminSettings implements ISettings {
 
-
+class PersonalSettings implements ISettings {
+	/** @var IUserSession */
+	private $userSession;
 	/** @var IL10N */
 	private $l;
-
 	/** @var IURLGenerator */
 	private $urlGenerator;
+	/** @var \OC_Defaults */
+	private $defaults;
 	private $settingsService;
 
-
-	/**
-	 * Admin constructor.
-	 *
-	 * @param IL10N $l
-	 * @param IURLGenerator $urlGenerator
-	 * @param SettingsService $settingsService
-	 */
-	public function __construct(IL10N $l,
-								IURLGenerator $urlGenerator,
-								SettingsService $settingsService
+	public function __construct(
+		IUserSession $userSession,
+		IL10N $l,
+		IURLGenerator $urlGenerator,
+		\OC_Defaults $defaults,
+		SettingsService $settingsService
 	) {
+		$this->userSession = $userSession;
 		$this->l = $l;
 		$this->urlGenerator = $urlGenerator;
+		$this->defaults = $defaults;
 		$this->settingsService = $settingsService;
 	}
-
 	/**
-	 * @return TemplateResponse
+	 * @return TemplateResponse returns the instance with all parameters set, ready to be rendered
+	 * @since 9.1
 	 */
 	public function getForm() {
-
-		$params = $this->settingsService->getSettings();
-
-		return new TemplateResponse('nextnote', 'admin', $params);
+		$params = ['config' => $this->settingsService->getSettings()];
+		return new TemplateResponse('nextnote', 'settings-personal', $params, '');
 	}
-
 	/**
 	 * @return string the section ID, e.g. 'sharing'
+	 * @since 9.1
 	 */
 	public function getSection() {
 		return 'nextnote';
 	}
-
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
 	 * the admin section. The forms are arranged in ascending order of the
 	 * priority values. It is required to return a value between 0 and 100.
 	 *
-	 * keep the server setting at the top, right after "server settings"
+	 * E.g.: 70
+	 * @since 9.1
 	 */
 	public function getPriority() {
 		return 0;
 	}
-
 }

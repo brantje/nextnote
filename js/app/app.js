@@ -94,7 +94,7 @@
 			loadNotes();
 		});
 
-
+		$rootScope.app_config = window.app_config;
 		// Setup a watcher on the notes so groups are always correct
 		// @TODO Implement multi level support
 
