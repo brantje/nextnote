@@ -1,0 +1,24 @@
+integration-testing:
+  stage: test
+  script:
+    - echo 'test'
+
+build-assets:
+  stage: build
+  script:
+    - echo 'Build'
+
+deploy-to-github:
+  image: alpine:latest
+  stage: deploy
+  only:
+    - master
+  before_script:
+    - 'which git || ( apk --update add git)'
+    - git config --global user.email $GIT_USER
+    - git config --global user.name $GIT_EMAIL
+
+  script:
+    - git remote add github https://$GITHUB_TOKEN:x-oauth-basic@github.com/$GITHUB_REPO.git
+    - git fetch github
+    - git push github master --dry-run --verbose
