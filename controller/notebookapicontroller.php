@@ -41,7 +41,7 @@ use OCP\IUserManager;
 use OCP\Share;
 
 
-class GroupApiController extends ApiController {
+class NotebookApiController extends ApiController {
 
 	private $config;
 	private $groupService;

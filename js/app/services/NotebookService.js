@@ -28,12 +28,12 @@
 	 * # NoteService
 	 * Service in the NextNotesApp.
 	 */
-	angular.module('NextNotesApp').service('GroupService', [
+	angular.module('NextNotesApp').service('NotebookService', [
 		'$rootScope',
-		'GroupFactory',
+		'NotebookFactory',
 		'$timeout',
 		'$q',
-		function($rootScope, GroupFactory, $timeout, $q) {
+		function($rootScope, NotebookFactory, $timeout, $q) {
 			var newGroupTemplate = {
 				'name': '',
 				'color': '',
@@ -47,14 +47,14 @@
 				getGroupById: function(groupId) {
 					groupId = parseInt(groupId);
 					var deferred = $q.defer();
-					GroupFactory.get({id: groupId}, function(group) {
+					NotebookFactory.get({id: groupId}, function(group) {
 						$rootScope.notes[group.id] = group;
 						deferred.resolve(group);
 					});
 					return deferred.promise;
 				},
-				save: GroupFactory.save,
-				update: GroupFactory.update
+				save: NotebookFactory.save,
+				update: NotebookFactory.update
 
 			};
 		}]);

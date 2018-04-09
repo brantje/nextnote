@@ -49,11 +49,11 @@ $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'note_api#delete', 'url' => '/api/v2.0/note/{id}', 'verb' => 'DELETE'),
 
 	//Groups
-	array('name' => 'group_api#index', 'url' => '/api/v2.0/group', 'verb' => 'GET'),
-	array('name' => 'group_api#create', 'url' => '/api/v2.0/group', 'verb' => 'POST'),
-	array('name' => 'group_api#get', 'url' => '/api/v2.0/group/{id}', 'verb' => 'GET'),
-	array('name' => 'group_api#update', 'url' => '/api/v2.0/group/{id}', 'verb' => 'PUT'),
-	array('name' => 'group_api#delete', 'url' => '/api/v2.0/group/{id}', 'verb' => 'DELETE'),
+	array('name' => 'notebook_api#index', 'url' => '/api/v2.0/notebook', 'verb' => 'GET'),
+	array('name' => 'notebook_api#create', 'url' => '/api/v2.0/notebook', 'verb' => 'POST'),
+	array('name' => 'notebook_api#get', 'url' => '/api/v2.0/notebook/{id}', 'verb' => 'GET'),
+	array('name' => 'notebook_api#update', 'url' => '/api/v2.0/notebook/{id}', 'verb' => 'PUT'),
+	array('name' => 'notebook_api#delete', 'url' => '/api/v2.0/notebook/{id}', 'verb' => 'DELETE'),
 
 
 	array('name' => 'settings#saveAdminSetting', 'url' => '/api/v2.0/settings', 'verb' => 'POST'),
