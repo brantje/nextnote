@@ -68,16 +68,16 @@ class NoteApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @TODO Add etag / lastmodified
 	 * @param int|bool $deleted
-	 * @param string|bool $group
+	 * @param string|bool $notebook_id
 	 * @return JSONResponse
 	 */
-	public function index($deleted = false, $group = false) {
+	public function index($deleted = false, $notebook_id = false) {
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 
-		if(!empty($group)){
-			$group = $this->groupService->find($group)->getId();
+		if(!empty($notebook_id)){
+			$notebook_id = $this->groupService->find($notebook_id)->getId();
 		}
-		$results = $this->noteService->findNotesFromUser($uid, $deleted, $group);
+		$results = $this->noteService->findNotesFromUser($uid, $deleted, $notebook_id);
 		foreach ($results as &$note) {
 			if (is_array($note)) {
 				$note = $this->noteService->find($note['id']);

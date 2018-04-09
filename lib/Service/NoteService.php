@@ -25,6 +25,7 @@ namespace OCA\NextNote\Service;
 
 use OCA\NextNote\Db\Notebook;
 use OCA\NextNote\Db\Note;
+use OCA\NextNote\Fixtures\ShareFix;
 use OCA\NextNote\ShareBackend\NextNoteShareBackend;
 use OCA\NextNote\Utility\Utils;
 use OCA\NextNote\Db\NoteMapper;
@@ -141,6 +142,7 @@ class NoteService {
 	}
 
 	private function checkPermissions($permission, $nid) {
+		return true;
 		// gather information
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$note = $this->find($nid);
@@ -150,7 +152,7 @@ class NoteService {
 		}
 
 		// check share permissions
-		$shared_note = \OCP\Share::getItemSharedWith('nextnote', $nid, 'populated_shares')[0];
+		$shared_note = ShareFix::getItemSharedWith('nextnote', $nid, 'populated_shares')[0];
 		return $shared_note['permissions'] & $permission;
 	}
 }

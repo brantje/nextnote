@@ -89,7 +89,7 @@ class NoteMapper extends Mapper {
 		$params = [$userId];
 		$groupSql = '';
 		if ($group) {
-			$groupSql = 'and n.grouping = ?';
+			$groupSql = 'and n.notebook = ?';
 			$params[] = $group;
 		}
 		$deletedSql = '';
