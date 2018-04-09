@@ -30,7 +30,7 @@ use OCA\NextNote\Utility\Utils;
 use OCP\AppFramework\Db\Entity;
 
 
-class GroupService {
+class NotebookService {
 
 	private $groupMapper;
 	private $utils;

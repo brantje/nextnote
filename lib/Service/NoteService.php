@@ -37,7 +37,7 @@ class NoteService {
 	private $sharing;
 	private $groupService;
 
-	public function __construct(NoteMapper $noteMapper, Utils $utils, NextNoteShareBackend $shareBackend, GroupService $groupService) {
+	public function __construct(NoteMapper $noteMapper, Utils $utils, NextNoteShareBackend $shareBackend, NotebookService $groupService) {
 		$this->noteMapper = $noteMapper;
 		$this->utils = $utils;
 		$this->sharing = $shareBackend;

@@ -26,7 +26,7 @@ namespace OCA\NextNote\Migration;
 
 use OCA\NextNote\Db\Notebook;
 use OCA\NextNote\Db\Note;
-use OCA\NextNote\Service\GroupService;
+use OCA\NextNote\Service\NotebookService;
 use OCA\NextNote\Service\NoteService;
 use OCA\NextNote\Utility\Utils;
 use OCP\IDBConnection;
@@ -50,7 +50,7 @@ class MigrateGroups implements IRepairStep {
 	private $noteService;
 
 
-	public function __construct(IDBConnection $db, ILogger $logger, GroupService $groupService, NoteService $noteService) {
+	public function __construct(IDBConnection $db, ILogger $logger, NotebookService $groupService, NoteService $noteService) {
 		$this->db = $db;
 		$this->logger = $logger;
 		$this->installedVersion = \OC::$server->getConfig()->getAppValue('nextnote', 'installed_version');

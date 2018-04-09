@@ -26,7 +26,7 @@ namespace OCA\NextNote\Controller;
 use OCA\NextNote\Db\Notebook;
 use OCA\NextNote\Db\Note;
 use OCA\NextNote\Fixtures\ShareFix;
-use OCA\NextNote\Service\GroupService;
+use OCA\NextNote\Service\NotebookService;
 use OCA\NextNote\Service\NoteService;
 use OCA\NextNote\ShareBackend\NextNoteShareBackend;
 use OCA\NextNote\Utility\NotFoundJSONResponse;
@@ -52,7 +52,7 @@ class NoteApiController extends ApiController {
 	private $groupService;
 
 	public function __construct($appName, IRequest $request,
-								ILogger $logger, IConfig $config, NoteService $noteService, GroupService $groupService,
+								ILogger $logger, IConfig $config, NoteService $noteService, NotebookService $groupService,
 								NextNoteShareBackend $shareBackend, IUserManager $userManager, Share\IManager $shareManager) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
