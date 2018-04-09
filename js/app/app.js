@@ -57,7 +57,7 @@
 			reverse: true
 		};
 		$rootScope.noteGroupFilter = {
-			grouping: 'all'
+			notebook: 'all'
 		};
 		$rootScope.list_filter = {
 			deleted: 0

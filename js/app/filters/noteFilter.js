@@ -23,18 +23,18 @@
 angular.module('NextNotesApp').filter('noteGroupFilter', ['$filter', function ($filter) {
 	return function (items, filterBy) {
 		var filtered = [];
-		if (filterBy.hasOwnProperty('grouping') && filterBy.grouping === 'all') {
+		if (filterBy.hasOwnProperty('notebook') && filterBy.notebook === 'all') {
 			return items;
 		}
-		if (filterBy.hasOwnProperty('grouping') && filterBy.grouping === '') {
+		if (filterBy.hasOwnProperty('notebook') && filterBy.notebook === '') {
 			angular.forEach(items, function (item) {
-				if (item.grouping === '') {
+				if (item.notebook && item.notebook.id === '') {
 					filtered.push(item);
 				}
 			});
 			return filtered;
 		}
 
-		return $filter('filter')(items, {grouping: filterBy.grouping}, true);
+		return $filter('filter')(items, {notebook: {id: filterBy.notebook}}, true);
 	};
 }]);
