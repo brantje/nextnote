@@ -5,17 +5,11 @@
 				Name:
 				<input type="text" class="fileinput"
 					   ng-model="$parent.noteShadowCopy.title">
-				&nbsp;&nbsp;
-				Group:
-				<select id="groupname"
-						ng-model="$parent.noteShadowCopy.grouping">
-					<option value="">Not grouped</option>
-					<option value="_new">New group</option>
-					<option ng-repeat="group in note_groups"
-							value="{{group.name}}" ng-if="group.name">{{group.name}}</option>
-				</select>
+
+				<select ng-model="$parent.noteShadowCopy.notebook" ng-options="group.name for group in local_notebooks track by group.id"></select>
+
 				<input type="text" placeholder="group title"
-					   ng-show="noteShadowCopy.grouping === '_new'"
+					   ng-show="noteShadowCopy.notebook.id === '_new'"
 					   ng-model="$parent.new_group">
 				<div class="button" ng-click="saveNote()">Save</div>
 

@@ -45,30 +45,6 @@ class NoteService {
 	}
 
 	/**
-	 * @param $group_name
-	 * @return Notebook
-	 *
-	 */
-	private function createGroupIfNotExists($group_name){
-		$uid = \OC::$server->getUserSession()->getUser()->getUID();
-		$group = $this->groupService->findByName($group_name);
-		if (count($group) === 0 && !empty($group_name)) {
-			$group = new Notebook();
-			$group->setName($group_name);
-			$group->setUid($uid);
-			$group->setGuid(Utils::GUID());
-			return $this->groupService->create($group, $uid);
-		}
-
-		if(count($group) > 1){
-			return reset($group);
-		}
-
-		return $group;
-
-	}
-
-	/**
 	 * Get vaults from a user.
 	 *
 	 * @param $userId
@@ -110,10 +86,7 @@ class NoteService {
 		if (!$note instanceof Note) {
 			throw new \Exception("Expected Note object!");
 		}
-		$group = $this->createGroupIfNotExists($note->getGrouping());
-		if($group instanceof Notebook){
-			$note->setGrouping($group->getId());
-		}
+
 		return $this->noteMapper->create($note);
 	}
 
@@ -131,10 +104,6 @@ class NoteService {
 			throw new \Exception("Expected Note object!");
 		}
 
-		$group = $this->createGroupIfNotExists($note->getGrouping());
-		if($group instanceof Notebook){
-			$note->setGrouping($group->getId());
-		}
 		return $this->noteMapper->updateNote($note);
 	}
 

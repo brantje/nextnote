@@ -73,6 +73,10 @@ class NoteApiController extends ApiController {
 	 */
 	public function index($deleted = false, $group = false) {
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
+
+		if(!empty($group)){
+			$group = $this->groupService->find($group)->getId();
+		}
 		$results = $this->noteService->findNotesFromUser($uid, $deleted, $group);
 		foreach ($results as &$note) {
 			if (is_array($note)) {
@@ -105,7 +109,7 @@ class NoteApiController extends ApiController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function create($title, $grouping, $content) {
+	public function create($title, $notebook, $content) {
 		if ($title == "" || !$title) {
 			return new JSONResponse(['error' => 'title is missing']);
 		}
@@ -121,11 +125,18 @@ class NoteApiController extends ApiController {
 		$note = new Note();
 		$note->setName($title);
 		$note->setUid($uid);
-		$note->setGrouping($grouping);
 		$note->setNote($content);
 		$note->setMtime(time());
 		$note->setDeleted(0);
 
+		if(!empty($notebook) && $notebook['id']){
+			$notebook = $this->groupService->find($notebook['id']);
+			if($notebook instanceof Notebook) {
+				$note->setNotebook($notebook);
+			} else {
+				return new JSONResponse(['error' => 'Notebook not found']);
+			}
+		}
 
 		$result = $this->noteService->create($note)->jsonSerialize();
 		\OC_Hook::emit('OCA\NextNote', 'post_create_note', ['note' => $note]);
@@ -136,7 +147,7 @@ class NoteApiController extends ApiController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function update($id, $title, $grouping, $content, $deleted) {
+	public function update($id, $title, $content, $deleted, $notebook) {
 		if ($title == "" || !$title) {
 			return new JSONResponse(['error' => 'title is missing']);
 		}
@@ -153,11 +164,17 @@ class NoteApiController extends ApiController {
 		if (!$this->shareBackend->checkPermissions(Constants::PERMISSION_UPDATE, $note)) {
 			return new UnauthorizedJSONResponse();
 		}
+		if(!empty($notebook) && $notebook['id']){
+			$notebook = $this->groupService->find($notebook['id']);
+			if($notebook instanceof Notebook) {
+				$note->setNotebook($notebook);
+			} else {
+				return new JSONResponse(['error' => 'Notebook not found']);
+			}
+		}
 		$note->setName($title);
-		$note->setGrouping($grouping);
 		$note->setNote($content);
 		$note->setDeleted($deleted);
-
 
 		$results = $this->noteService->update($note)->jsonSerialize();
 		\OC_Hook::emit('OCA\NextNote', 'post_update_note', ['note' => $note]);

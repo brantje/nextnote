@@ -7,7 +7,7 @@
     <licence>agpl</licence>
     <author>Ben Curtis</author>
     <author>Sander Brand</author>
-    <version>1.2.3</version>
+    <version>1.2.4</version>
     <namespace>NextNote</namespace>
     <dependencies>
         <lib>curl</lib>

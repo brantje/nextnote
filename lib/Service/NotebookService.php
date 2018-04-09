@@ -76,9 +76,10 @@ class NotebookService {
 	public function create($group, $userId) {
 		if (is_array($group)) {
 			$entity = new Notebook();
-			$entity->setName($group['title']);
+			$entity->setName($group['name']);
 			$entity->setParentId($group['parent_id']);
 			$entity->setUid($userId);
+			$entity->setGuid($group['guid']);
 			$entity->setColor($group['color']);
 			$group = $entity;
 		}

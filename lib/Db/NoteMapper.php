@@ -72,10 +72,7 @@ class NoteMapper extends Mapper {
 				return $part['note'];
 			}, $noteParts));
 			$note->setNote($item['note'] . $partsTxt);
-			if($note->getGrouping()){
-				$notebook = $this->notebookService->find($note->getGrouping());
-				$note->setNotebook($notebook);
-			}
+
 			$results[] = $note;
 		}
 		return array_shift($results);
@@ -110,10 +107,6 @@ class NoteMapper extends Mapper {
 			$note = $this->makeEntityFromDBResult($item);
 			$note->setNote($item['note']);
 
-			if($note->getGrouping()){
-				$notebook = $this->notebookService->find($note->getGrouping());
-				$note->setNotebook($notebook);
-			}
 			$results[] = $note;
 		}
 		return $results;
@@ -136,10 +129,13 @@ class NoteMapper extends Mapper {
 			$note->setNote('');
 		}
 		$note->setShared(false);
+
 		/**
 		 * @var $note Note
 		 */
-
+		if($note->getNotebook() instanceof Notebook) {
+			$note->setNotebook($note->getNotebook()->getId());
+		}
 		$note = parent::insert($note);
 
 		if ($parts) {
@@ -171,6 +167,9 @@ class NoteMapper extends Mapper {
 		/**
 		 * @var $note Note
 		 */
+		if($note->getNotebook() instanceof Notebook) {
+			$note->setNotebook($note->getNotebook()->getId());
+		}
 		$note = parent::update($note);
 		if ($parts) {
 			foreach ($parts as $part) {
@@ -178,7 +177,7 @@ class NoteMapper extends Mapper {
 			}
 			$note->setNote(implode('', $parts));
 		}
-		return $note;
+		return $this->find($note->getId());
 	}
 
 	/**
@@ -232,6 +231,10 @@ class NoteMapper extends Mapper {
 		$note->setName($arr['name']);
 		$note->setGuid($arr['guid']);
 		$note->setGrouping($arr['grouping']);
+		if($arr['notebook']){
+			$notebook = $this->notebookService->find($arr['notebook']);
+			$note->setNotebook($notebook);
+		}
 		$note->setMtime($arr['mtime']);
 		$note->setDeleted($arr['deleted']);
 		$note->setUid($arr['uid']);

@@ -41,6 +41,13 @@
 				<default></default>
 			</field>
 			<field>
+				<name>notebook</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<length>32</length>
+				<default></default>
+			</field>
+			<field>
 				<name>shared</name>
 				<type>clob</type>
 				<notnull>true</notnull>

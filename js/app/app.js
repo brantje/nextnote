@@ -90,6 +90,7 @@
 			NotebookFactory.query(function (groups) {
 				console.log('Groups received', groups);
 				$rootScope.note_groups = groups;
+				$rootScope.$broadcast('nextnotes_notebooks_loaded');
 			});
 		}
 
