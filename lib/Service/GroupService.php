@@ -24,7 +24,7 @@
 namespace OCA\NextNote\Service;
 
 use OCA\NextNote\Db\Group;
-use OCA\NextNote\Db\GroupMapper;
+use OCA\NextNote\Db\NotebookMapper;
 use OCA\NextNote\ShareBackend\NextNoteShareBackend;
 use OCA\NextNote\Utility\Utils;
 use OCP\AppFramework\Db\Entity;
@@ -36,7 +36,7 @@ class GroupService {
 	private $utils;
 	private $sharing;
 
-	public function __construct(GroupMapper $groupMapper, Utils $utils, NextNoteShareBackend $shareBackend) {
+	public function __construct(NotebookMapper $groupMapper, Utils $utils, NextNoteShareBackend $shareBackend) {
 		$this->groupMapper = $groupMapper;
 		$this->utils = $utils;
 		$this->sharing = $shareBackend;
