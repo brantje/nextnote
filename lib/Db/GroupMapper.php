@@ -76,7 +76,7 @@ class GroupMapper extends Mapper {
 		$params = [];
 		$where = [];
 		if($group_name){
-			$where[] = 'g.name= ?';
+			$where[] = 'g.name = ?';
 			$params[] = $group_name;
 		}
 

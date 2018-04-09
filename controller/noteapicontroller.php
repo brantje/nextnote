@@ -24,6 +24,7 @@
 namespace OCA\NextNote\Controller;
 
 use OCA\NextNote\Db\Group;
+use OCA\NextNote\Db\Note;
 use OCA\NextNote\Fixtures\ShareFix;
 use OCA\NextNote\Service\GroupService;
 use OCA\NextNote\Service\NoteService;
@@ -108,24 +109,25 @@ class NoteApiController extends ApiController {
 		if ($title == "" || !$title) {
 			return new JSONResponse(['error' => 'title is missing']);
 		}
-		$note = [
-			'guid' => Utils::GUID(),
-			'title' => $title,
-			'name' => $title,
-			'grouping' => $grouping,
-			'note' => $content
-		];
+//		$note = [
+//			'guid' => Utils::GUID(),
+//			'title' => $title,
+//			'name' => $title,
+//			'grouping' => $grouping,
+//			'note' => $content
+//		];
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 
-		if(count($this->groupService->findByName($grouping)) === 0){
-			$group = new Group();
-			$group->setName($grouping);
-			$group->setUid($uid);
-			$group->setGuid(Utils::GUID());
-			$this->groupService->create($group, $uid);
-		}
+		$note = new Note();
+		$note->setName($title);
+		$note->setUid($uid);
+		$note->setGrouping($grouping);
+		$note->setNote($content);
+		$note->setMtime(time());
+		$note->setDeleted(0);
 
-		$result = $this->noteService->create($note, $uid)->jsonSerialize();
+
+		$result = $this->noteService->create($note)->jsonSerialize();
 		\OC_Hook::emit('OCA\NextNote', 'post_create_note', ['note' => $note]);
 		return new JSONResponse($this->formatApiResponse($result));
 	}
@@ -139,37 +141,23 @@ class NoteApiController extends ApiController {
 			return new JSONResponse(['error' => 'title is missing']);
 		}
 
-
-		$note = [
-			'id' => $id,
-			'title' => $title,
-			'name' => $title,
-			'grouping' => $grouping,
-			'note' => $content,
-			'deleted' => $deleted
-		];
-		//@TODO for sharing add access check
-		$entity = $this->noteService->find($id);
-		if (!$entity) {
+		$note = $this->noteService->find($id);
+		if (!$note) {
 			return new NotFoundJSONResponse();
 		}
 
-		if(!$entity->getGuid()){
-			$note['guid'] = Utils::GUID();
+		if(!$note->getGuid()){
+			$note->setGuid(Utils::GUID());
 		}
 
-		if (!$this->shareBackend->checkPermissions(Constants::PERMISSION_UPDATE, $entity)) {
+		if (!$this->shareBackend->checkPermissions(Constants::PERMISSION_UPDATE, $note)) {
 			return new UnauthorizedJSONResponse();
 		}
+		$note->setName($title);
+		$note->setGrouping($grouping);
+		$note->setNote($content);
+		$note->setDeleted($deleted);
 
-
-		if(count($this->groupService->findByName($grouping)) === 0){
-			$group = new Group();
-			$group->setName($grouping);
-			$group->setUid($entity->getUid());
-			$group->setGuid(Utils::GUID());
-			$this->groupService->create($group, $entity->getUid());
-		}
 
 		$results = $this->noteService->update($note)->jsonSerialize();
 		\OC_Hook::emit('OCA\NextNote', 'post_update_note', ['note' => $note]);

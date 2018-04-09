@@ -23,11 +23,11 @@
 
 namespace OCA\NextNote\Service;
 
+use OCA\NextNote\Db\Group;
 use OCA\NextNote\Db\Note;
 use OCA\NextNote\ShareBackend\NextNoteShareBackend;
 use OCA\NextNote\Utility\Utils;
 use OCA\NextNote\Db\NoteMapper;
-
 
 
 class NoteService {
@@ -35,11 +35,37 @@ class NoteService {
 	private $noteMapper;
 	private $utils;
 	private $sharing;
+	private $groupService;
 
-	public function __construct(NoteMapper $noteMapper, Utils $utils, NextNoteShareBackend $shareBackend) {
+	public function __construct(NoteMapper $noteMapper, Utils $utils, NextNoteShareBackend $shareBackend, GroupService $groupService) {
 		$this->noteMapper = $noteMapper;
 		$this->utils = $utils;
 		$this->sharing = $shareBackend;
+		$this->groupService = $groupService;
+	}
+
+	/**
+	 * @param $group_name
+	 * @return Group
+	 *
+	 */
+	private function createGroupIfNotExists($group_name){
+		$uid = \OC::$server->getUserSession()->getUser()->getUID();
+		$group = $this->groupService->findByName($group_name);
+		if (count($group) === 0 && !empty($group_name)) {
+			$group = new Group();
+			$group->setName($group_name);
+			$group->setUid($uid);
+			$group->setGuid(Utils::GUID());
+			return $this->groupService->create($group, $uid);
+		}
+
+		if(count($group) > 1){
+			return reset($group);
+		}
+
+		return $group;
+
 	}
 
 	/**
@@ -76,23 +102,17 @@ class NoteService {
 	/**
 	 * Creates a note
 	 *
-	 * @param array|Note $note
-	 * @param $userId
+	 * @param Note $note
 	 * @return Note
 	 * @throws \Exception
 	 */
-	public function create($note, $userId) {
-		if (is_array($note)) {
-			$entity = new Note();
-			$entity->setName($note['title']);
-			$entity->setUid($userId);
-			$entity->setGrouping($note['grouping']);
-			$entity->setNote($note['note'] ? $note['note'] : '');
-			$entity->setMtime(time());
-			$note = $entity;
-		}
+	public function create(Note $note) {
 		if (!$note instanceof Note) {
 			throw new \Exception("Expected Note object!");
+		}
+		$group = $this->createGroupIfNotExists($note->getGrouping());
+		if($group instanceof Group){
+			$note->setGrouping($group->getId());
 		}
 		return $this->noteMapper->create($note);
 	}
@@ -100,46 +120,22 @@ class NoteService {
 	/**
 	 * Update vault
 	 *
-	 * @param $note array|Note
+	 * @param $note Note
 	 * @return Note|bool
 	 * @throws \Exception
 	 * @internal param $userId
 	 * @internal param $vault
 	 */
-	public function update($note) {
-
-		if (is_array($note)) {
-			$entity = $this->find($note['id']);
-			$entity->setName($note['title']);
-			$entity->setGrouping($note['grouping']);
-			$entity->setNote($note['note']);
-			$entity->setGuid($note['guid']);
-			$entity->setDeleted($note['deleted']);
-			$entity->setMtime(time());
-			$note = $entity;
-		}
+	public function update(Note $note) {
 		if (!$note instanceof Note) {
 			throw new \Exception("Expected Note object!");
 		}
 
-		// @TODO check if we can enable this without issues
-//		if (!$this->checkPermissions(\OCP\Constants::PERMISSION_UPDATE, $note->getId())) {
-//			return false;
-//		}
-
+		$group = $this->createGroupIfNotExists($note->getGrouping());
+		if($group instanceof Group){
+			$note->setGrouping($group->getId());
+		}
 		return $this->noteMapper->updateNote($note);
-	}
-
-	public function renameNote($FOLDER, $id, $in_newname, $in_newgroup, $uid = null) {
-		$newname = str_replace("\\", "-", str_replace("/", "-", $in_newname));
-		$newgroup = str_replace("\\", "-", str_replace("/", "-", $in_newgroup));
-
-		$note = $this->find($id);
-		$note->setName($newname);
-		$note->setGrouping($newgroup);
-		$this->update($note);
-
-		return true;
 	}
 
 	/**

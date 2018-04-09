@@ -56,7 +56,7 @@ class NoteMapper extends Mapper {
 			$params[] = $deleted;
 			$deletedSql = 'and n.deleted = ?';
 		}
-		$sql = "SELECT * FROM *PREFIX*nextnote_notes n WHERE n.id= ? $uidSql $deletedSql";
+		$sql = "SELECT n.*, g.name as grouping FROM *PREFIX*nextnote_notes n JOIN oc_nextnote_groups g ON g.id WHERE n.id= ? $uidSql $deletedSql";
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			/**
@@ -95,7 +95,7 @@ class NoteMapper extends Mapper {
 			$deletedSql = 'and n.deleted = ?';
 			$params[] = $deleted;
 		}
-		$sql = "SELECT * FROM *PREFIX*nextnote_notes n WHERE `uid` = ? $groupSql $deletedSql";
+		$sql = "SELECT n.*, g.name as grouping FROM *PREFIX*nextnote_notes n JOIN oc_nextnote_groups g ON g.id WHERE n.uid = ? $groupSql $deletedSql";
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			/**

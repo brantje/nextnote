@@ -106,7 +106,7 @@ class MigrateGroups implements IRepairStep {
 				$note->setMtime($n['mtime']);
 				$note->setDeleted($n['deleted']);
 				$note->setGrouping($n['grouping']);
-				$this->noteService->create($note, $n['uid']);
+				$this->noteService->create($note);
 			}
 			$maxId++;
 			$this->db->executeQuery('ALTER TABLE *PREFIX*nextnote_notes AUTO_INCREMENT='. $maxId);
