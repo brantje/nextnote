@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
-<info>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>nextnote</id>
     <name>NextNote</name>
     <description>NextNote</description>
-    <licence>AGPL</licence>
+    <licence>agpl</licence>
     <author>Ben Curtis</author>
     <author>Sander Brand</author>
     <version>1.2.3</version>
