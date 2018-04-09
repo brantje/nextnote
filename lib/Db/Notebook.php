@@ -43,7 +43,7 @@ use \OCP\AppFramework\Db\Entity;
  * @method void setNoteCount(integer $value)
  * @method integer getNoteCount()
  */
-class Group extends Entity implements \JsonSerializable {
+class Notebook extends Entity implements \JsonSerializable {
 
 	use EntityJSONSerializer;
 

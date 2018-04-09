@@ -24,7 +24,7 @@
 namespace OCA\NextNote\Migration;
 
 
-use OCA\NextNote\Db\Group;
+use OCA\NextNote\Db\Notebook;
 use OCA\NextNote\Db\Note;
 use OCA\NextNote\Service\GroupService;
 use OCA\NextNote\Service\NoteService;
@@ -82,7 +82,7 @@ class MigrateGroups implements IRepairStep {
 				$groups = $this->fetchAll('SELECT DISTINCT(grouping) FROM `*PREFIX*nextnote` WHERE uid = "' . $user . '"');
 				foreach ($groups as $group) {
 					if ($group['grouping']) {
-						$g = new Group();
+						$g = new Notebook();
 						$g->setName($group['grouping']);
 						$g->setUid($user);
 						$g->setGuid(Utils::GUID());

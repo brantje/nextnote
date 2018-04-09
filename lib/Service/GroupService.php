@@ -23,7 +23,7 @@
 
 namespace OCA\NextNote\Service;
 
-use OCA\NextNote\Db\Group;
+use OCA\NextNote\Db\Notebook;
 use OCA\NextNote\Db\NotebookMapper;
 use OCA\NextNote\ShareBackend\NextNoteShareBackend;
 use OCA\NextNote\Utility\Utils;
@@ -48,7 +48,7 @@ class GroupService {
 	 * @param $group_id
 	 * @param null $user_id
 	 * @param bool $deleted
-	 * @return Group[]|Group
+	 * @return Notebook[]|Notebook
 	 */
 	public function find($group_id=null, $user_id = null, $deleted = false) {
 		return $this->groupMapper->find($group_id, $user_id, $deleted);
@@ -59,7 +59,7 @@ class GroupService {
 	 * @param $group_name string
 	 * @param null $user_id
 	 * @param bool $deleted
-	 * @return Group[]|Group
+	 * @return Notebook[]|Notebook
 	 */
 	public function findByName($group_name=null, $user_id = null, $deleted = false) {
 		return $this->groupMapper->findByName($group_name, $user_id, $deleted);
@@ -68,21 +68,21 @@ class GroupService {
 	/**
 	 * Creates a group
 	 *
-	 * @param array|Group $group
+	 * @param array|Notebook $group
 	 * @param $userId
-	 * @return Group|Entity
+	 * @return Notebook|Entity
 	 * @throws \Exception
 	 */
 	public function create($group, $userId) {
 		if (is_array($group)) {
-			$entity = new Group();
+			$entity = new Notebook();
 			$entity->setName($group['title']);
 			$entity->setParentId($group['parent_id']);
 			$entity->setUid($userId);
 			$entity->setColor($group['color']);
 			$group = $entity;
 		}
-		if (!$group instanceof Group) {
+		if (!$group instanceof Notebook) {
 			throw new \Exception("Expected Note object!");
 		}
 		return $this->groupMapper->create($group);
@@ -91,8 +91,8 @@ class GroupService {
 	/**
 	 * Update a group
 	 *
-	 * @param $group array|Group
-	 * @return Group|Entity|bool
+	 * @param $group array|Notebook
+	 * @return Notebook|Entity|bool
 	 * @throws \Exception
 	 * @internal param $userId
 	 * @internal param $vault
@@ -107,7 +107,7 @@ class GroupService {
 			$group = $entity;
 		}
 
-		if (!$group instanceof Group) {
+		if (!$group instanceof Notebook) {
 			throw new \Exception("Expected Note object!");
 		}
 
@@ -127,7 +127,7 @@ class GroupService {
 		}
 
 		$group = $this->groupMapper->find($group_id, $user_id);
-		if ($group instanceof Group) {
+		if ($group instanceof Notebook) {
 			$this->groupMapper->delete($group);
 			return true;
 		} else {

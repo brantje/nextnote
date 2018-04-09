@@ -23,7 +23,7 @@
 
 namespace OCA\NextNote\Controller;
 
-use OCA\NextNote\Db\Group;
+use OCA\NextNote\Db\Notebook;
 use OCA\NextNote\Db\Note;
 use OCA\NextNote\Fixtures\ShareFix;
 use OCA\NextNote\Service\GroupService;

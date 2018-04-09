@@ -23,7 +23,7 @@
 
 namespace OCA\NextNote\Service;
 
-use OCA\NextNote\Db\Group;
+use OCA\NextNote\Db\Notebook;
 use OCA\NextNote\Db\Note;
 use OCA\NextNote\ShareBackend\NextNoteShareBackend;
 use OCA\NextNote\Utility\Utils;
@@ -46,14 +46,14 @@ class NoteService {
 
 	/**
 	 * @param $group_name
-	 * @return Group
+	 * @return Notebook
 	 *
 	 */
 	private function createGroupIfNotExists($group_name){
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$group = $this->groupService->findByName($group_name);
 		if (count($group) === 0 && !empty($group_name)) {
-			$group = new Group();
+			$group = new Notebook();
 			$group->setName($group_name);
 			$group->setUid($uid);
 			$group->setGuid(Utils::GUID());
@@ -111,7 +111,7 @@ class NoteService {
 			throw new \Exception("Expected Note object!");
 		}
 		$group = $this->createGroupIfNotExists($note->getGrouping());
-		if($group instanceof Group){
+		if($group instanceof Notebook){
 			$note->setGrouping($group->getId());
 		}
 		return $this->noteMapper->create($note);
@@ -132,7 +132,7 @@ class NoteService {
 		}
 
 		$group = $this->createGroupIfNotExists($note->getGrouping());
-		if($group instanceof Group){
+		if($group instanceof Notebook){
 			$note->setGrouping($group->getId());
 		}
 		return $this->noteMapper->updateNote($note);

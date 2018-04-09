@@ -109,7 +109,7 @@ class NotebookMapper extends Mapper {
    	/**
 	 * Creates a group
 	 *
-	 * @param Group|Entity $group
+	 * @param Notebook|Entity $group
 	 * @return Note|Entity
 	 * @internal param $userId
 	 */
@@ -121,8 +121,8 @@ class NotebookMapper extends Mapper {
 	/**
 	 * Update group
 	 *
-	 * @param Group|Entity $group
-	 * @return Group|Entity
+	 * @param Notebook|Entity $group
+	 * @return Notebook|Entity
 	 */
 	public function update(Entity $group) {
 		$group->setNoteCount(null);
@@ -132,8 +132,8 @@ class NotebookMapper extends Mapper {
 	/**
 	 * Delete group
 	 *
-	 * @param Group|Entity $group
-	 * @return Group|Entity
+	 * @param Notebook|Entity $group
+	 * @return Notebook|Entity
 	 */
 	public function delete(Entity $group) {
 		return parent::delete($group);
@@ -141,10 +141,10 @@ class NotebookMapper extends Mapper {
 
 	/**
 	 * @param $arr
-	 * @return Group
+	 * @return Notebook
 	 */
 	public function makeEntityFromDBResult($arr) {
-		$group = new Group();
+		$group = new Notebook();
 		$group->setId($arr['id']);
 		$group->setName($arr['name']);
 		$group->setParentId($arr['parent_id']);
