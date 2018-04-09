@@ -125,6 +125,7 @@ class NoteApiController extends ApiController {
 		$note = new Note();
 		$note->setName($title);
 		$note->setUid($uid);
+		$note->setGuid(Utils::GUID());
 		$note->setNote($content);
 		$note->setMtime(time());
 		$note->setDeleted(0);
