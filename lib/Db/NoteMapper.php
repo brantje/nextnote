@@ -23,6 +23,7 @@
 
 namespace OCA\NextNote\Db;
 
+use OCA\NextNote\Service\NotebookService;
 use \OCA\NextNote\Utility\Utils;
 use OCP\AppFramework\Db\Entity;
 use OCP\IDBConnection;
@@ -30,10 +31,12 @@ use OCP\AppFramework\Db\Mapper;
 
 class NoteMapper extends Mapper {
 	private $utils;
+	private $notebookService;
 
-	public function __construct(IDBConnection $db, Utils $utils) {
+	public function __construct(IDBConnection $db, Utils $utils, NotebookService $notebookService) {
 		parent::__construct($db, 'nextnote_notes');
 		$this->utils = $utils;
+		$this->notebookService = $notebookService;
 	}
 
 
@@ -56,7 +59,7 @@ class NoteMapper extends Mapper {
 			$params[] = $deleted;
 			$deletedSql = 'and n.deleted = ?';
 		}
-		$sql = "SELECT n.*, g.name as grouping FROM *PREFIX*nextnote_notes n JOIN oc_nextnote_groups g ON g.id WHERE n.id= ? $uidSql $deletedSql";
+		$sql = "SELECT n.* FROM *PREFIX*nextnote_notes n WHERE n.id= ? $uidSql $deletedSql";
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			/**
@@ -69,7 +72,10 @@ class NoteMapper extends Mapper {
 				return $part['note'];
 			}, $noteParts));
 			$note->setNote($item['note'] . $partsTxt);
-
+			if($note->getGrouping()){
+				$notebook = $this->notebookService->find($note->getGrouping());
+				$note->setNotebook($notebook);
+			}
 			$results[] = $note;
 		}
 		return array_shift($results);
@@ -95,7 +101,7 @@ class NoteMapper extends Mapper {
 			$deletedSql = 'and n.deleted = ?';
 			$params[] = $deleted;
 		}
-		$sql = "SELECT n.*, g.name as grouping FROM *PREFIX*nextnote_notes n JOIN oc_nextnote_groups g ON g.id WHERE n.uid = ? $groupSql $deletedSql";
+		$sql = "SELECT n.* FROM *PREFIX*nextnote_notes n WHERE n.uid = ? $groupSql $deletedSql";
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			/**
@@ -103,6 +109,11 @@ class NoteMapper extends Mapper {
 			 */
 			$note = $this->makeEntityFromDBResult($item);
 			$note->setNote($item['note']);
+
+			if($note->getGrouping()){
+				$notebook = $this->notebookService->find($note->getGrouping());
+				$note->setNotebook($notebook);
+			}
 			$results[] = $note;
 		}
 		return $results;
