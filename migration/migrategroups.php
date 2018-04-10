@@ -102,7 +102,7 @@ class MigrateGroups implements IRepairStep {
 				$note->setName($n['name']);
 				$note->setMtime($n['mtime']);
 				$note->setDeleted($n['deleted']);
-				$note->setGrouping($notebook->getId());
+				$note->setNotebook($notebook->getId());
 				$this->noteService->create($note);
 			}
 			$maxId++;
