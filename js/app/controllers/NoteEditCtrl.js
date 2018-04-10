@@ -155,7 +155,9 @@
 				if (!$scope.noteShadowCopy.title) {
 					return;
 				}
-
+				if($scope.noteShadowCopy.notebook  && $scope.noteShadowCopy.notebook.hasOwnProperty('id')) {
+					$scope.noteShadowCopy.notebook_id = $scope.noteShadowCopy.notebook.id;
+				}
 				if ($scope.noteShadowCopy.notebook.id === '_new' &&
 					$scope.new_group !== '') {
 
@@ -165,7 +167,7 @@
 						parent_id: 0
 					}).$promise.then(function (notebook) {
 						console.log('hiii');
-						$scope.noteShadowCopy.notebook = notebook;
+						$scope.noteShadowCopy.notebook_id = notebook.id;
 						saveNote();
 					});
 				} else {

@@ -109,19 +109,12 @@ class NoteApiController extends ApiController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function create($title, $notebook, $content) {
+	public function create($title, $notebook_id, $content) {
 		if ($title == "" || !$title) {
 			return new JSONResponse(['error' => 'title is missing']);
 		}
-//		$note = [
-//			'guid' => Utils::GUID(),
-//			'title' => $title,
-//			'name' => $title,
-//			'grouping' => $grouping,
-//			'note' => $content
-//		];
-		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 
+		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$note = new Note();
 		$note->setName($title);
 		$note->setUid($uid);
@@ -130,10 +123,10 @@ class NoteApiController extends ApiController {
 		$note->setMtime(time());
 		$note->setDeleted(0);
 
-		if(!empty($notebook) && $notebook['id']){
-			$notebook = $this->notebookService->find($notebook['id']);
+		if(!empty($notebook_id)){
+			$notebook = $this->notebookService->find($notebook_id);
 			if($notebook instanceof Notebook) {
-				$note->setNotebook($notebook);
+				$note->setNotebook($notebook->getId());
 			} else {
 				return new JSONResponse(['error' => 'Notebook not found']);
 			}
@@ -168,7 +161,7 @@ class NoteApiController extends ApiController {
 		if(!empty($notebook) && $notebook['id']){
 			$notebook = $this->notebookService->find($notebook['id']);
 			if($notebook instanceof Notebook) {
-				$note->setNotebook($notebook);
+				$note->setNotebook($notebook->getId());
 			} else {
 				return new JSONResponse(['error' => 'Notebook not found']);
 			}

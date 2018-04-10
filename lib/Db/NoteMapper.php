@@ -130,12 +130,6 @@ class NoteMapper extends Mapper {
 		}
 		$note->setShared(false);
 
-		/**
-		 * @var $note Note
-		 */
-		if($note->getNotebook() instanceof Notebook) {
-			$note->setNotebook($note->getNotebook()->getId());
-		}
 		$note = parent::insert($note);
 
 		if ($parts) {
@@ -167,9 +161,7 @@ class NoteMapper extends Mapper {
 		/**
 		 * @var $note Note
 		 */
-		if($note->getNotebook() instanceof Notebook) {
-			$note->setNotebook($note->getNotebook()->getId());
-		}
+
 		$note = parent::update($note);
 		if ($parts) {
 			foreach ($parts as $part) {

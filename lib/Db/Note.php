@@ -33,8 +33,8 @@ use \OCP\AppFramework\Db\Entity;
  * @method string getName()
  * @method void setGrouping(string $value)
  * @method string getGrouping()
- * @method void setNotebook(Notebook $value)
- * @method Notebook getNotebook()
+ * @method void setNotebook($value)
+ * @method getNotebook()
  * @method void setUid(string $value)
  * @method string getNote()
  * @method void setNote(string $value)
@@ -78,11 +78,9 @@ class Note extends Entity implements  \JsonSerializable{
 			'timediff' =>  $now->getTimestamp() - $this->getMtime(),
 			'title' => $this->getName(),
 			'uid' => $this->getUid(),
-			'grouping' => ($this->getGrouping()) ? $this->getGrouping() : '',
 			'notebook' => $this->getNotebook(),
 			'content' => $this->getNote(),
 			'deleted' => $this->getDeleted(),
-			'created' => 0,
 			'permissions' => 31
 		];
 	}
