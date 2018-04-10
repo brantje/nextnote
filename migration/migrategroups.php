@@ -94,7 +94,7 @@ class MigrateGroups implements IRepairStep {
 				if($n['id'] > $maxId){
 					$maxId = $n['id'];
 				}
-
+				$notebook = $this->groupService->findByName($n['grouping']);
 				$note = new Note();
 				$note->setId($n['id']);
 				$note->setGuid(Utils::GUID());
@@ -102,7 +102,7 @@ class MigrateGroups implements IRepairStep {
 				$note->setName($n['name']);
 				$note->setMtime($n['mtime']);
 				$note->setDeleted($n['deleted']);
-				$note->setGrouping($n['grouping']);
+				$note->setGrouping($notebook->getId());
 				$this->noteService->create($note);
 			}
 			$maxId++;
