@@ -80,7 +80,7 @@ class Note extends Entity implements  \JsonSerializable{
 			'uid' => $this->getUid(),
 			'notebook' => $this->getNotebook(),
 			'content' => $this->getNote(),
-			'content_plain' => html_entity_decode(strip_tags($this->getNote())),
+			'content_plain' => strip_tags(html_entity_decode($this->getNote())),
 			'deleted' => $this->getDeleted(),
 			'permissions' => 31
 		];
