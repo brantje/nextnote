@@ -76,7 +76,7 @@ class MigrateGroups implements IRepairStep {
 			$users = $this->fetchAll('SELECT DISTINCT(uid) FROM `*PREFIX*nextnote`');
 			foreach ($users as $user) {
 				$user = $user['uid'];
-				$groups = $this->fetchAll('SELECT DISTINCT(grouping) FROM `*PREFIX*nextnote` WHERE uid = "' . $user . '"');
+				$groups = $this->fetchAll('SELECT DISTINCT(grouping) FROM `*PREFIX*nextnote` WHERE uid="' . $user . '"');
 				foreach ($groups as $group) {
 					if ($group['grouping']) {
 						$g = new Notebook();
