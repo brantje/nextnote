@@ -64,7 +64,7 @@ class NotebookMapper extends Mapper {
 		if($where){
 			$where = 'WHERE '. $where;
 		}
-		$sql = "SELECT g.*, g.guid as guid, COUNT(n.id) as note_count FROM *PREFIX*nextnote_groups g LEFT JOIN *PREFIX*nextnote_notes n ON g.name=n.grouping $where  GROUP BY g.id";
+		$sql = "SELECT g.*, g.guid as guid, COUNT(n.id) as note_count FROM *PREFIX*nextnote_groups g LEFT JOIN *PREFIX*nextnote_notes n ON g.id=n.notebook $where  GROUP BY g.id";
 		/**
 		 * @var $results Notebook[]
 		 */
@@ -107,7 +107,7 @@ class NotebookMapper extends Mapper {
 		if($where){
 			$where = 'WHERE '. $where;
 		}
-		$sql = "SELECT g.*, COUNT(n.id) as note_count FROM *PREFIX*nextnote_groups g LEFT JOIN *PREFIX*nextnote_notes n ON g.name=n.grouping $where  GROUP BY g.id";
+		$sql = "SELECT g.*, COUNT(n.id) as note_count FROM *PREFIX*nextnote_groups g LEFT JOIN *PREFIX*nextnote_notes n ON g.id=n.notebook $where  GROUP BY g.id";
 		/**
 		 * @var $results Notebook[]
 		 */
