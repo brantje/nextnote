@@ -916,4 +916,7 @@ a.editable-empty:focus {
       list-style: disc;
       margin-left: 15px; }
 
+.mce-tinymce.mce-fullscreen {
+  margin-top: 45px; }
+
 /*# sourceMappingURL=app.css.map */
