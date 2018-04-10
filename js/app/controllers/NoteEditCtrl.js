@@ -51,13 +51,17 @@
 			};
 
 			function saveNote () {
-				$scope.noteShadowCopy.$save().then(function (result) {
+				var isNewNote = ($scope.noteShadowCopy.id === undefined);
+				$scope.noteShadowCopy.$save().then( function (result) {
 					result.mtime = result.mtime * 1000;
 					$rootScope.notes[result.id] = result;
 					$scope.autoSaved = true;
 					$timeout(function () {
 						$scope.autoSaved = false;
 					}, 2500);
+					if(isNewNote){
+						window.location = '#!/note/edit/'+result.id;
+					}
 					$rootScope.$emit('refresh_notes');
 				});
 			}
@@ -82,7 +86,7 @@
 				if (noteId) {
 					NoteService.getNoteById(noteId).then(function (note) {
 						$scope.note = note;
-						$scope.noteShadowCopy = angular.copy(note);
+						$scope.noteShadowCopy = new NoteFactory(angular.copy(note));
 					});
 				} else {
 					$scope.note = NoteService.newNote();
@@ -155,9 +159,11 @@
 				if (!$scope.noteShadowCopy.title) {
 					return;
 				}
-				if($scope.noteShadowCopy.notebook  && $scope.noteShadowCopy.notebook.hasOwnProperty('id')) {
+				console.log($scope.noteShadowCopy)
+				if ($scope.noteShadowCopy.notebook && $scope.noteShadowCopy.notebook.hasOwnProperty('id')) {
 					$scope.noteShadowCopy.notebook_id = $scope.noteShadowCopy.notebook.id;
 				}
+				console.log($scope.noteShadowCopy)
 				if ($scope.noteShadowCopy.notebook.id === '_new' &&
 					$scope.new_group !== '') {
 
@@ -187,6 +193,9 @@
 					if (!$scope.hasPermission($scope.noteShadowCopy, 'update')) {
 						watcher();
 						console.log('Disabling auto save, no edit permissions');
+						return;
+					}
+					if(!$scope.noteShadowCopy.id){
 						return;
 					}
 					if ($scope.noteShadowCopy.title &&
