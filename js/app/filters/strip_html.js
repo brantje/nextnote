@@ -20,8 +20,10 @@
  *
  */
 
-angular.module('NextNotesApp').filter('htmlToPlaintext', function(){
+angular.module('NextNotesApp').filter('htmlToPlaintext', function($sce){
 	return function(text) {
-		return  text ? String(text).replace(/<[^>]+>/gm, '') : '';
+		text = text ? String(text).replace(/<[^>]+>/gm, '') : '';
+		text = $sce.trustAsHtml(text);
+		return  text;
 	};
 });

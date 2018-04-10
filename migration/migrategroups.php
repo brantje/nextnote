@@ -64,20 +64,17 @@ class MigrateGroups implements IRepairStep {
 
 	public function run(IOutput $output) {
 		$output->info('Migrating groups');
-		$this->migrateGroups();
+		$this->doMigration();
 	}
 
 	private function fetchAll($sql) {
 		return $this->db->executeQuery($sql)->fetchAll();
 	}
 
-	private function migrateGroups() {
+	private function doMigration() {
 		if (version_compare($this->installedVersion, '1.2.3', '<')) {
 			$users = $this->fetchAll('SELECT DISTINCT(uid) FROM `*PREFIX*nextnote`');
 			foreach ($users as $user) {
-				if (!$user['uid']) {
-					die('err');
-				}
 				$user = $user['uid'];
 				$groups = $this->fetchAll('SELECT DISTINCT(grouping) FROM `*PREFIX*nextnote` WHERE uid = "' . $user . '"');
 				foreach ($groups as $group) {

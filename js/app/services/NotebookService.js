@@ -53,9 +53,7 @@
 					});
 					return deferred.promise;
 				},
-				save: function(notebook){
-					NotebookFactory.save(notebook)
-				},
+				save: NotebookFactory.save,
 				update: NotebookFactory.update
 
 			};

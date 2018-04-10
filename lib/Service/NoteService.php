@@ -88,7 +88,7 @@ class NoteService {
 			throw new \Exception("Expected Note object!");
 		}
 
-		return $this->noteMapper->create($note);
+		return $this->noteMapper->insert($note);
 	}
 
 	/**
@@ -117,10 +117,6 @@ class NoteService {
 	 * @internal param string $vault_guid
 	 */
 	public function delete($note_id, $user_id = null) {
-		if (!$this->checkPermissions(\OCP\Constants::PERMISSION_DELETE, $note_id)) {
-			return false;
-		}
-
 		$note = $this->noteMapper->find($note_id, $user_id);
 		if ($note instanceof Note) {
 			$this->noteMapper->deleteNote($note);
@@ -141,18 +137,4 @@ class NoteService {
 		throw new \Exception('Calling a deprecated method! (Folder' . $FOLDER . '. Showdel: ' . $showdel . ')');
 	}
 
-	private function checkPermissions($permission, $nid) {
-		return true;
-		// gather information
-		$uid = \OC::$server->getUserSession()->getUser()->getUID();
-		$note = $this->find($nid);
-		// owner is allowed to change everything
-		if ($uid === $note->getUid()) {
-			return true;
-		}
-
-		// check share permissions
-		$shared_note = ShareFix::getItemSharedWith('nextnote', $nid, 'populated_shares')[0];
-		return $shared_note['permissions'] & $permission;
-	}
 }

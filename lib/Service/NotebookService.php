@@ -45,13 +45,13 @@ class NotebookService {
 	/**
 	 * Find a group by id
 	 *
-	 * @param $group_id
+	 * @param $notebook_id
 	 * @param null $user_id
-	 * @param bool $deleted
+	 * @param int|bool $deleted
 	 * @return Notebook[]|Notebook
 	 */
-	public function find($group_id=null, $user_id = null, $deleted = false) {
-		return $this->groupMapper->find($group_id, $user_id, $deleted);
+	public function find($notebook_id=null, $user_id = null, $deleted = false) {
+		return $this->groupMapper->find($notebook_id, $user_id, $deleted);
 	}
 	/**
 	 * Find a group by name
@@ -86,7 +86,7 @@ class NotebookService {
 		if (!$group instanceof Notebook) {
 			throw new \Exception("Expected Note object!");
 		}
-		return $this->groupMapper->create($group);
+		return $this->groupMapper->insert($group);
 	}
 
 	/**
@@ -123,7 +123,7 @@ class NotebookService {
 	 * @return bool
 	 */
 	public function delete($group_id, $user_id = null) {
-		if (!$this->checkPermissions(\OCP\Constants::PERMISSION_DELETE, $group_id)) {
+		if (!$this->checkPermissions()) {
 			return false;
 		}
 
@@ -136,7 +136,7 @@ class NotebookService {
 		}
 	}
 
-	private function checkPermissions($permission, $nid) {
+	private function checkPermissions() {
 		return true;
 	}
 }

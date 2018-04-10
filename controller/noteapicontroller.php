@@ -141,7 +141,7 @@ class NoteApiController extends ApiController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function update($id, $title, $content, $deleted, $notebook) {
+	public function update($id, $title, $content, $deleted, $notebook_id) {
 		if ($title == "" || !$title) {
 			return new JSONResponse(['error' => 'title is missing']);
 		}
@@ -158,8 +158,8 @@ class NoteApiController extends ApiController {
 		if (!$this->shareBackend->checkPermissions(Constants::PERMISSION_UPDATE, $note)) {
 			return new UnauthorizedJSONResponse();
 		}
-		if(!empty($notebook) && $notebook['id']){
-			$notebook = $this->notebookService->find($notebook['id']);
+		if(!empty($notebook_id)){
+			$notebook = $this->notebookService->find($notebook_id);
 			if($notebook instanceof Notebook) {
 				$note->setNotebook($notebook->getId());
 			} else {

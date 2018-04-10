@@ -36,16 +36,22 @@ class NotebookMapper extends Mapper {
 		$this->utils = $utils;
 	}
 
-
-	public function find($group_id, $user_id = null, $deleted = false) {
+	/**
+	 * Get Notebook(s)
+	 * @param int $notebook_id
+	 * @param null|int $user_id
+	 * @param bool|int $deleted
+	 * @return Notebook[]|Notebook
+	 */
+	public function find($notebook_id, $user_id = null, $deleted = false) {
 		$params = [];
 		$where = [];
-		if($group_id){
+		if($notebook_id){
 			$where[] = 'g.id= ?';
-			$params[] = $group_id;
+			$params[] = $notebook_id;
 		}
 
-		if ($user_id) {
+		if ($user_id !== null) {
 			$params[] = $user_id;
 			$where[] = 'g.uid = ?';
 		}
@@ -59,6 +65,9 @@ class NotebookMapper extends Mapper {
 			$where = 'WHERE '. $where;
 		}
 		$sql = "SELECT g.*, g.guid as guid, COUNT(n.id) as note_count FROM *PREFIX*nextnote_groups g LEFT JOIN *PREFIX*nextnote_notes n ON g.name=n.grouping $where  GROUP BY g.id";
+		/**
+		 * @var $results Notebook[]
+		 */
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			$results[] = $this->makeEntityFromDBResult($item);
@@ -71,7 +80,12 @@ class NotebookMapper extends Mapper {
 		return $results;
 	}
 
-
+	/**
+	 * @param $group_name
+	 * @param null $user_id
+	 * @param bool $deleted
+	 * @return Notebook[]|Notebook
+	 */
 	public function findByName($group_name, $user_id = null, $deleted = false) {
 		$params = [];
 		$where = [];
@@ -94,6 +108,9 @@ class NotebookMapper extends Mapper {
 			$where = 'WHERE '. $where;
 		}
 		$sql = "SELECT g.*, COUNT(n.id) as note_count FROM *PREFIX*nextnote_groups g LEFT JOIN *PREFIX*nextnote_notes n ON g.name=n.grouping $where  GROUP BY g.id";
+		/**
+		 * @var $results Notebook[]
+		 */
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			$results[] = $this->makeEntityFromDBResult($item);
@@ -113,7 +130,7 @@ class NotebookMapper extends Mapper {
 	 * @return Note|Entity
 	 * @internal param $userId
 	 */
-	public function create(Entity $group) {
+	public function insert(Entity $group) {
 		$group->setNoteCount(null);
 		return parent::insert($group);
 	}

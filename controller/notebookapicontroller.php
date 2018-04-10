@@ -62,17 +62,14 @@ class NotebookApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @TODO Add etag / lastmodified
 	 * @param int|bool $deleted
-	 * @param string|bool $group
+	 * @param int|bool $notebook_id
 	 * @return JSONResponse
+	 * @internal param bool|string $group
 	 */
-	public function index($deleted = false, $group = false) {
+	public function index($deleted = false, $notebook_id = false) {
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
-		$results = $this->groupService->find(null, $uid);
-		foreach ($results as &$group) {
-			$group = $group->jsonSerialize();
-			$this->formatApiResponse($group);
+		$results = $this->groupService->find($notebook_id, $uid, $deleted);
 
-		}
 		return new JSONResponse($results);
 	}
 
@@ -80,6 +77,8 @@ class NotebookApiController extends ApiController {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 * @TODO Add etag / lastmodified
+	 * @param $id
+	 * @return NotFoundJSONResponse|JSONResponse
 	 */
 	public function get($id) {
 		$result = $this->groupService->find($id);
@@ -88,13 +87,17 @@ class NotebookApiController extends ApiController {
 		}
 		//@todo Check access
 		$result = $result->jsonSerialize();
-		return new JSONResponse($this->formatApiResponse($result));
+		return new JSONResponse($result);
 	}
 
 
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @param $name
+	 * @param $color
+	 * @param $parent_id
+	 * @return JSONResponse
 	 */
 	public function create($name, $color, $parent_id) {
 		if ($name == "" || !$name) {
@@ -114,12 +117,17 @@ class NotebookApiController extends ApiController {
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$result = $this->groupService->create($group, $uid)->jsonSerialize();
 		\OC_Hook::emit('OCA\NextNote', 'post_create_group', ['group' => $group]);
-		return new JSONResponse($this->formatApiResponse($result));
+		return new JSONResponse($result);
 	}
 
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @param $id
+	 * @param $name
+	 * @param $color
+	 * @param $parent_id
+	 * @return NotFoundJSONResponse|UnauthorizedJSONResponse|JSONResponse
 	 */
 	public function update($id, $name, $color, $parent_id) {
 		if ($name == "" || !$name) {
@@ -145,12 +153,14 @@ class NotebookApiController extends ApiController {
 
 		$results = $this->groupService->update($group)->jsonSerialize();
 		\OC_Hook::emit('OCA\NextNote', 'post_update_group', ['group' => $group]);
-		return new JSONResponse($this->formatApiResponse($results));
+		return new JSONResponse($results);
 	}
 
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @param $id
+	 * @return NotFoundJSONResponse|UnauthorizedJSONResponse|JSONResponse
 	 */
 	public function delete($id) {
 		$entity = $this->groupService->find($id);
@@ -166,13 +176,5 @@ class NotebookApiController extends ApiController {
 		$result = (object)['success' => true];
 		\OC_Hook::emit('OCA\NextNote', 'post_delete_group', ['group_id' => $id]);
 		return new JSONResponse($result);
-	}
-
-	/**
-	 * @param $group array
-	 * @return array
-	 */
-	private function formatApiResponse($group) {
-		return $group;
 	}
 }

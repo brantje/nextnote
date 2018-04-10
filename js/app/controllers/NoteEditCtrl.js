@@ -68,12 +68,12 @@
 
 			function initGroups () {
 				$scope.local_notebooks = angular.copy($rootScope.note_groups);
-				$scope.local_notebooks['empty'] = {
+				$scope.local_notebooks.empty = {
 					id: '',
 					name: 'Not grouped'
 				};
 
-				$scope.local_notebooks['_new'] = {
+				$scope.local_notebooks._new = {
 					id: '_new',
 					name: 'New group'
 				};
@@ -159,12 +159,11 @@
 				if (!$scope.noteShadowCopy.title) {
 					return;
 				}
-				console.log($scope.noteShadowCopy)
 				if ($scope.noteShadowCopy.notebook && $scope.noteShadowCopy.notebook.hasOwnProperty('id')) {
 					$scope.noteShadowCopy.notebook_id = $scope.noteShadowCopy.notebook.id;
 				}
-				console.log($scope.noteShadowCopy)
-				if ($scope.noteShadowCopy.notebook.id === '_new' &&
+
+				if ($scope.noteShadowCopy.hasOwnProperty('notebook') && $scope.noteShadowCopy.notebook !== null && $scope.noteShadowCopy.notebook.id === '_new' &&
 					$scope.new_group !== '') {
 
 					NotebookFactory.save({

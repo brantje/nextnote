@@ -121,7 +121,7 @@ class NoteMapper extends Mapper {
 	 * @return Note|Entity
 	 * @internal param $userId
 	 */
-	public function create($note) {
+	public function insert($note) {
 		$len = mb_strlen($note->getNote());
 		$parts = false;
 		if ($len > Utils::$maxPartSize) {
@@ -131,7 +131,9 @@ class NoteMapper extends Mapper {
 		$note->setShared(false);
 
 		$note = parent::insert($note);
-
+		/**
+		 * @var $note Note
+		 */
 		if ($parts) {
 			foreach ($parts as $part) {
 				$this->createNotePart($note, $part);
