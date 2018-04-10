@@ -22,59 +22,57 @@
  */
 
 namespace OCA\NextNote\Db;
+
 use \OCP\AppFramework\Db\Entity;
 
 /**
  * @method integer getId()
  * @method void setId(int $value)
+ * @method integer getParentId()
+ * @method void setParentId(int $value)
+ * @method void setUid(string $value)
+ * @method string getUid()
  * @method void setName(string $value)
  * @method string getName()
- * @method void setGrouping(string $value)
- * @method string getGrouping()
- * @method void setUid(string $value)
- * @method string getNote()
- * @method void setNote(string $value)
- * @method string getUid()
- * @method bool setShared(bool $value)
- * @method bool getShared()
- * @method void setMtime(integer $value)
- * @method integer getMtime()
+ * @method void setGuid(string $value)
+ * @method string getGuid()
+ * @method string getColor()
+ * @method string setColor(string $value)
  * @method void setDeleted(integer $value)
  * @method integer getDeleted()
+ * @method void setNoteCount(integer $value)
+ * @method integer getNoteCount()
  */
-
-
-class NextNote extends Entity implements  \JsonSerializable{
+class Notebook extends Entity implements \JsonSerializable {
 
 	use EntityJSONSerializer;
 
 	protected $name;
-	protected $grouping;
+	protected $guid;
 	protected $uid;
-	protected $mtime;
-	protected $deleted = 0;
-	protected $note;
-	protected $shared;
+	protected $parentId;
+	protected $color;
+	protected $deleted;
+	protected $noteCount;
+
 	public function __construct() {
 		// add types in constructor
-		$this->addType('mtime', 'integer');
+		$this->addType('parentId', 'integer');
 		$this->addType('deleted', 'integer');
+		$this->addType('note_count', 'integer');
 	}
+
 	/**
 	 * Turns entity attributes into an array
 	 */
 	public function jsonSerialize() {
-		$now = new \DateTime();
 		return [
 			'id' => $this->getId(),
-			'mtime' => $this->getMtime(),
-			'timediff' =>  $now->getTimestamp() - $this->getMtime(),
-			'title' => $this->getName(),
-			'uid' => $this->getUid(),
-			'grouping' => ($this->getGrouping()) ? $this->getGrouping() : '',
-			'content' => $this->getNote(),
-			'deleted' => $this->getDeleted(),
-			'created' => 0,
+			'guid' => $this->getGuid(),
+			'parent_id' => $this->getParentId(),
+			'name' => $this->getName(),
+			'color' => $this->getColor(),
+			'note_count' => $this->getNoteCount(),
 			'permissions' => 31
 		];
 	}

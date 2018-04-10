@@ -23,23 +23,26 @@
 
 namespace OCA\NextNote\Service;
 
-use OCA\NextNote\Db\NextNote;
+use OCA\NextNote\Db\Notebook;
+use OCA\NextNote\Db\Note;
+use OCA\NextNote\Fixtures\ShareFix;
 use OCA\NextNote\ShareBackend\NextNoteShareBackend;
 use OCA\NextNote\Utility\Utils;
-use OCA\NextNote\Db\NextNoteMapper;
+use OCA\NextNote\Db\NoteMapper;
 
 
-
-class NextNoteService {
+class NoteService {
 
 	private $noteMapper;
 	private $utils;
 	private $sharing;
+	private $groupService;
 
-	public function __construct(NextNoteMapper $noteMapper, Utils $utils, NextNoteShareBackend $shareBackend) {
+	public function __construct(NoteMapper $noteMapper, Utils $utils, NextNoteShareBackend $shareBackend, NotebookService $groupService) {
 		$this->noteMapper = $noteMapper;
 		$this->utils = $utils;
 		$this->sharing = $shareBackend;
+		$this->groupService = $groupService;
 	}
 
 	/**
@@ -48,7 +51,7 @@ class NextNoteService {
 	 * @param $userId
 	 * @param int|bool $deleted
 	 * @param string|bool $grouping
-	 * @return NextNote[]
+	 * @return Note[]
 	 */
 	public function findNotesFromUser($userId, $deleted = false, $grouping = false) {
 		// Get shares
@@ -65,7 +68,7 @@ class NextNoteService {
 	 * @param $note_id
 	 * @param $user_id
 	 * @param bool|int $deleted
-	 * @return NextNote
+	 * @return Note
 	 * @internal param $vault_id
 	 */
 	public function find($note_id, $user_id = null, $deleted = false) {
@@ -76,69 +79,33 @@ class NextNoteService {
 	/**
 	 * Creates a note
 	 *
-	 * @param array|NextNote $note
-	 * @param $userId
-	 * @return NextNote
+	 * @param Note $note
+	 * @return Note
 	 * @throws \Exception
 	 */
-	public function create($note, $userId) {
-		if (is_array($note)) {
-			$entity = new NextNote();
-			$entity->setName($note['title']);
-			$entity->setUid($userId);
-			$entity->setGrouping($note['grouping']);
-			$entity->setNote($note['note'] ? $note['note'] : '');
-			$entity->setMtime(time());
-			$note = $entity;
+	public function create(Note $note) {
+		if (!$note instanceof Note) {
+			throw new \Exception("Expected Note object!");
 		}
-		if (!$note instanceof NextNote) {
-			throw new \Exception("Expected NextNote object!");
-		}
-		return $this->noteMapper->create($note);
+
+		return $this->noteMapper->insert($note);
 	}
 
 	/**
 	 * Update vault
 	 *
-	 * @param $note array|NextNote
-	 * @return NextNote|bool
+	 * @param $note Note
+	 * @return Note|bool
 	 * @throws \Exception
 	 * @internal param $userId
 	 * @internal param $vault
 	 */
-	public function update($note) {
-
-		if (is_array($note)) {
-			$entity = $this->find($note['id']);
-			$entity->setName($note['title']);
-			$entity->setGrouping($note['grouping']);
-			$entity->setNote($note['note']);
-			$entity->setDeleted($note['deleted']);
-			$entity->setMtime(time());
-			$note = $entity;
+	public function update(Note $note) {
+		if (!$note instanceof Note) {
+			throw new \Exception("Expected Note object!");
 		}
-		if (!$note instanceof NextNote) {
-			throw new \Exception("Expected NextNote object!");
-		}
-
-		// @TODO check if we can enable this without issues
-//		if (!$this->checkPermissions(\OCP\Constants::PERMISSION_UPDATE, $note->getId())) {
-//			return false;
-//		}
 
 		return $this->noteMapper->updateNote($note);
-	}
-
-	public function renameNote($FOLDER, $id, $in_newname, $in_newgroup, $uid = null) {
-		$newname = str_replace("\\", "-", str_replace("/", "-", $in_newname));
-		$newgroup = str_replace("\\", "-", str_replace("/", "-", $in_newgroup));
-
-		$note = $this->find($id);
-		$note->setName($newname);
-		$note->setGrouping($newgroup);
-		$this->update($note);
-
-		return true;
 	}
 
 	/**
@@ -150,12 +117,8 @@ class NextNoteService {
 	 * @internal param string $vault_guid
 	 */
 	public function delete($note_id, $user_id = null) {
-		if (!$this->checkPermissions(\OCP\Constants::PERMISSION_DELETE, $note_id)) {
-			return false;
-		}
-
 		$note = $this->noteMapper->find($note_id, $user_id);
-		if ($note instanceof NextNote) {
+		if ($note instanceof Note) {
 			$this->noteMapper->deleteNote($note);
 			return true;
 		} else {
@@ -174,17 +137,4 @@ class NextNoteService {
 		throw new \Exception('Calling a deprecated method! (Folder' . $FOLDER . '. Showdel: ' . $showdel . ')');
 	}
 
-	private function checkPermissions($permission, $nid) {
-		// gather information
-		$uid = \OC::$server->getUserSession()->getUser()->getUID();
-		$note = $this->find($nid);
-		// owner is allowed to change everything
-		if ($uid === $note->getUid()) {
-			return true;
-		}
-
-		// check share permissions
-		$shared_note = \OCP\Share::getItemSharedWith('nextnote', $nid, 'populated_shares')[0];
-		return $shared_note['permissions'] & $permission;
-	}
 }

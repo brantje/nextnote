@@ -24,7 +24,8 @@
 namespace OCA\NextNote\ShareBackend;
 
 use OC\Share\Share;
-use OCA\NextNote\Db\NextNote;
+use OCA\NextNote\Db\Note;
+use OCA\NextNote\Db\Notebook;
 use OCA\NextNote\Fixtures\ShareFix;
 use \OCP\Share_Backend;
 
@@ -142,9 +143,10 @@ class NextNoteShareBackend implements Share_Backend {
 	/**
 	 * Check if the current user has the requested permission.
 	 * For permissions
+	 *
 	 * @see \OCP\Constants
 	 * @param $permission
-	 * @param $note NextNote
+	 * @param $note Note|Notebook
 	 * @return bool|int
 	 */
 	public function checkPermissions($permission, $note) {

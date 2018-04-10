@@ -60,8 +60,7 @@
 						ng-click="editNote(note)">
 						<div>{{note.title}}</div>
 						<div class="caption">
-							<small>{{ note.content.substr(0, 500) |
-								htmlToPlaintext}}
+							<small>{{ note.content_plain.substr(0, 500) | htmlToPlaintext}}
 							</small>
 						</div>
 					</td>
@@ -70,7 +69,8 @@
 						ng-if="!hasPermission(note, 'update')"
 						ng-click="viewNote(note)">
 						{{ note.title }}
-						<p>{{ note.note }}</p>
+						<small>{{ note.content_plain.substr(0, 500) | htmlToPlaintext}}
+						</small>
 					</td>
 					<td class="actions" ng-if="list_filter.deleted === 0">
 

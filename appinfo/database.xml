@@ -5,7 +5,7 @@
 	<overwrite>false</overwrite>
 	<charset>utf8</charset>
 	<table>
-		<name>*dbprefix*nextnote</name>
+		<name>*dbprefix*nextnote_notes</name>
 		<declaration>
 			<field>
 				<name>id</name>
@@ -14,6 +14,12 @@
 				<notnull>true</notnull>
 				<autoincrement>1</autoincrement>
 				<length>32</length>
+			</field>
+			<field>
+				<name>guid</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>255</length>
 			</field>
 			<field>
 				<name>uid</name>
@@ -32,6 +38,13 @@
 				<type>text</type>
 				<notnull>true</notnull>
 				<length>255</length>
+				<default></default>
+			</field>
+			<field>
+				<name>notebook</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<length>32</length>
 				<default></default>
 			</field>
 			<field>
@@ -82,6 +95,57 @@
 				<name>note</name>
 				<type>clob</type>
 				<notnull>true</notnull>
+			</field>
+		</declaration>
+	</table>
+	<table>
+		<name>*dbprefix*nextnote_groups</name>
+		<declaration>
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<length>32</length>
+			</field>
+			<field>
+				<name>guid</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+			<field>
+				<name>parent_id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>false</notnull>
+				<length>32</length>
+			</field>
+			<field>
+				<name>uid</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+			<field>
+				<name>name</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+			<field>
+				<name>color</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+			<field>
+				<name>deleted</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<default>0</default>
+				<length>1</length>
 			</field>
 		</declaration>
 	</table>

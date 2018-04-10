@@ -49,7 +49,7 @@
 			$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
 		}]).config(['$qProvider', function ($qProvider) {
 		$qProvider.errorOnUnhandledRejections(false);
-	}]).run(['$rootScope', 'NoteFactory', 'editableOptions', function ($rootScope, NoteFactory, editableOptions) {
+	}]).run(['$rootScope', 'NoteFactory', 'editableOptions', 'NotebookFactory', function ($rootScope, NoteFactory, editableOptions, NotebookFactory) {
 		editableOptions.theme = 'bs2';
 		console.log('App loaded');
 		$rootScope.list_sorting = {
@@ -57,7 +57,7 @@
 			reverse: true
 		};
 		$rootScope.noteGroupFilter = {
-			grouping: 'all'
+			notebook: 'all'
 		};
 		$rootScope.list_filter = {
 			deleted: 0
@@ -87,69 +87,17 @@
 				$rootScope.dateFormat = moment.localeData().longDateFormat('L').replace(/D/g, 'd').replace(/Y/g, 'y');
 				$rootScope.dateFormatLong = moment.localeData().longDateFormat('L').replace(/D/g, 'd').replace(/Y/g, 'y') + ' H:mm';
 			});
+			NotebookFactory.query(function (groups) {
+				console.log('Groups received', groups);
+				$rootScope.note_groups = groups;
+				$rootScope.$broadcast('nextnotes_notebooks_loaded');
+			});
 		}
 
 		loadNotes();
 		$rootScope.$on('refresh_notes', function () {
 			loadNotes();
 		});
-
 		$rootScope.app_config = window.app_config;
-		// Setup a watcher on the notes so groups are always correct
-		// @TODO Implement multi level support
-
-
-		var getGroupIndexByName = function (groupName) {
-			for (var i = 0; i < $rootScope.note_groups.length; i++) {
-				if (groupName === $rootScope.note_groups[i].name) {
-					return i;
-				}
-			}
-			return -1;
-		};
-
-		$rootScope.$watch('[notes, list_filter]', function (n) {
-			if (!n) {
-				return;
-			}
-
-			$rootScope.note_groups = [];
-			$rootScope.note_count = 0;
-
-			var notes = $rootScope.notes;
-			angular.forEach(notes, function (note) {
-				if (note.hasOwnProperty('id')) {
-					var name;
-					if (note.deleted !== $rootScope.list_filter.deleted) {
-						return;
-					}
-					$rootScope.note_count++;
-					if(shareMode === 'standalone'){
-						name = (OC.getCurrentUser().uid === note.owner.uid ) ? note.grouping : note.grouping + ' ('+ note.owner.uid +')';
-					} else {
-						name = note.grouping;
-					}
-					var idx = getGroupIndexByName(name);
-					if (shareMode === 'merge' && idx === -1 && note.grouping !== '_new' && note.grouping !== '') {
-						$rootScope.note_groups.push({
-							name: name,
-							note_count: 1
-						});
-					}
-					if (shareMode === 'standalone' && idx === -1 && note.grouping !== '_new' && note.grouping !== '') {
-							$rootScope.note_groups.push({
-							name: name,
-							note_count: 1
-						});
-					}
-					if (shareMode === 'standalone' && idx !== -1 && note.grouping !== '_new' && note.grouping !== '') {
-						$rootScope.note_groups[idx].note_count++;
-					}
-					if (shareMode === 'merge' && idx !== -1 && note.grouping !== '_new' && note.grouping !== '') {
-						$rootScope.note_groups[idx].note_count++;
-					}
-				}
-			});
-		}, true);
 	}]);
 }());

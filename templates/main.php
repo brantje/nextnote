@@ -44,7 +44,9 @@ script('nextnote', 'app/controllers/NoteListCtrl');
 script('nextnote', 'app/controllers/NoteViewCtrl');
 script('nextnote', 'app/controllers/NoteEditCtrl');
 script('nextnote', 'app/services/NoteService');
+script('nextnote', 'app/services/NotebookService');
 script('nextnote', 'app/factory/NoteFactory');
+script('nextnote', 'app/factory/NotebookFactory');
 script('nextnote', 'app/directives/tooltip');
 script('nextnote', 'app/filters/noteFilter');
 script('nextnote', 'app/filters/objectKeysLength');
@@ -71,7 +73,10 @@ echo '<script nonce="test"> var shareMode = "'. $_['shareMode'] .'"; var app_con
 <div id="app" ng-app="NextNotesApp" ng-controller="MainCtrl">
 	<div id="app-navigation" ng-show="sidebar_shown">
 		<ul id="grouplist">
-			<li class="group"  ng-click="noteGroupFilter.grouping = 'all'; " ng-class="{'active': noteGroupFilter.grouping === 'all' }">
+			<li class="group">
+				<a class="name" role="button" title="All">+ New group</a>
+			</li>
+			<li class="group"  ng-click="noteGroupFilter.notebook = 'all'; " ng-class="{'active': noteGroupFilter.notebook === 'all' }">
 				<a class="name" role="button" title="All">All</a>
 				<span class="utils">
 					<a class="icon-rename action edit tooltipped rightwards" group="All" original-title=""></a>
@@ -79,7 +84,7 @@ echo '<script nonce="test"> var shareMode = "'. $_['shareMode'] .'"; var app_con
 					<span class="action numnotes" ng-show="keys(notes).length - 2 > 0">{{ note_count }}</span>
 				</span>
 			</li>
-			<li class="group"  ng-click="noteGroupFilter.grouping = ''; " ng-class="{'active': noteGroupFilter.grouping === '' }">
+			<li class="group"  ng-click="noteGroupFilter.notebook = ''; " ng-class="{'active': noteGroupFilter.notebook === '' }">
 				<a class="name" title="Not grouped">Not grouped</a>
 				<span class="utils">
 					<a class="icon-rename action edit tooltipped rightwards" group="All" original-title=""></a>
@@ -87,8 +92,8 @@ echo '<script nonce="test"> var shareMode = "'. $_['shareMode'] .'"; var app_con
 					<!-- <span class="action numnotes" ng-show="keys(notes).length - 2 > 0">{{ keys(notes).length - 2 }}</span> -->
 				</span>
 			</li>
-			<li id="group-{{group}}" ng-if="group.name !== ''" class="group" ng-click="noteGroupFilter.grouping = group.name; "
-				ng-class="{'active': noteGroupFilter.grouping === group.name }" data-type="category" ng-repeat="group in note_groups">
+			<li id="group-{{group}}" ng-if="group.name !== ''" class="group" ng-click="noteGroupFilter.notebook = group.id; "
+				ng-class="{'active': noteGroupFilter.notebook === group.id }" data-type="category" ng-repeat="group in note_groups">
 				<a editable-text="group" e-form="textBtnForm" onbeforesave="renameGroup(group, $data)" class="name" id="link-webstore" role="button" title="webstore">{{ group.name }}</a>
 
 				<span class="utils">
@@ -97,7 +102,7 @@ echo '<script nonce="test"> var shareMode = "'. $_['shareMode'] .'"; var app_con
 					<span class="action numnotes">{{ group.note_count }}</span>
 				</span>
 			</li>
-			<li data-id="trashbin" class="nav-trashbin" ng-class="{'active': list_filter.deleted === 1}" ng-click="list_filter.deleted = (list_filter.deleted === 0 ) ? 1 : 0; noteGroupFilter.grouping = 'all';">
+			<li data-id="trashbin" class="nav-trashbin" ng-class="{'active': list_filter.deleted === 1}" ng-click="list_filter.deleted = (list_filter.deleted === 0 ) ? 1 : 0; noteGroupFilter.notebook = 'all';">
 				<a class="nav-icon-trashbin svg">
 					Deleted notes
 				</a>

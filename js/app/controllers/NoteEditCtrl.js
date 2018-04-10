@@ -38,8 +38,9 @@
 		'$location',
 		'$timeout',
 		'NoteFactory',
+		'NotebookFactory',
 		function ($scope, $rootScope, NoteService, $routeParams, $location, $timeout,
-				  NoteFactory) {
+				  NoteFactory, NotebookFactory) {
 			$scope.noteShadowCopy = {
 				title: '',
 				content: '',
@@ -48,14 +49,44 @@
 				},
 				permissions: OC.PERMISSION_ALL
 			};
+
+			function saveNote () {
+				var isNewNote = ($scope.noteShadowCopy.id === undefined);
+				$scope.noteShadowCopy.$save().then( function (result) {
+					result.mtime = result.mtime * 1000;
+					$rootScope.notes[result.id] = result;
+					$scope.autoSaved = true;
+					$timeout(function () {
+						$scope.autoSaved = false;
+					}, 2500);
+					if(isNewNote){
+						window.location = '#!/note/edit/'+result.id;
+					}
+					$rootScope.$emit('refresh_notes');
+				});
+			}
+
+			function initGroups () {
+				$scope.local_notebooks = angular.copy($rootScope.note_groups);
+				$scope.local_notebooks.empty = {
+					id: '',
+					name: 'Not grouped'
+				};
+
+				$scope.local_notebooks._new = {
+					id: '_new',
+					name: 'New group'
+				};
+			}
+
 			$scope.new_group = '';
 
-			function loadNote() {
+			function loadNote () {
 				var noteId = ($routeParams.noteId) ? $routeParams.noteId : null;
 				if (noteId) {
 					NoteService.getNoteById(noteId).then(function (note) {
 						$scope.note = note;
-						$scope.noteShadowCopy = angular.copy(note);
+						$scope.noteShadowCopy = new NoteFactory(angular.copy(note));
 					});
 				} else {
 					$scope.note = NoteService.newNote();
@@ -63,8 +94,16 @@
 				}
 			}
 
+			if (!$rootScope.note_groups) {
+				$rootScope.$on('nextnotes_notebooks_loaded', function () {
+					initGroups();
+				});
+			} else {
+				initGroups();
+			}
 
-			if($rootScope.notes){
+
+			if ($rootScope.notes) {
 				loadNote();
 			} else {
 				$rootScope.$on('nextnotes_notes_loaded', function () {
@@ -77,6 +116,7 @@
 			$scope.tinymceOptions = {
 				menubar: false,
 				theme: 'modern',
+				skin: 'lightgray',
 				plugins: [
 					'advlist autolink lists link image charmap print preview hr anchor pagebreak',
 					'searchreplace wordcount visualblocks visualchars code fullscreen',
@@ -119,22 +159,25 @@
 				if (!$scope.noteShadowCopy.title) {
 					return;
 				}
-
-				if ($scope.noteShadowCopy.grouping === '_new' &&
-					$scope.new_group !== '') {
-					$scope.noteShadowCopy.grouping = angular.copy($scope.new_group);
+				if ($scope.noteShadowCopy.notebook && $scope.noteShadowCopy.notebook.hasOwnProperty('id')) {
+					$scope.noteShadowCopy.notebook_id = $scope.noteShadowCopy.notebook.id;
 				}
 
+				if ($scope.noteShadowCopy.hasOwnProperty('notebook') && $scope.noteShadowCopy.notebook !== null && $scope.noteShadowCopy.notebook.id === '_new' &&
+					$scope.new_group !== '') {
 
-				$scope.noteShadowCopy.$save().then(function (result) {
-					result.mtime = result.mtime * 1000;
-					$rootScope.notes[result.id] = result;
-					$scope.autoSaved = true;
-					$timeout(function () {
-						$scope.autoSaved = false;
-					}, 2500);
-					$rootScope.$emit('refresh_notes');
-				});
+					NotebookFactory.save({
+						name: angular.copy($scope.new_group),
+						color: '',
+						parent_id: 0
+					}).$promise.then(function (notebook) {
+						$scope.noteShadowCopy.notebook_id = notebook.id;
+						saveNote();
+					});
+				} else {
+					saveNote();
+				}
+
 			};
 
 			var autoSaveTimer;
@@ -151,6 +194,9 @@
 						console.log('Disabling auto save, no edit permissions');
 						return;
 					}
+					if(!$scope.noteShadowCopy.id){
+						return;
+					}
 					if ($scope.noteShadowCopy.title &&
 						$scope.noteShadowCopy.title !== '') {
 						if (initialSave) {
@@ -158,7 +204,7 @@
 							return;
 						}
 						autoSaveTimer = $timeout(function () {
-							if($routeParams.noteId) {
+							if ($routeParams.noteId) {
 								$scope.saveNote(true);
 							}
 						}, 1000);

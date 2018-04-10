@@ -39,12 +39,21 @@ $application->registerRoutes($this, array('routes' => array(
 
 
 	// V2.0 API
-	array('name' => 'nextnote_api#preflighted_cors', 'url' => '/api/v2.0/{path}', 'verb' => 'OPTIONS', 'requirements' => array('path' => '.+')),
-	array('name' => 'nextnote_api#index', 'url' => '/api/v2.0/note', 'verb' => 'GET'),
-	array('name' => 'nextnote_api#create', 'url' => '/api/v2.0/note', 'verb' => 'POST'),
-	array('name' => 'nextnote_api#get', 'url' => '/api/v2.0/note/{id}', 'verb' => 'GET'),
-	array('name' => 'nextnote_api#update', 'url' => '/api/v2.0/note/{id}', 'verb' => 'PUT'),
-	array('name' => 'nextnote_api#delete', 'url' => '/api/v2.0/note/{id}', 'verb' => 'DELETE'),
+	array('name' => 'note_api#preflighted_cors', 'url' => '/api/v2.0/{path}', 'verb' => 'OPTIONS', 'requirements' => array('path' => '.+')),
+
+	//Notes
+	array('name' => 'note_api#index', 'url' => '/api/v2.0/note', 'verb' => 'GET'),
+	array('name' => 'note_api#create', 'url' => '/api/v2.0/note', 'verb' => 'POST'),
+	array('name' => 'note_api#get', 'url' => '/api/v2.0/note/{id}', 'verb' => 'GET'),
+	array('name' => 'note_api#update', 'url' => '/api/v2.0/note/{id}', 'verb' => 'PUT'),
+	array('name' => 'note_api#delete', 'url' => '/api/v2.0/note/{id}', 'verb' => 'DELETE'),
+
+	//Groups
+	array('name' => 'notebook_api#index', 'url' => '/api/v2.0/notebook', 'verb' => 'GET'),
+	array('name' => 'notebook_api#create', 'url' => '/api/v2.0/notebook', 'verb' => 'POST'),
+	array('name' => 'notebook_api#get', 'url' => '/api/v2.0/notebook/{id}', 'verb' => 'GET'),
+	array('name' => 'notebook_api#update', 'url' => '/api/v2.0/notebook/{id}', 'verb' => 'PUT'),
+	array('name' => 'notebook_api#delete', 'url' => '/api/v2.0/notebook/{id}', 'verb' => 'DELETE'),
 
 
 	array('name' => 'settings#saveAdminSetting', 'url' => '/api/v2.0/settings', 'verb' => 'POST'),

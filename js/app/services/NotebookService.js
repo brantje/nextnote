@@ -19,22 +19,43 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+(function() {
+	'use strict';
+	/**
+	 * @ngdoc service
+	 * @name NextNotesApp.NoteService
+	 * @description
+	 * # NoteService
+	 * Service in the NextNotesApp.
+	 */
+	angular.module('NextNotesApp').service('NotebookService', [
+		'$rootScope',
+		'NotebookFactory',
+		'$timeout',
+		'$q',
+		function($rootScope, NotebookFactory, $timeout, $q) {
+			var newGroupTemplate = {
+				'name': '',
+				'color': '',
+				'parent_id': 0
+			};
 
-angular.module('NextNotesApp').filter('noteGroupFilter', ['$filter', function ($filter) {
-	return function (items, filterBy) {
-		var filtered = [];
-		if (filterBy.hasOwnProperty('notebook') && filterBy.notebook === 'all') {
-			return items;
-		}
-		if (filterBy.hasOwnProperty('notebook') && filterBy.notebook === '') {
-			angular.forEach(items, function (item) {
-				if (item.notebook && item.notebook.id === '') {
-					filtered.push(item);
-				}
-			});
-			return filtered;
-		}
+			return {
+				newGroup: function() {
+					return angular.copy(newGroupTemplate);
+				},
+				getGroupById: function(groupId) {
+					groupId = parseInt(groupId);
+					var deferred = $q.defer();
+					NotebookFactory.get({id: groupId}, function(group) {
+						$rootScope.notes[group.id] = group;
+						deferred.resolve(group);
+					});
+					return deferred.promise;
+				},
+				save: NotebookFactory.save,
+				update: NotebookFactory.update
 
-		return $filter('filter')(items, {notebook: {id: filterBy.notebook}}, true);
-	};
-}]);
+			};
+		}]);
+}());

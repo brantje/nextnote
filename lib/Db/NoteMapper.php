@@ -23,17 +23,20 @@
 
 namespace OCA\NextNote\Db;
 
+use OCA\NextNote\Service\NotebookService;
 use \OCA\NextNote\Utility\Utils;
 use OCP\AppFramework\Db\Entity;
 use OCP\IDBConnection;
 use OCP\AppFramework\Db\Mapper;
 
-class NextNoteMapper extends Mapper {
+class NoteMapper extends Mapper {
 	private $utils;
+	private $notebookService;
 
-	public function __construct(IDBConnection $db, Utils $utils) {
-		parent::__construct($db, 'nextnote');
+	public function __construct(IDBConnection $db, Utils $utils, NotebookService $notebookService) {
+		parent::__construct($db, 'nextnote_notes');
 		$this->utils = $utils;
+		$this->notebookService = $notebookService;
 	}
 
 
@@ -41,7 +44,7 @@ class NextNoteMapper extends Mapper {
      * @param $note_id
      * @param null $user_id
      * @param int|bool $deleted
-     * @return NextNote if not found
+     * @return Note if not found
      */
 	public function find($note_id, $user_id = null, $deleted = false) {
 		$params = [$note_id];
@@ -56,11 +59,11 @@ class NextNoteMapper extends Mapper {
 			$params[] = $deleted;
 			$deletedSql = 'and n.deleted = ?';
 		}
-		$sql = "SELECT id, uid, name, grouping, shared, mtime, deleted, note FROM *PREFIX*nextnote n WHERE n.id= ? $uidSql $deletedSql";
+		$sql = "SELECT n.* FROM *PREFIX*nextnote_notes n WHERE n.id= ? $uidSql $deletedSql";
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			/**
-			 * @var $note NextNote
+			 * @var $note Note
 			 */
 			$note = $this->makeEntityFromDBResult($item);
 			/* fetch note parts */
@@ -80,13 +83,13 @@ class NextNoteMapper extends Mapper {
 	 * @param $userId
 	 * @param int|bool $deleted
 	 * @param string|bool $group
-	 * @return NextNote[] if not found
+	 * @return Note[] if not found
 	 */
 	public function findNotesFromUser($userId, $deleted = 0, $group = false) {
 		$params = [$userId];
 		$groupSql = '';
 		if ($group) {
-			$groupSql = 'and n.grouping = ?';
+			$groupSql = 'and n.notebook = ?';
 			$params[] = $group;
 		}
 		$deletedSql = '';
@@ -95,14 +98,15 @@ class NextNoteMapper extends Mapper {
 			$deletedSql = 'and n.deleted = ?';
 			$params[] = $deleted;
 		}
-		$sql = "SELECT id, uid, name, grouping, shared, mtime, deleted, note FROM *PREFIX*nextnote n WHERE `uid` = ? $groupSql $deletedSql";
+		$sql = "SELECT n.* FROM *PREFIX*nextnote_notes n WHERE n.uid = ? $groupSql $deletedSql";
 		$results = [];
 		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
 			/**
-			 * @var $note NextNote
+			 * @var $note Note
 			 */
 			$note = $this->makeEntityFromDBResult($item);
 			$note->setNote($item['note']);
+
 			$results[] = $note;
 		}
 		return $results;
@@ -113,11 +117,11 @@ class NextNoteMapper extends Mapper {
 	/**
 	 * Creates a note
 	 *
-	 * @param NextNote $note
-	 * @return NextNote|Entity
+	 * @param Note $note
+	 * @return Note|Entity
 	 * @internal param $userId
 	 */
-	public function create($note) {
+	public function insert($note) {
 		$len = mb_strlen($note->getNote());
 		$parts = false;
 		if ($len > Utils::$maxPartSize) {
@@ -125,12 +129,11 @@ class NextNoteMapper extends Mapper {
 			$note->setNote('');
 		}
 		$note->setShared(false);
-		/**
-		 * @var $note NextNote
-		 */
 
 		$note = parent::insert($note);
-
+		/**
+		 * @var $note Note
+		 */
 		if ($parts) {
 			foreach ($parts as $part) {
 				$this->createNotePart($note, $part);
@@ -145,8 +148,8 @@ class NextNoteMapper extends Mapper {
 	/**
 	 * Update note
 	 *
-	 * @param NextNote $note
-	 * @return NextNote|Entity
+	 * @param Note $note
+	 * @return Note|Entity
 	 */
 	public function updateNote($note) {
 		$len = mb_strlen($note->getNote());
@@ -158,8 +161,9 @@ class NextNoteMapper extends Mapper {
 			$note->setNote('');
 		}
 		/**
-		 * @var $note NextNote
+		 * @var $note Note
 		 */
+
 		$note = parent::update($note);
 		if ($parts) {
 			foreach ($parts as $part) {
@@ -167,14 +171,14 @@ class NextNoteMapper extends Mapper {
 			}
 			$note->setNote(implode('', $parts));
 		}
-		return $note;
+		return $this->find($note->getId());
 	}
 
 	/**
-	 * @param NextNote $note
+	 * @param Note $note
 	 * @param $content
 	 */
-	public function createNotePart(NextNote $note, $content) {
+	public function createNotePart(Note $note, $content) {
 		$sql = "INSERT INTO *PREFIX*nextnote_parts VALUES (NULL, ?, ?);";
 		$this->execute($sql, array($note->getId(), $content));
 	}
@@ -182,9 +186,9 @@ class NextNoteMapper extends Mapper {
 	/**
 	 * Delete the note parts
 	 *
-	 * @param NextNote $note
+	 * @param Note $note
 	 */
-	public function deleteNoteParts(NextNote $note) {
+	public function deleteNoteParts(Note $note) {
 		$sql = 'DELETE FROM *PREFIX*nextnote_parts where id = ?';
 		$this->execute($sql, array($note->getId()));
 	}
@@ -192,19 +196,19 @@ class NextNoteMapper extends Mapper {
 	/**
 	 * Get the note parts
 	 *
-	 * @param NextNote $note
+	 * @param Note $note
 	 * @return array
 	 */
-	public function getNoteParts(NextNote $note) {
+	public function getNoteParts(Note $note) {
 		$sql = 'SELECT * from *PREFIX*nextnote_parts where id = ?';
 		return $this->execute($sql, array($note->getId()))->fetchAll();
 	}
 
 	/**
-	 * @param NextNote $note
+	 * @param Note $note
 	 * @return bool
 	 */
-	public function deleteNote(NextNote $note) {
+	public function deleteNote(Note $note) {
 		$this->deleteNoteParts($note);
 		parent::delete($note);
 		return true;
@@ -212,13 +216,19 @@ class NextNoteMapper extends Mapper {
 
 	/**
 	 * @param $arr
-	 * @return NextNote
+	 * @return Note
 	 */
 	public function makeEntityFromDBResult($arr) {
-		$note = new NextNote();
+
+		$note = new Note();
 		$note->setId($arr['id']);
 		$note->setName($arr['name']);
+		$note->setGuid($arr['guid']);
 		$note->setGrouping($arr['grouping']);
+		if($arr['notebook']){
+			$notebook = $this->notebookService->find($arr['notebook']);
+			$note->setNotebook($notebook);
+		}
 		$note->setMtime($arr['mtime']);
 		$note->setDeleted($arr['deleted']);
 		$note->setUid($arr['uid']);

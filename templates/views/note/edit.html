@@ -5,28 +5,22 @@
 				Name:
 				<input type="text" class="fileinput"
 					   ng-model="$parent.noteShadowCopy.title">
-				&nbsp;&nbsp;
-				Group:
-				<select id="groupname"
-						ng-model="$parent.noteShadowCopy.grouping">
+
+				<select ng-model="$parent.noteShadowCopy.notebook" ng-options="group.name for group in local_notebooks track by group.id">
 					<option value="">Not grouped</option>
-					<option value="_new">New group</option>
-					<option ng-repeat="group in note_groups"
-							value="{{group.name}}" ng-if="group.name">{{group.name}}</option>
 				</select>
+
 				<input type="text" placeholder="group title"
-					   ng-show="noteShadowCopy.grouping === '_new'"
+					   ng-show="noteShadowCopy.notebook.id === '_new'"
 					   ng-model="$parent.new_group">
 				<div class="button" ng-click="saveNote()">Save</div>
 
 			</span>
-
 			<span ng-if="!hasPermission(noteShadowCopy, 'update')"
 				  style="padding-right: 10px;">
 				<b>{{ noteShadowCopy.title }}</b>
 				You don't have permissions to edit this note
 			</span>
-
 			<div id="canceledit" class="button">Back</div>
 
 			<div class="pull-right autosave" ng-class="{'shown': autoSaved }">
