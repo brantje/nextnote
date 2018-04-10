@@ -161,12 +161,11 @@
 				if ($scope.noteShadowCopy.notebook.id === '_new' &&
 					$scope.new_group !== '') {
 
-					var r = NotebookFactory.save({
+					NotebookFactory.save({
 						name: angular.copy($scope.new_group),
 						color: '',
 						parent_id: 0
 					}).$promise.then(function (notebook) {
-						console.log('hiii');
 						$scope.noteShadowCopy.notebook_id = notebook.id;
 						saveNote();
 					});
