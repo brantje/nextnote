@@ -7,7 +7,7 @@ var NextCloudFileBrowserDialogue = function(field_name, url, type, win) {
 		var filePath = OC.linkToRemote('webdav') + file;
 
 		if(type === 'image') {
-			var allowedExtensions = ['png', 'jpg', 'jpeg'];
+			var allowedExtensions = ['png', 'jpg', 'jpeg', 'gif', 'svg', 'webm'];
 			var extension = file.split('.').pop();
 			if (allowedExtensions.indexOf(extension) < 0) {
 				$('#mceNextcloudFileBrowser').dialog('destroy');
