@@ -49,7 +49,7 @@ class NoteApiController extends ApiController {
 	private $shareBackend;
 	private $userManager;
 	private $shareManager;
-	private $groupService;
+	private $notebookService;
 
 	public function __construct($appName, IRequest $request,
 								ILogger $logger, IConfig $config, NoteService $noteService, NotebookService $groupService,
@@ -57,7 +57,7 @@ class NoteApiController extends ApiController {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->noteService = $noteService;
-		$this->groupService = $groupService;
+		$this->notebookService = $groupService;
 		$this->shareBackend = $shareBackend;
 		$this->userManager = $userManager;
 		$this->shareManager = $shareManager;
@@ -75,7 +75,7 @@ class NoteApiController extends ApiController {
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 
 		if(!empty($notebook_id)){
-			$notebook_id = $this->groupService->find($notebook_id)->getId();
+			$notebook_id = $this->notebookService->find($notebook_id)->getId();
 		}
 		$results = $this->noteService->findNotesFromUser($uid, $deleted, $notebook_id);
 		foreach ($results as &$note) {
@@ -131,7 +131,7 @@ class NoteApiController extends ApiController {
 		$note->setDeleted(0);
 
 		if(!empty($notebook) && $notebook['id']){
-			$notebook = $this->groupService->find($notebook['id']);
+			$notebook = $this->notebookService->find($notebook['id']);
 			if($notebook instanceof Notebook) {
 				$note->setNotebook($notebook);
 			} else {
@@ -166,7 +166,7 @@ class NoteApiController extends ApiController {
 			return new UnauthorizedJSONResponse();
 		}
 		if(!empty($notebook) && $notebook['id']){
-			$notebook = $this->groupService->find($notebook['id']);
+			$notebook = $this->notebookService->find($notebook['id']);
 			if($notebook instanceof Notebook) {
 				$note->setNotebook($notebook);
 			} else {
