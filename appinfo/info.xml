@@ -3,12 +3,22 @@
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>nextnote</id>
     <name>NextNote</name>
+    <summary>NextNote</summary>
     <description>NextNote</description>
+    <version>1.2.4</version>
     <licence>agpl</licence>
     <author>Ben Curtis</author>
     <author>Sander Brand</author>
-    <version>1.2.4</version>
     <namespace>NextNote</namespace>
+
+    <category>office</category>
+    <category>organization</category>
+    <category>tools</category>
+
+    <website>https://github.com/brantje/nextnote/</website>
+    <bugs>https://github.com/brantje/nextnote/issues</bugs>
+    <repository>https://github.com/brantje/nextnote.git</repository>
+
     <dependencies>
         <lib>curl</lib>
         <owncloud min-version="9.1" max-version="13" />
@@ -21,9 +31,9 @@
         </post-migration>
     </repair-steps>
     <settings>
-        <admin>\OCA\NextNote\Settings\AdminSettings</admin>
-        <admin-section>\OCA\NextNote\Settings\AdminSection</admin-section>
-        <personal>\OCA\NextNote\Settings\PersonalSettings</personal>
-        <personal-section>\OCA\NextNote\Settings\PersonalSection</personal-section>
+        <admin>OCA\NextNote\Settings\AdminSettings</admin>
+        <admin-section>OCA\NextNote\Settings\AdminSection</admin-section>
+        <personal>OCA\NextNote\Settings\PersonalSettings</personal>
+        <personal-section>OCA\NextNote\Settings\PersonalSection</personal-section>
     </settings>
 </info>
