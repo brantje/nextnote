@@ -1287,7 +1287,7 @@ $(document).ready(function () {
     if(isSingleViewMode){
     	$('#ownnote').find('.view-container').width('200%');
 	}
-	$body.on('click', '.file.pointer', function (e) {
+	$body.on('click', '.file.pointer, #new', function (e) {
 		if ($(window).width() <= 994 || isSingleViewMode) {
 			setTimeout(function () {
 				$('#ownnote').animate({scrollLeft: $(window).width()}, 750);
@@ -1300,19 +1300,17 @@ $(document).ready(function () {
 		}
 	});
 
-	$body.on('click', '.view-mode-col', function () {
-		$('#ownnote').find('.view-container').width('100%');
-		$('.view-mode-single').removeClass('active');
-		$(this).addClass('active');
-		isSingleViewMode = false;
-		app_config.user.view_mode = 'col';
+	$body.on('click', '.toggle-view-mode', function () {
+		if(app_config.user.view_mode === 'single') {
+			$('#ownnote').find('.view-container').animate({width: '100%'}, 750);
+			$(this).find('i').removeClass('fa-arrows-h').addClass('fa-columns');
+			isSingleViewMode = false;
+			app_config.user.view_mode = 'col';
+		} else if(app_config.user.view_mode === 'col'){
+			$('#ownnote').find('.view-container').animate({width: '200%'}, 750);
+			$(this).find('i').removeClass('fa-columns').addClass('fa-arrows-h');
+			isSingleViewMode = true;
+			app_config.user.view_mode = 'single';
+		}
 	});
-	$body.on('click', '.view-mode-single', function () {
-		$('#ownnote').find('.view-container').width('200%');
-		$('.view-mode-col').removeClass('active');
-		$(this).addClass('active');
-		isSingleViewMode = true;
-		app_config.user.view_mode = 'single';
-	});
-
 });

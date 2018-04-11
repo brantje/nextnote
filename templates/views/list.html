@@ -21,11 +21,8 @@
 					</form>
 				</div>
 				<div class="view-modes visible-lg">
-					<div class="button view-mode-col" ng-class="{'active': app_config.user.view_mode =='col'}">
-						<i class="fa fa-columns"></i>
-					</div>
-					<div class="button view-mode-single" ng-class="{'active': app_config.user.view_mode =='single'}">
-						<i class="fa fa-arrows-h"></i>
+					<div class="button toggle-view-mode">
+						<i class="fa" ng-class="{'fa-columns': app_config.user.view_mode =='single', 'fa-arrows-h': app_config.user.view_mode =='col'}"></i>
 					</div>
 				</div>
 			</div>
