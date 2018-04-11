@@ -66,6 +66,48 @@ You can also use this script developed by [enoch85](https://github.com/enoch85):
 ```
 #!/bin/bash
 
+# Variables
+DISTRO=$(lsb_release -sd | cut -d ' ' -f 2)
+OS=$(uname -v | grep -ic "Ubuntu")
+
+# Functions
+# Whiptail auto-size
+calc_wt_size() {
+    WT_HEIGHT=17
+    WT_WIDTH=$(tput cols)
+
+    if [ -z "$WT_WIDTH" ] || [ "$WT_WIDTH" -lt 60 ]; then
+        WT_WIDTH=80
+    fi
+    if [ "$WT_WIDTH" -gt 178 ]; then
+        WT_WIDTH=120
+    fi
+    WT_MENU_HEIGHT=$((WT_HEIGHT-7))
+    export WT_MENU_HEIGHT
+}
+
+msg_box() {
+local PROMPT="$1"
+    whiptail --msgbox "${PROMPT}" "$WT_HEIGHT" "$WT_WIDTH"
+}
+
+################
+
+# Check Ubuntu version
+echo "Checking server OS and version..."
+if [ "$OS" != 1 ]
+then
+msg_box "Ubuntu Server is required to run this script.
+Please install that distro and try again.
+You can find the download link here: https://www.ubuntu.com/download/server"
+    exit 1
+fi
+
+if ! version 16.04 "$DISTRO" 16.04.4; then
+msg_box "Ubuntu version $DISTRO must be between 16.04 - 16.04.4"
+    exit 1
+fi
+
 # Install git if not existing
 if [ "$(dpkg-query -W -f='${Status}' "git" 2>/dev/null | grep -c "ok installed")" != "1" ]
 then
