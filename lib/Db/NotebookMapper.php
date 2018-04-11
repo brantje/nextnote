@@ -2,7 +2,7 @@
 /**
  * Nextcloud - NextNote
  *
- * @copyright Copyright (c) 2015, Ben Curtis <ownclouddev@nosolutions.com>
+ *
  * @copyright Copyright (c) 2017, Sander Brand (brantje@gmail.com)
  * @license GNU AGPL version 3 or any later version
  *

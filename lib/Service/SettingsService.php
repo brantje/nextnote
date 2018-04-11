@@ -3,7 +3,7 @@
  * Nextcloud - nextnote
  *
  * @copyright Copyright (c) 2016, Sander Brand (brantje@gmail.com)
- * @copyright Copyright (c) 2016, Marcos Zuriaga Miguel (wolfi@wolfi.es)
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify

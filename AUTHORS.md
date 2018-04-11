@@ -1,4 +1,4 @@
 # Authors
 
-* Ben Curtis: <no-spam @ no-domain . com>
+* Sander Brand: <brantje @  no-domain . com>
 
