@@ -68,7 +68,7 @@ You can also use this script developed by [enoch85](https://github.com/enoch85):
 
 # Variables
 DISTRO=$(lsb_release -sd | cut -d ' ' -f 2)
-OS=$(grep -ic "Ubuntu" /etc/issue.net)
+OS=$(uname -v | grep -ic "Ubuntu")
 
 # Functions
 # Whiptail auto-size
