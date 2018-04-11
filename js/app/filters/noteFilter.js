@@ -26,9 +26,9 @@ angular.module('NextNotesApp').filter('noteGroupFilter', ['$filter', function ($
 		if (filterBy.hasOwnProperty('notebook') && filterBy.notebook === 'all') {
 			return items;
 		}
-		if (filterBy.hasOwnProperty('notebook') && filterBy.notebook === '') {
+		if (filterBy.hasOwnProperty('notebook') && filterBy.notebook === null) {
 			angular.forEach(items, function (item) {
-				if (item.notebook && item.notebook.id === '') {
+				if (item.notebook === null) {
 					filtered.push(item);
 				}
 			});
