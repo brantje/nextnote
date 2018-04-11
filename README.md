@@ -2,6 +2,9 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/brantje/nextnote/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/brantje/nextnote/?branch=master)   
 This application is a rewritten verion of ownNote.<br>
 The old [Android App](https://play.google.com/store/apps/details?id=com.nowsci.ownnote&hl=sv) won't work, but no worries, we plan to develop a new one.
+
+Alpha means in this case 'pretty stable', but it's possible that due an update things will break / get send to `/dev/null`.
+If you value your notes please wait for a stable version.
     
 Changes:
 - Replaced deprecated methods
@@ -25,7 +28,6 @@ Did you found a bug? Report it or fix it and send a PR.
 
 
 ## Features
-- Import from Evernote
 - Full fledged WYSIWYG editor
 - Share a note with a user or group
 - Note grouping/categorization
@@ -40,6 +42,7 @@ Did you found a bug? Report it or fix it and send a PR.
 - [x] Switch to a AngularJS frontend
 - [X] Rename namespace from OwnNotes to NextNotes
 - [x] Implement note sharing
+- [ ] Import from Evernote
 - [ ] Ability to save files to a folder as HTML files (untested)
 - [ ] Implement hierarchical structure for groups (PR's welcome!)
 - [ ] Add markdown support
