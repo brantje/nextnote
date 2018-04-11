@@ -86,7 +86,7 @@ echo '<script nonce="test"> var shareMode = "'. $_['shareMode'] .'"; var app_con
 				<span class="utils">
 					<a class="icon-rename action edit tooltipped rightwards" group="All" original-title=""></a>
 					<a class="icon-delete action delete tooltipped rightwards" group="All" original-title=""></a>
-					<span class="action numnotes" ng-show="keys(notes).length - 2 > 0">{{ note_count }}</span>
+					<span class="action numnotes" ng-show="obj_length(notes) - 2  >= 0">{{ obj_length(notes) - 2 }}</span>
 				</span>
 			</li>
 			<li class="group"  ng-click="noteGroupFilter.notebook = null; " ng-class="{'active': noteGroupFilter.notebook === null }">

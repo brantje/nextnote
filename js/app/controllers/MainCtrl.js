@@ -46,7 +46,12 @@
 					OC.Notification.showTemporary('Notebook created');
 				});
 			};
-
+			$scope.obj_length = function (obj) {
+				if(!obj){
+					return 0;
+				}
+				return Object.keys(obj).length;
+			};
 			$scope.hasPermission = function (note, perm) {
 				if (note.hasOwnProperty('owner') && note.owner.hasOwnProperty('uid')) {
 					if (note && note.owner.uid === OC.currentUser) {
