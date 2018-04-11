@@ -28,6 +28,7 @@ use OCP\AppFramework\Db\Entity;
 use OCP\IDBConnection;
 use OCP\AppFramework\Db\Mapper;
 
+
 class NotebookMapper extends Mapper {
 	private $utils;
 
@@ -38,45 +39,49 @@ class NotebookMapper extends Mapper {
 
 	/**
 	 * Get Notebook(s)
-	 * @param int $notebook_id
+	 * @param null|int $notebook_id
 	 * @param null|int $user_id
 	 * @param bool|int $deleted
 	 * @return Notebook[]|Notebook
 	 */
-	public function find($notebook_id, $user_id = null, $deleted = false) {
-		$params = [];
+	public function find($notebook_id = null, $user_id = null, $deleted = false) {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('g.*', 'g.guid as guid', $qb->createFunction('COUNT(n.id) as note_count')) //'COUNT(n.id) as note_count'
+			->from('nextnote_groups', 'g')
+			->leftJoin('g','nextnote_notes','n',  $qb->expr()->eq('g.id', 'n.notebook'))->groupBy(['g.id']);
+
 		$where = [];
-		if($notebook_id){
-			$where[] = 'g.id= ?';
-			$params[] = $notebook_id;
+		if(!is_null($notebook_id)){
+			$where['g.id'] = $notebook_id;
 		}
 
 		if ($user_id !== null) {
-			$params[] = $user_id;
-			$where[] = 'g.uid = ?';
+			$where['g.uid'] = $user_id;
 		}
 
 		if ($deleted !== false) {
-			$params[] = $deleted;
-			$where[] = 'g.deleted = ?';
+			$where['g.deleted'] = $deleted;
 		}
-		$where = implode(' AND ', $where);
-		if($where){
-			$where = 'WHERE '. $where;
+		$i = 0;
+		foreach ($where as $field => $value){
+			if($i === 0){
+				$qb->where($qb->expr()->eq($field, $qb->createNamedParameter($value)));
+			} else {
+				$qb->andWhere($qb->expr()->eq($field, $qb->createNamedParameter($value)));
+			}
+			$i++;
 		}
-		$sql = "SELECT g.*, g.guid as guid, COUNT(n.id) as note_count FROM *PREFIX*nextnote_groups g LEFT JOIN *PREFIX*nextnote_notes n ON g.id=n.notebook $where  GROUP BY g.id";
+
+		$result = $qb->execute();
+
 		/**
 		 * @var $results Notebook[]
 		 */
 		$results = [];
-		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
+		while ($item = $result->fetch()) {
 			$results[] = $this->makeEntityFromDBResult($item);
 		}
-//		var_dump($results);
-		if(count($results) === 1){
-			return reset($results);
-		}
-
+		$result->closeCursor();
 		return $results;
 	}
 
@@ -87,39 +92,43 @@ class NotebookMapper extends Mapper {
 	 * @return Notebook[]|Notebook
 	 */
 	public function findByName($group_name, $user_id = null, $deleted = false) {
-		$params = [];
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('g.*', 'g.guid as guid', $qb->createFunction('COUNT(n.id) as note_count')) //'COUNT(n.id) as note_count'
+		->from('nextnote_groups', 'g')
+			->leftJoin('g','nextnote_notes','n',  $qb->expr()->eq('g.id', 'n.notebook'))->groupBy(['g.id']);
+
 		$where = [];
 		if($group_name){
-			$where[] = 'g.name = ?';
-			$params[] = $group_name;
+			$where['g.name'] = $group_name;
 		}
 
-		if ($user_id) {
-			$params[] = $user_id;
-			$where[] = 'g.uid = ?';
+		if ($user_id !== null) {
+			$where['g.uid'] = $user_id;
 		}
 
 		if ($deleted !== false) {
-			$params[] = $deleted;
-			$where[] = 'g.deleted = ?';
+			$where['g.deleted'] = $deleted;
 		}
-		$where = implode(' AND ', $where);
-		if($where){
-			$where = 'WHERE '. $where;
+		$i = 0;
+		foreach ($where as $field => $value){
+			if($i === 0){
+				$qb->where($qb->expr()->eq($field, $qb->createNamedParameter($value)));
+			} else {
+				$qb->andWhere($qb->expr()->eq($field, $qb->createNamedParameter($value)));
+			}
+			$i++;
 		}
-		$sql = "SELECT g.*, COUNT(n.id) as note_count FROM *PREFIX*nextnote_groups g LEFT JOIN *PREFIX*nextnote_notes n ON g.id=n.notebook $where  GROUP BY g.id";
+
+		$result = $qb->execute();
+
 		/**
 		 * @var $results Notebook[]
 		 */
 		$results = [];
-		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
+		while ($item = $result->fetch()) {
 			$results[] = $this->makeEntityFromDBResult($item);
 		}
-
-		if(count($results) === 1){
-			return reset($results);
-		}
-
+		$result->closeCursor();
 		return $results;
 	}
 
@@ -167,7 +176,7 @@ class NotebookMapper extends Mapper {
 		$group->setGuid($arr['guid']);
 		$group->setParentId($arr['parent_id']);
 		$group->setColor($arr['color']);
-		$group->setNoteCount($arr['note_count']);
+		$group->setNoteCount((int) $arr['note_count']);
 		$group->setDeleted($arr['deleted']);
 
 		return $group;

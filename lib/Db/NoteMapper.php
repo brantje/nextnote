@@ -40,28 +40,29 @@ class NoteMapper extends Mapper {
 	}
 
 
-    /**
-     * @param $note_id
-     * @param null $user_id
-     * @param int|bool $deleted
-     * @return Note if not found
-     */
+	/**
+	 * @param $note_id
+	 * @param null $user_id
+	 * @param int|bool $deleted
+	 * @return Note if not found
+	 */
 	public function find($note_id, $user_id = null, $deleted = false) {
-		$params = [$note_id];
-		$uidSql = '';
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from('nextnote_notes')
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($note_id)));
+
 		if ($user_id) {
-			$params[] = $user_id;
-			$uidSql = 'and n.uid = ?';
+			$qb->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user_id)));
 		}
 
-		$deletedSql = '';
 		if ($deleted !== false) {
-			$params[] = $deleted;
-			$deletedSql = 'and n.deleted = ?';
+			$qb->andWhere($qb->expr()->eq('deleted', $qb->createNamedParameter($deleted)));
 		}
-		$sql = "SELECT n.* FROM *PREFIX*nextnote_notes n WHERE n.id= ? $uidSql $deletedSql";
+
 		$results = [];
-		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
+		$result = $qb->execute();
+		while ($item = $result->fetch()) {
 			/**
 			 * @var $note Note
 			 */
@@ -75,6 +76,10 @@ class NoteMapper extends Mapper {
 
 			$results[] = $note;
 		}
+		$result->closeCursor();
+		if (count($results) === 1) {
+			return reset($results);
+		}
 		return array_shift($results);
 	}
 
@@ -86,21 +91,22 @@ class NoteMapper extends Mapper {
 	 * @return Note[] if not found
 	 */
 	public function findNotesFromUser($userId, $deleted = 0, $group = false) {
-		$params = [$userId];
-		$groupSql = '';
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from('nextnote_notes')
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($userId)));
+
 		if ($group) {
-			$groupSql = 'and n.notebook = ?';
-			$params[] = $group;
+			$qb->andWhere($qb->expr()->eq('notebook', $qb->createNamedParameter($group)));
 		}
-		$deletedSql = '';
+
 		if ($deleted !== false) {
-			$deleted = (int) $deleted;
-			$deletedSql = 'and n.deleted = ?';
-			$params[] = $deleted;
+			$qb->andWhere($qb->expr()->eq('notebook', $qb->createNamedParameter((int)$deleted)));
 		}
-		$sql = "SELECT n.* FROM *PREFIX*nextnote_notes n WHERE n.uid = ? $groupSql $deletedSql";
+
 		$results = [];
-		foreach ($this->execute($sql, $params)->fetchAll() as $item) {
+		$result = $qb->execute();
+		while ($item = $result->fetch()) {
 			/**
 			 * @var $note Note
 			 */
@@ -109,10 +115,14 @@ class NoteMapper extends Mapper {
 
 			$results[] = $note;
 		}
+		$result->closeCursor();
+		if (count($results) === 1) {
+			return reset($results);
+		}
+
 		return $results;
 	}
 
-	
 
 	/**
 	 * Creates a note
@@ -179,8 +189,13 @@ class NoteMapper extends Mapper {
 	 * @param $content
 	 */
 	public function createNotePart(Note $note, $content) {
-		$sql = "INSERT INTO *PREFIX*nextnote_parts VALUES (NULL, ?, ?);";
-		$this->execute($sql, array($note->getId(), $content));
+		$qb = $this->db->getQueryBuilder();
+		$qb->insert('nextnote_parts')
+			->values([
+				'id' => $qb->createNamedParameter($note->getId()),
+				'note' => $qb->createNamedParameter($content),
+			]);
+		$qb->execute();
 	}
 
 	/**
@@ -189,8 +204,10 @@ class NoteMapper extends Mapper {
 	 * @param Note $note
 	 */
 	public function deleteNoteParts(Note $note) {
-		$sql = 'DELETE FROM *PREFIX*nextnote_parts where id = ?';
-		$this->execute($sql, array($note->getId()));
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('nextnote_parts')
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($note->getId())));
+		$qb->execute();
 	}
 
 	/**
@@ -200,8 +217,15 @@ class NoteMapper extends Mapper {
 	 * @return array
 	 */
 	public function getNoteParts(Note $note) {
-		$sql = 'SELECT * from *PREFIX*nextnote_parts where id = ?';
-		return $this->execute($sql, array($note->getId()))->fetchAll();
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from('nextnote_parts')
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($note->getId())));
+		$result = $qb->execute();
+		$results = $result->fetchAll();
+		$result->closeCursor();
+
+		return $results;
 	}
 
 	/**
@@ -225,7 +249,7 @@ class NoteMapper extends Mapper {
 		$note->setName($arr['name']);
 		$note->setGuid($arr['guid']);
 		$note->setGrouping($arr['grouping']);
-		if($arr['notebook']){
+		if ($arr['notebook']) {
 			$notebook = $this->notebookService->find($arr['notebook']);
 			$note->setNotebook($notebook);
 		}
