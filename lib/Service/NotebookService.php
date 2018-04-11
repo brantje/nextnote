@@ -45,7 +45,7 @@ class NotebookService {
 	/**
 	 * Find a group by id
 	 *
-	 * @param $notebook_id
+	 * @param null|int $notebook_id
 	 * @param null $user_id
 	 * @param int|bool $deleted
 	 * @return Notebook[]|Notebook

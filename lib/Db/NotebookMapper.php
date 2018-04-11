@@ -73,7 +73,6 @@ class NotebookMapper extends Mapper {
 		}
 
 		$result = $qb->execute();
-
 		/**
 		 * @var $results Notebook[]
 		 */
@@ -82,6 +81,9 @@ class NotebookMapper extends Mapper {
 			$results[] = $this->makeEntityFromDBResult($item);
 		}
 		$result->closeCursor();
+		if (count($results) === 1) {
+			return reset($results);
+		}
 		return $results;
 	}
 
@@ -129,6 +131,9 @@ class NotebookMapper extends Mapper {
 			$results[] = $this->makeEntityFromDBResult($item);
 		}
 		$result->closeCursor();
+		if (count($results) === 1) {
+			return reset($results);
+		}
 		return $results;
 	}
 

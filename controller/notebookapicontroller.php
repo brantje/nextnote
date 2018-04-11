@@ -62,11 +62,11 @@ class NotebookApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @TODO Add etag / lastmodified
 	 * @param int|bool $deleted
-	 * @param int|bool $notebook_id
+	 * @param int|null $notebook_id
 	 * @return JSONResponse
 	 * @internal param bool|string $group
 	 */
-	public function index($deleted = false, $notebook_id = false) {
+	public function index($deleted = false, $notebook_id = null) {
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$results = $this->groupService->find($notebook_id, $uid, $deleted);
 
