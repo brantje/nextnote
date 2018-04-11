@@ -73,8 +73,13 @@ echo '<script nonce="test"> var shareMode = "'. $_['shareMode'] .'"; var app_con
 <div id="app" ng-app="NextNotesApp" ng-controller="MainCtrl">
 	<div id="app-navigation" ng-show="sidebar_shown">
 		<ul id="grouplist">
-			<li class="group">
-				<a class="name" role="button" title="All">+ New group</a>
+			<li class="group" ng-init="add_group = false;">
+				<a class="name" role="button" title="All" ng-click="add_group = true;" ng-hide="add_group">+ New notebook</a>
+				<div ng-show="add_group" class="add_group_container">
+					<input type="text" ng-model="new_group_name" id="new_group_name" placeholder="Enter notebook name">
+					<div class="button" ng-click="addNotebook(new_group_name); add_group = false;"><i class="fa fa-check" tooltip="Save"></i> </div>
+					<div class="button" ng-click="add_group = false; new_group_name = '';"><i class="fa fa-times" tooltip="Cancel"></i> </div>
+				</div>
 			</li>
 			<li class="group"  ng-click="noteGroupFilter.notebook = 'all'; " ng-class="{'active': noteGroupFilter.notebook === 'all' }">
 				<a class="name" role="button" title="All">All</a>

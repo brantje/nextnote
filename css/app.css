@@ -436,6 +436,10 @@ a.editable-empty:focus {
 
 #grouplist {
   /*z-index: 100;*/ }
+  #grouplist .add_group_container {
+    padding: 0 5px 0 5px; }
+    #grouplist .add_group_container input#new_group_name {
+      width: 150px; }
   #grouplist .add-note {
     padding: 0 31px; }
     #grouplist .add-note:before {

@@ -31,9 +31,20 @@
 	 * Controller of the NextNotesApp
 	 */
 	angular.module('NextNotesApp')
-		.controller('MainCtrl', ['$scope', '$rootScope', '$location', function ($scope, $rootScope, $location) {
+		.controller('MainCtrl', ['$scope','NotebookFactory', '$rootScope', function ($scope, NotebookFactory, $rootScope) {
 			$scope.renameGroup = function (oldName, newName) {
 				console.log('Rename', oldName, 'to ', newName);
+			};
+
+			$scope.addNotebook = function (name) {
+				NotebookFactory.save({
+					name: name,
+					color: '',
+					parent_id: 0
+				}).$promise.then(function () {
+					$rootScope.$emit('refresh_notes');
+					OC.Notification.showTemporary('Notebook created');
+				});
 			};
 
 			$scope.hasPermission = function (note, perm) {

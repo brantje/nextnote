@@ -39,6 +39,7 @@ class NotebookMapper extends Mapper {
 
 	/**
 	 * Get Notebook(s)
+	 *
 	 * @param null|int $notebook_id
 	 * @param null|int $user_id
 	 * @param bool|int $deleted
@@ -46,12 +47,13 @@ class NotebookMapper extends Mapper {
 	 */
 	public function find($notebook_id = null, $user_id = null, $deleted = false) {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('g.*', 'g.guid as guid', $qb->createFunction('COUNT(n.id) as note_count')) //'COUNT(n.id) as note_count'
+		$qb->select('g.*', 'g.guid as guid')//'COUNT(n.id) as note_count'
+		->selectAlias($qb->createFunction('COUNT(' . $qb->getColumnName('n.id') . ')'), 'note_count')
 			->from('nextnote_groups', 'g')
-			->leftJoin('g','nextnote_notes','n',  $qb->expr()->eq('g.id', 'n.notebook'))->groupBy(['g.id']);
+			->leftJoin('g', 'nextnote_notes', 'n', $qb->expr()->eq('g.id', 'n.notebook'))->groupBy(['g.id']);
 
 		$where = [];
-		if(!is_null($notebook_id)){
+		if (!is_null($notebook_id)) {
 			$where['g.id'] = $notebook_id;
 		}
 
@@ -63,8 +65,8 @@ class NotebookMapper extends Mapper {
 			$where['g.deleted'] = $deleted;
 		}
 		$i = 0;
-		foreach ($where as $field => $value){
-			if($i === 0){
+		foreach ($where as $field => $value) {
+			if ($i === 0) {
 				$qb->where($qb->expr()->eq($field, $qb->createNamedParameter($value)));
 			} else {
 				$qb->andWhere($qb->expr()->eq($field, $qb->createNamedParameter($value)));
@@ -95,12 +97,13 @@ class NotebookMapper extends Mapper {
 	 */
 	public function findByName($group_name, $user_id = null, $deleted = false) {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('g.*', 'g.guid as guid', $qb->createFunction('COUNT(n.id) as note_count')) //'COUNT(n.id) as note_count'
-		->from('nextnote_groups', 'g')
-			->leftJoin('g','nextnote_notes','n',  $qb->expr()->eq('g.id', 'n.notebook'))->groupBy(['g.id']);
+		$qb->select('g.*', 'g.guid as guid')//'COUNT(n.id) as note_count'
+		->selectAlias($qb->createFunction('COUNT(' . $qb->getColumnName('n.id') . ')'), 'note_count')
+			->from('nextnote_groups', 'g')
+			->leftJoin('g', 'nextnote_notes', 'n', $qb->expr()->eq('g.id', 'n.notebook'))->groupBy(['g.id']);
 
 		$where = [];
-		if($group_name){
+		if ($group_name) {
 			$where['g.name'] = $group_name;
 		}
 
@@ -112,8 +115,8 @@ class NotebookMapper extends Mapper {
 			$where['g.deleted'] = $deleted;
 		}
 		$i = 0;
-		foreach ($where as $field => $value){
-			if($i === 0){
+		foreach ($where as $field => $value) {
+			if ($i === 0) {
 				$qb->where($qb->expr()->eq($field, $qb->createNamedParameter($value)));
 			} else {
 				$qb->andWhere($qb->expr()->eq($field, $qb->createNamedParameter($value)));
@@ -137,7 +140,7 @@ class NotebookMapper extends Mapper {
 		return $results;
 	}
 
-   	/**
+	/**
 	 * Creates a group
 	 *
 	 * @param Notebook|Entity $group
@@ -181,7 +184,7 @@ class NotebookMapper extends Mapper {
 		$group->setGuid($arr['guid']);
 		$group->setParentId($arr['parent_id']);
 		$group->setColor($arr['color']);
-		$group->setNoteCount((int) $arr['note_count']);
+		$group->setNoteCount((int)$arr['note_count']);
 		$group->setDeleted($arr['deleted']);
 
 		return $group;

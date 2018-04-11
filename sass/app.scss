@@ -333,6 +333,12 @@
 
 #grouplist {
   /*z-index: 100;*/
+  .add_group_container{
+    padding: 0 5px 0 5px;
+    input#new_group_name{
+      width: 150px;
+    }
+  }
   .add-note {
     &:before {
       content: "+";
