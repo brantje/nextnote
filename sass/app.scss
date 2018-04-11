@@ -166,22 +166,7 @@
       display: inline;
       .view-modes{
         float: right;
-        .button:first-child{
-          border-bottom-right-radius: 0;
-          border-top-right-radius: 0;
-          margin-right: 0;
-          &:not(.active){
-            border-right: none;
-          }
-        }
-        .button:last-child{
-          &:not(.active){
-            border-left: none;
-          }
-          border-bottom-left-radius: 0;
-          border-top-left-radius: 0;
-          margin-left: 0;
-        }
+
       }
     }
   }

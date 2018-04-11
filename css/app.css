@@ -312,18 +312,6 @@ a.editable-empty:focus {
     display: inline; }
     .view-container .view-left #controls .view-modes {
       float: right; }
-      .view-container .view-left #controls .view-modes .button:first-child {
-        border-bottom-right-radius: 0;
-        border-top-right-radius: 0;
-        margin-right: 0; }
-        .view-container .view-left #controls .view-modes .button:first-child:not(.active) {
-          border-right: none; }
-      .view-container .view-left #controls .view-modes .button:last-child {
-        border-bottom-left-radius: 0;
-        border-top-left-radius: 0;
-        margin-left: 0; }
-        .view-container .view-left #controls .view-modes .button:last-child:not(.active) {
-          border-left: none; }
 .view-container .view-right {
   float: left;
   width: 50%;
