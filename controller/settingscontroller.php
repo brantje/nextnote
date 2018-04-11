@@ -69,7 +69,7 @@ class SettingsController extends ApiController {
 	 */
 	public function saveUserSetting($key, $value) {
 		$this->settings->setUserSetting($key, $value);
-		return new JSONResponse('OK');
+		return new JSONResponse($this->settings->getSettings());
 	}
 
 

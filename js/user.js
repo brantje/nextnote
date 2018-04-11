@@ -3,9 +3,9 @@ function ocNextnoteUrl(url) {
 }
 
 $(document).ready(function() {
-	$('#nextnote-view_mode').change(function() {
+	$('body').on('change', '#nextnote-view_mode', function() {
 		var val = $(this).val();
-		$.post(ocNextnoteUrl("api/v2.0/settings-user"), { field: 'view_mode', value: val }, function (data) {
+		$.post(ocNextnoteUrl("api/v2.0/settings-user"), { key: 'view_mode', value: val }, function (data) {
 		});
 	});
 });

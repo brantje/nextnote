@@ -121,6 +121,7 @@ class SettingsService {
 	 */
 
 	public function setUserSetting($key, $value) {
+		$this->userSettings[$key] = $value;
 		return $this->config->setUserValue($this->userId, 'nextnote', $key, $value);
 	}
 
