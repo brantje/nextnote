@@ -82,8 +82,19 @@ class SettingsService {
 	 *
 	 * @return array
 	 */
-	public function gettUserSettings() {
+	public function getUserSettings() {
 		return $this->userSettings;
+	}
+
+	/**
+	 * Get user setting
+	 *
+	 * @param $key
+	 * @param string $default
+	 * @return string|int
+	 */
+	public function getUserSetting($key, $default = '') {
+		return $this->config->getUserValue($this->userId, 'nextnote', $key, $default); // single|col
 	}
 
 	/**

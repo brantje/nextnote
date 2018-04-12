@@ -25,5 +25,5 @@ namespace OCA\NextNote\Fixtures;
 
 class ExampleNote {
 	const TITLE = 'Example note';
-	const NOTE = '';
+	const NOTE_CONTENT = 'Some example note... If you think this content could be better, send a PR';
 }

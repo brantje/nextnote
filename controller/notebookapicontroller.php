@@ -116,7 +116,7 @@ class NotebookApiController extends ApiController {
 
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$result = $this->notebookService->create($notebook, $uid)->jsonSerialize();
-		\OC_Hook::emit('OCA\NextNote', 'post_create_notebook', ['notebook' => $group]);
+		\OC_Hook::emit('OCA\NextNote', 'post_create_notebook', ['notebook' => $notebook]);
 		return new JSONResponse($result);
 	}
 
