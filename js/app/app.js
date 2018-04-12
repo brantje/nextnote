@@ -54,6 +54,8 @@
 		$translateProvider.useSanitizeValueStrategy('sanitizeParameters');
 		$translateProvider.useUrlLoader(OC.generateUrl('/apps/nextnote/api/v2/language'));
 		$translateProvider.preferredLanguage('en');
+	}).config(function (timeAgoSettings) {
+		timeAgoSettings.overrideLang = OC.getLocale()+ '_' + OC.getLocale().toUpperCase();
 	}).run(['$rootScope', 'NoteFactory', 'editableOptions', 'NotebookFactory', function ($rootScope, NoteFactory, editableOptions, NotebookFactory) {
 		editableOptions.theme = 'bs2';
 		console.log('App loaded');
