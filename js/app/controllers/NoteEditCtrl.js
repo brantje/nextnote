@@ -113,9 +113,26 @@
 
 			var o = $('#ownnote').offset();
 			var h = $(window).height() - o.top;
+
+			var langMapper = {
+				'bg': 'bg_BG',
+				'cs': 'cs_CZ',
+				'fi': 'fi_FI',
+				'hu': 'hu_HU',
+				'nb': 'nb_NO',
+				'sk': 'sk_SK',
+				'th': 'th_TH',
+				'ja': 'ja_JP',
+			};
+			var locale = OC.getLocale().replace('-','_');
+			if(langMapper.hasOwnProperty(locale)){
+				locale = langMapper[locale];
+			}
+
 			$scope.tinymceOptions = {
 				menubar: false,
 				theme: 'modern',
+				language: locale,
 				skin: 'lightgray',
 				plugins: [
 					'advlist autolink lists link image charmap print preview hr anchor pagebreak',

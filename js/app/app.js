@@ -42,14 +42,21 @@
 			'templates-main',
 			'ui.tinymce',
 			'yaru22.angular-timeago',
-			'xeditable'
+			'xeditable',
+			'pascalprecht.translate'
 		])
 		.config(['$httpProvider', function ($httpProvider) {
 			/** global: oc_requesttoken */
 			$httpProvider.defaults.headers.common.requesttoken = oc_requesttoken;
 		}]).config(['$qProvider', function ($qProvider) {
 		$qProvider.errorOnUnhandledRejections(false);
-	}]).run(['$rootScope', 'NoteFactory', 'editableOptions', 'NotebookFactory', function ($rootScope, NoteFactory, editableOptions, NotebookFactory) {
+	}]).config(function($translateProvider) {
+		$translateProvider.useSanitizeValueStrategy('sanitizeParameters');
+		$translateProvider.useUrlLoader(OC.generateUrl('/apps/nextnote/api/v2/language'));
+		$translateProvider.preferredLanguage('en');
+	}).config(function (timeAgoSettings) {
+		timeAgoSettings.overrideLang = OC.getLocale()+ '_' + OC.getLocale().toUpperCase();
+	}).run(['$rootScope', 'NoteFactory', 'editableOptions', 'NotebookFactory', function ($rootScope, NoteFactory, editableOptions, NotebookFactory) {
 		editableOptions.theme = 'bs2';
 		console.log('App loaded');
 		$rootScope.list_sorting = {

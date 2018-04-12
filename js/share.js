@@ -65,7 +65,7 @@ window.Ownnote.Share = {};
 			share: function (noteid, shareType, shareWith, publicUpload, password, permissions, callback, errorCallback) {
 
 				return $.ajax({
-					url: OC.generateUrl('/apps/nextnote/') + 'api/v2.0/sharing/shares',
+					url: OC.generateUrl('/apps/nextnote/') + 'api/v2/sharing/shares',
 					type: 'POST',
 					data: {
 						noteid: noteid,
@@ -104,7 +104,7 @@ window.Ownnote.Share = {};
 			 * @param {Function} callback
 			 */
 			unshare: function (shareId, shareType, shareWith, callback) {
-				var url = OC.generateUrl('/apps/nextnote/') + 'api/v2.0/sharing/shares/' + shareId;
+				var url = OC.generateUrl('/apps/nextnote/') + 'api/v2/sharing/shares/' + shareId;
 				url += '?' + $.param({
 					'shareType': shareType,
 					'shareWith': shareWith
@@ -127,7 +127,7 @@ window.Ownnote.Share = {};
 			 * @param {Number} permissions
 			 */
 			setPermissions: function (shareId, shareType, shareWith, permissions) {
-				var url = OC.generateUrl('/apps/nextnote/') + 'api/v2.0/sharing/shares/' + shareId + '/permissions';
+				var url = OC.generateUrl('/apps/nextnote/') + 'api/v2/sharing/shares/' + shareId + '/permissions';
 				$.ajax({
 					url: url,
 					type: 'PUT',
@@ -655,7 +655,7 @@ window.Ownnote.Share = {};
 			 */
 			_loadShares: function (noteid) {
 				var data = false;
-				var url = OC.generateUrl('/apps/nextnote/') + 'api/v2.0/sharing/shares';
+				var url = OC.generateUrl('/apps/nextnote/') + 'api/v2/sharing/shares';
 				$.ajax({
 					url: url,
 					type: 'GET',

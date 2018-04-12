@@ -6,7 +6,7 @@ function ocNextnoteUrl(url) {
 $(document).ready(function() {
 	$('#nextnote-sharemode').change(function() {
 		var val = $(this).val();
-		$.post(ocNextnoteUrl("api/v2.0/settings"), { field: 'sharemode', value: val }, function (data) {
+		$.post(ocNextnoteUrl("api/v2/settings"), { field: 'sharemode', value: val }, function (data) {
 		});
 	});
 });

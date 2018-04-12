@@ -34,6 +34,8 @@ script('nextnote', 'vendor/angular-tinymce/angular-tinymce');
 script('nextnote', 'vendor/angular-timeago/angular-timeago-core');
 script('nextnote', 'vendor/angular-timeago/angular-timeago');
 script('nextnote', 'vendor/angular-xeditable/xeditable');
+script('nextnote', 'vendor/angular-translate/angular-translate.min');
+script('nextnote', 'vendor/angular-translate/angular-translate-loader-url.min');
 
 script('nextnote', 'app/app');
 script('nextnote', 'app/routes');
@@ -51,6 +53,7 @@ script('nextnote', 'app/directives/tooltip');
 script('nextnote', 'app/filters/noteFilter');
 script('nextnote', 'app/filters/objectKeysLength');
 script('nextnote', 'app/filters/trusted');
+script('nextnote', 'app/filters/capitalize');
 script('nextnote', 'app/filters/strip_html');
 /*build-js-end*/
 
@@ -74,15 +77,15 @@ echo '<script nonce="test"> var shareMode = "'. $_['shareMode'] .'"; var app_con
 	<div id="app-navigation" ng-show="sidebar_shown">
 		<ul id="grouplist">
 			<li class="group" ng-init="add_group = false;">
-				<a class="name" role="button" title="All" ng-click="add_group = true;" ng-hide="add_group">+ New notebook</a>
+				<a class="name" role="button" title="All" ng-click="add_group = true;" ng-hide="add_group">+ {{ 'new.notebook' | translate }}</a>
 				<div ng-show="add_group" class="add_group_container">
 					<input type="text" ng-model="new_group_name" id="new_group_name" placeholder="Enter notebook name">
-					<div class="button" ng-click="addNotebook(new_group_name); add_group = false;"><i class="fa fa-check" tooltip="Save"></i> </div>
-					<div class="button" ng-click="add_group = false; new_group_name = '';"><i class="fa fa-times" tooltip="Cancel"></i> </div>
+					<div class="button" ng-click="addNotebook(new_group_name); add_group = false;"><i class="fa fa-check"></i> </div>
+					<div class="button" ng-click="add_group = false; new_group_name = '';"><i class="fa fa-times"></i> </div>
 				</div>
 			</li>
 			<li class="group"  ng-click="noteGroupFilter.notebook = 'all'; " ng-class="{'active': noteGroupFilter.notebook === 'all' }">
-				<a class="name" role="button" title="All">All</a>
+				<a class="name" role="button" title="All">{{ 'all' | translate | capitalize }}</a>
 				<span class="utils">
 					<a class="icon-rename action edit tooltipped rightwards" group="All" original-title=""></a>
 					<a class="icon-delete action delete tooltipped rightwards" group="All" original-title=""></a>
@@ -90,7 +93,7 @@ echo '<script nonce="test"> var shareMode = "'. $_['shareMode'] .'"; var app_con
 				</span>
 			</li>
 			<li class="group"  ng-click="noteGroupFilter.notebook = null; " ng-class="{'active': noteGroupFilter.notebook === null }">
-				<a class="name" title="Not grouped">Not grouped</a>
+				<a class="name" title="Not grouped">{{ 'not.grouped' | translate | capitalize }}</a>
 				<span class="utils">
 					<a class="icon-rename action edit tooltipped rightwards" group="All" original-title=""></a>
 					<a class="icon-delete action delete tooltipped rightwards" group="All" original-title=""></a>
@@ -99,7 +102,7 @@ echo '<script nonce="test"> var shareMode = "'. $_['shareMode'] .'"; var app_con
 			</li>
 			<li id="group-{{group}}" ng-if="group.name !== ''" class="group" ng-click="noteGroupFilter.notebook = group.id; "
 				ng-class="{'active': noteGroupFilter.notebook === group.id }" data-type="category" ng-repeat="group in note_groups">
-				<a editable-text="group" e-form="textBtnForm" onbeforesave="renameGroup(group, $data)" class="name" id="link-webstore" role="button" title="webstore">{{ group.name }}</a>
+				<a editable-text="group" e-form="textBtnForm" onbeforesave="renameGroup(group, $data)" class="name" id="link-webstore" role="button" title="{{ group.name }}">{{ group.name }}</a>
 
 				<span class="utils">
 					<a ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible" class="icon-rename action edit rightwards"></a>
@@ -109,7 +112,7 @@ echo '<script nonce="test"> var shareMode = "'. $_['shareMode'] .'"; var app_con
 			</li>
 			<li data-id="trashbin" class="nav-trashbin" ng-class="{'active': list_filter.deleted === 1}" ng-click="list_filter.deleted = (list_filter.deleted === 0 ) ? 1 : 0; noteGroupFilter.notebook = 'all';">
 				<a class="nav-icon-trashbin svg">
-					Deleted notes
+					{{ 'deleted.notes' | translate }}
 				</a>
 			</li>
 		</ul>

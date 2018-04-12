@@ -30,13 +30,13 @@ $l = OCP\Util::getL10N('nextnote');
 ?>
 
 <div class="section">
-    <h2>NextNote</h2>
+    <h2><?php p($l->t("NextNote")); ?></h2>
     
 	<label for="nextnote-type"><?php p($l->t("How would you like to store your notes?")); ?></label><br>
 	<select id="nextnote-type" disabled>
 		<option selected><?php p($l->t("Database only")); ?></option>
 	</select><br/>
-	<p>During development of this app, only database exists. File mode will be added later</p>
+	<p><?php p($l->t("During development of this app, only database exists. File mode will be added later")); ?></p>
 	<br/>
 	<div id="nextnote-folder-settings" style="display: none;">
 		<label for="nextnote-folder"><?php p($l->t("Please enter the folder name you would like to use to store notes, with no slashes.")); ?></label><br>

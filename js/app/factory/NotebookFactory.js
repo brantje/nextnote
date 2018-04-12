@@ -23,7 +23,7 @@
 angular.module('NextNotesApp').
     factory('NotebookFactory', function($resource, $http) {
       var group = $resource(
-          OC.generateUrl('apps/nextnote/api/v2.0/notebook') + '/:id', {id: '@id'}, {
+          OC.generateUrl('apps/nextnote/api/v2/notebook') + '/:id', {id: '@id'}, {
             query: {
               responseType: 'json',
               transformResponse: function(result) {

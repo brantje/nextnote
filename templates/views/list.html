@@ -2,7 +2,7 @@
 	<div class="view-container">
 		<div class="view-left">
 			<div id="controls">
-				<div id="new" class="button indent" ng-click="newNote()">New
+				<div id="new" class="button indent" ng-click="newNote()">{{ 'new' | translate | capitalize}}
 				</div>
 				<div id="newfile" class="newfile indent">
 					<form id="createform" class="note-title-form">
@@ -10,14 +10,14 @@
 							   value="note title"
 							   style="color: rgb(160, 160, 160);">
 						<select id="groupname">
-							<option value="">Not grouped</option>
-							<option value="_new">New group</option>
+							<option value="">{{'not.grouped' | translate }}</option>
+							<option value="_new">{{ 'new.notebook' | translate }}</option>
 						</select>
 						<input type="text" class="newgroupinput"
 							   id="newgroupname"
 							   placeholder="group title">
-						<button id="create" class="button">Create</button>
-						<div id="cancel" class="button">Cancel</div>
+						<button id="create" class="button">{{ 'create' | translate | capitalize}}</button>
+						<div id="cancel" class="button">{{ 'cancel' | translate | capitalize }}</div>
 					</form>
 				</div>
 				<div class="view-modes visible-lg">
@@ -32,7 +32,7 @@
 					<th class="notename filesort notesort">
 						<div class="pointer sorttitle" id="sortname"
 							 ng-click="list_sorting.what = 'name'; list_sorting.reverse = !list_sorting.reverse; ">
-							Name
+							{{ 'name' | translate | capitalize}}
 						</div>
 						<div class="sortarrow"
 							 ng-show="list_sorting.what === 'name'"
@@ -76,14 +76,14 @@
 								 class="buttons delete-note"
 								 ng-if="hasPermission(note, 'delete')"
 								 ng-click="deleteNote(note)">
-									<span tooltip="Delete note" class="pointer buttons delete"></span>
+									<span tooltip="{{ 'delete.note' | translate }}" class="pointer buttons delete"></span>
 							</div>
 							<div id="note-{{ note.id }}-edit"
 								 class="buttons edit-note"
 								 ng-if="hasPermission(note, 'update')"
 								 ng-click="editNote(note)">
 							<span class="pointer buttons edit"
-								  tooltip="Edit note"></span>
+								  tooltip="{{ 'edit.note' | translate }}"></span>
 							</div>
 							<div id="note-{{ note.id }}-share"
 								 class="share-note share pointer"
@@ -99,12 +99,12 @@
 									</div>
 									<div class="buttons share shared share-note pointer"
 										 ng-if="(note.shared_with | objectKeysLength) > 0 && note.owner.uid !== OC.currentUser"
-										 tooltip="Shared with you by {{ note.owner.display_name }}">
+										 tooltip="{{ 'sharedwith' | translate:{name: note.owner.display_name } }}">
 										{{ note.owner.display_name }}
 									</div>
 									<div id="note-{{ note.id }}"
 										 class="buttons share share-note pointer"
-										 tooltip="Share note"
+										 tooltip="{{ 'share.note' | translate }}"
 										 ng-if="note.shared_with.length === 0"></div>
 								</a>
 							</div>
@@ -116,13 +116,13 @@
 							 class="buttons delete pointer"
 							 ng-if="hasPermission(note, 'delete')"
 							 ng-click="deleteNote(note)">
-							<span tooltip="Delete note"
+							<span tooltip="{{ 'delete.note' | translate }}"
 								  class="delete-note"></span>
 						</div>
 						<div id="note-{{ note.id }}-restore"
 							 class="buttons pointer restore-note"
 							 ng-if="hasPermission(note, 'delete')"
-							 tooltip="Restore note"
+							 tooltip="{{ 'restore.note' | translate }}"
 							 ng-click="resotoreNote(note)">
 
 						</div>
