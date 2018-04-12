@@ -229,7 +229,7 @@
 							if ($routeParams.noteId) {
 								$scope.saveNote(true);
 							}
-						}, 1000);
+						}, 10000);
 					}
 				});
 
