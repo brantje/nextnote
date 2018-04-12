@@ -39,8 +39,9 @@
 		'$timeout',
 		'NoteFactory',
 		'NotebookFactory',
+		'$filter',
 		function ($scope, $rootScope, NoteService, $routeParams, $location, $timeout,
-				  NoteFactory, NotebookFactory) {
+				  NoteFactory, NotebookFactory, $filter) {
 			$scope.noteShadowCopy = {
 				title: '',
 				content: '',
@@ -68,14 +69,10 @@
 
 			function initGroups () {
 				$scope.local_notebooks = angular.copy($rootScope.note_groups);
-				$scope.local_notebooks.empty = {
-					id: '',
-					name: 'Not grouped'
-				};
-
+				var $translate = $filter('translate');
 				$scope.local_notebooks._new = {
 					id: '_new',
-					name: 'New group'
+					name:  $translate('new.notebook')
 				};
 			}
 
