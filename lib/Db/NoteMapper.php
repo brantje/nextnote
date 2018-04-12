@@ -127,11 +127,11 @@ class NoteMapper extends Mapper {
 	/**
 	 * Creates a note
 	 *
-	 * @param Note $note
+	 * @param Note|Entity $note
 	 * @return Note|Entity
 	 * @internal param $userId
 	 */
-	public function insert($note) {
+	public function insert(Entity $note) {
 		$len = mb_strlen($note->getNote());
 		$parts = false;
 		if ($len > Utils::$maxPartSize) {
@@ -158,10 +158,10 @@ class NoteMapper extends Mapper {
 	/**
 	 * Update note
 	 *
-	 * @param Note $note
+	 * @param Note|Entity $note
 	 * @return Note|Entity
 	 */
-	public function updateNote($note) {
+	public function updateNote(Entity $note) {
 		$len = mb_strlen($note->getNote());
 		$parts = false;
 		$this->deleteNoteParts($note);
