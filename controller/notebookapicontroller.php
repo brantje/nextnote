@@ -105,16 +105,19 @@ class NotebookApiController extends ApiController {
 		}
 
 
+		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$notebook = new Notebook();
 		$notebook->setName($name);
 		$notebook->setParentId($parent_id);
+		$notebook->setUid($uid);
 		$notebook->setColor($color);
 		$notebook->setGuid(Utils::GUID());
+
+		/*
 		if($this->notebookService->findByName($name)){
 			return new JSONResponse(['error' => 'Group already exists']);
-		}
+		}*/
 
-		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$result = $this->notebookService->create($notebook, $uid)->jsonSerialize();
 		\OC_Hook::emit('OCA\NextNote', 'post_create_notebook', ['notebook' => $notebook]);
 		return new JSONResponse($result);
