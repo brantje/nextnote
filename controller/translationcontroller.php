@@ -64,8 +64,22 @@ class TranslationController extends ApiController {
 		$translations = array(
 			//'create.notebook' =>  $this->trans->t('Generating sharing keys ( %s / 2)','%step'),
 			'new.notebook' =>  $this->trans->t('New notebook'),
-			'not.grouped' =>  $this->trans->t('Not grouped'),
+			'not.grouped' =>  $this->trans->t('Not in notebook'),
+			'deleted.notes' =>  $this->trans->t('Deleted notes'),
 			'all' =>  $this->trans->t('all'),
+			'new' =>  $this->trans->t('new'),
+			'save' =>  $this->trans->t('save'),
+			'back' =>  $this->trans->t('back'),
+			'create' =>  $this->trans->t('create'),
+			'cancel' =>  $this->trans->t('cancel'),
+			'name' =>  $this->trans->t('name'),
+			'modified' =>  $this->trans->t('modified'),
+			'delete.note' =>  $this->trans->t('Delete note'),
+			'restore.note' =>  $this->trans->t('Restore note'),
+			'edit.note' =>  $this->trans->t('Edit note'),
+			'share.note' =>  $this->trans->t('Share note'),
+			'sharedwith' =>  $this->trans->t('Shared with you by %s', '%name'),
+			'no.edit.perm' =>  $this->trans->t('You don\'t have permissions to edit this note'),
 		);
 		return new JSONResponse($translations);
 	}
