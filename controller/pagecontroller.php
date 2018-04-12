@@ -61,9 +61,9 @@ class PageController extends Controller {
 		$shareMode = $this->config->getAppSetting('sharemode', 'merge'); // merge or standalone
 		$params = array('user' => $this->userId, 'shareMode' => $shareMode, 'config'=> $this->config->getSettings());
 
-		if($this->config->getUserSetting('first_user', 1) === 1){
+		if($this->config->getUserSetting('first_user', '1') === '1'){
 			$this->noteService->createExampleNote($this->userId);
-			$this->config->setUserSetting('first_user', 0);
+			$this->config->setUserSetting('first_user', '0');
 		}
 
 		$response = new TemplateResponse('nextnote', 'main', $params);

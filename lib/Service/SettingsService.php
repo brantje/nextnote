@@ -50,7 +50,8 @@ class SettingsService {
 
 		);
 		$this->userSettings = array(
-			'view_mode' => $this->config->getUserValue($this->userId, 'nextnote', 'view_mode', 'col') // single|col
+			'view_mode' => $this->config->getUserValue($this->userId, 'nextnote', 'view_mode', 'col'), // single|col
+			'first_user' => $this->config->getUserValue($this->userId, 'nextnote', 'first_user', 1),
 		);
 	}
 
