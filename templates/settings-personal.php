@@ -13,6 +13,7 @@ $l = OCP\Util::getL10N('nextnote');
 				value="single"><?php p($l->t("Single view")); ?></option>
 	</select><br/>
 	<br/>
-	<input type="button" id="resetNewUser" value="<?php p($l->t("Create example note")); ?>">
-
+	<?php if ($_['config']['user']['first_user'] === "0") { ?>
+			<input type="button" id="resetNewUser" value="<?php p($l->t("Create example note")); ?>">
+	<?php } ?>
 </div>

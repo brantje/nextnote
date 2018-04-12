@@ -9,5 +9,12 @@ $(document).ready(function() {
 			OC.Notification.showTemporary('Settings saved!');
 		});
 	});
+	$('body').on('click', '#resetNewUser', function() {
+		var val = $(this).val();
+		$.post(ocNextnoteUrl("api/v2/settings-user"), { key: 'first_user', value: 1 }, function (data) {
+			OC.Notification.showTemporary('Example note created');
+			$('#resetNewUser').attr("disabled", "disabled");
+		});
+	});
 });
 
