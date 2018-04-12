@@ -53,17 +53,21 @@
 
 			function saveNote () {
 				var isNewNote = ($scope.noteShadowCopy.id === undefined);
-				$scope.noteShadowCopy.$save().then( function (result) {
+				$scope.noteShadowCopy.$save().then(function (result) {
 					result.mtime = result.mtime * 1000;
 					$rootScope.notes[result.id] = result;
 					$scope.autoSaved = true;
 					$timeout(function () {
 						$scope.autoSaved = false;
 					}, 2500);
-					if(isNewNote){
-						window.location = '#!/note/edit/'+result.id;
-					}
 					$rootScope.$emit('refresh_notes');
+					if (isNewNote) {
+						setTimeout(function () {
+							window.location = '#!/note/edit/' + result.id;
+
+						}, 250);
+					}
+
 				});
 			}
 
@@ -72,7 +76,7 @@
 				var $translate = $filter('translate');
 				$scope.local_notebooks._new = {
 					id: '_new',
-					name:  $translate('new.notebook')
+					name: $translate('new.notebook')
 				};
 			}
 
@@ -122,8 +126,8 @@
 				'ja': 'ja_JP',
 				'sv': 'sv_SE',
 			};
-			var locale = OC.getLocale().replace('-','_');
-			if(langMapper.hasOwnProperty(locale)){
+			var locale = OC.getLocale().replace('-', '_');
+			if (langMapper.hasOwnProperty(locale)) {
 				locale = langMapper[locale];
 			}
 
@@ -188,6 +192,7 @@
 						parent_id: 0
 					}).$promise.then(function (notebook) {
 						$scope.noteShadowCopy.notebook_id = notebook.id;
+						$scope.noteShadowCopy.notebook = notebook;
 						saveNote();
 					});
 				} else {
@@ -210,7 +215,7 @@
 						console.log('Disabling auto save, no edit permissions');
 						return;
 					}
-					if(!$scope.noteShadowCopy.id){
+					if (!$scope.noteShadowCopy.id) {
 						return;
 					}
 					if ($scope.noteShadowCopy.title &&
