@@ -34,6 +34,8 @@ script('nextnote', 'vendor/angular-tinymce/angular-tinymce');
 script('nextnote', 'vendor/angular-timeago/angular-timeago-core');
 script('nextnote', 'vendor/angular-timeago/angular-timeago');
 script('nextnote', 'vendor/angular-xeditable/xeditable');
+script('nextnote', 'vendor/angular-translate/angular-translate.min');
+script('nextnote', 'vendor/angular-translate/angular-translate-loader-url.min');
 
 script('nextnote', 'app/app');
 script('nextnote', 'app/routes');
