@@ -63,6 +63,7 @@
 					$rootScope.$emit('refresh_notes');
 					if (isNewNote) {
 						setTimeout(function () {
+							console.log('new');
 							window.location = '#!/note/edit/' + result.id;
 
 						}, 250);

@@ -60,6 +60,11 @@ class TranslationController extends ApiController {
 		$this->trans = $trans;
 	}
 
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 */
 	public function getLanguageStrings() {
 		$translations = array(
 			//'create.notebook' =>  $this->trans->t('Generating sharing keys ( %s / 2)','%step'),
