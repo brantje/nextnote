@@ -307,7 +307,8 @@ a.editable-empty:focus {
 .view-container .view-left {
   float: left;
   width: 50%;
-  height: calc(100vh - 45px); }
+  height: calc(100vh - 45px);
+  overflow-y: auto; }
   .view-container .view-left #controls {
     display: inline; }
     .view-container .view-left #controls .view-modes {

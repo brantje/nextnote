@@ -84,7 +84,7 @@ class NotebookService {
 			$group = $entity;
 		}
 		if (!$group instanceof Notebook) {
-			throw new \Exception("Expected Note object!");
+			throw new \Exception("Expected Notebook object!");
 		}
 		return $this->groupMapper->insert($group);
 	}
@@ -109,7 +109,7 @@ class NotebookService {
 		}
 
 		if (!$group instanceof Notebook) {
-			throw new \Exception("Expected Note object!");
+			throw new \Exception("Expected Notebook object!");
 		}
 
 		return $this->groupMapper->update($group);

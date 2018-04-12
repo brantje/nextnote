@@ -113,7 +113,6 @@ class NoteApiController extends ApiController {
 		if ($title == "" || !$title) {
 			return new JSONResponse(['error' => 'title is missing']);
 		}
-
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$note = new Note();
 		$note->setName($title);

@@ -159,7 +159,6 @@ class NotebookMapper extends Mapper {
 	 * @return Notebook|Entity
 	 */
 	public function update(Entity $group) {
-		$group->setNoteCount(null);
 		return parent::update($group);
 	}
 

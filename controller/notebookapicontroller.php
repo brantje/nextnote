@@ -44,15 +44,15 @@ use OCP\Share;
 class NotebookApiController extends ApiController {
 
 	private $config;
-	private $groupService;
+	private $notebookService;
 	private $shareBackend;
 	private $userManager;
 
 	public function __construct($appName, IRequest $request,
-								ILogger $logger, IConfig $config, NotebookService $noteService, NextNoteShareBackend $shareBackend, IUserManager $userManager) {
+								ILogger $logger, IConfig $config, NotebookService $notebookService, NextNoteShareBackend $shareBackend, IUserManager $userManager) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
-		$this->groupService = $noteService;
+		$this->notebookService = $notebookService;
 		$this->shareBackend = $shareBackend;
 		$this->userManager = $userManager;
 	}
@@ -68,7 +68,7 @@ class NotebookApiController extends ApiController {
 	 */
 	public function index($deleted = false, $notebook_id = null) {
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
-		$results = $this->groupService->find($notebook_id, $uid, $deleted);
+		$results = $this->notebookService->find($notebook_id, $uid, $deleted);
 
 		return new JSONResponse($results);
 	}
@@ -81,7 +81,7 @@ class NotebookApiController extends ApiController {
 	 * @return NotFoundJSONResponse|JSONResponse
 	 */
 	public function get($id) {
-		$result = $this->groupService->find($id);
+		$result = $this->notebookService->find($id);
 		if (!$result) {
 			return new NotFoundJSONResponse();
 		}
@@ -103,20 +103,20 @@ class NotebookApiController extends ApiController {
 		if ($name == "" || !$name) {
 			return new JSONResponse(['error' => 'name is missing']);
 		}
-		$group = [
-			'parent_id' => $parent_id,
-			'name' => $name,
-			'color' => $color,
-			'guid' => Utils::GUID()
-		];
 
-		if($this->groupService->findByName($name)){
+
+		$notebook = new Notebook();
+		$notebook->setName($name);
+		$notebook->setParentId($parent_id);
+		$notebook->setColor($color);
+		$notebook->setGuid(Utils::GUID());
+		if($this->notebookService->findByName($name)){
 			return new JSONResponse(['error' => 'Group already exists']);
 		}
 
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
-		$result = $this->groupService->create($group, $uid)->jsonSerialize();
-		\OC_Hook::emit('OCA\NextNote', 'post_create_group', ['group' => $group]);
+		$result = $this->notebookService->create($notebook, $uid)->jsonSerialize();
+		\OC_Hook::emit('OCA\NextNote', 'post_create_notebook', ['notebook' => $group]);
 		return new JSONResponse($result);
 	}
 
@@ -134,25 +134,18 @@ class NotebookApiController extends ApiController {
 			return new JSONResponse(['error' => 'title is missing']);
 		}
 
-
-		$group = [
-			'parent_id' => $parent_id,
-			'name' => $name,
-			'color' => $color,
-		];
 		//@TODO for sharing add access check
-		$entity = $this->groupService->find($id);
-		if (!$entity) {
+		$notebook = $this->notebookService->find($id);
+		if (!$notebook) {
 			return new NotFoundJSONResponse();
 		}
 
+		$notebook->setName($name);
+		$notebook->setParentId($parent_id);
+		$notebook->setColor($color);
 
-		if (!$this->shareBackend->checkPermissions(Constants::PERMISSION_UPDATE, $entity)) {
-			return new UnauthorizedJSONResponse();
-		}
-
-		$results = $this->groupService->update($group)->jsonSerialize();
-		\OC_Hook::emit('OCA\NextNote', 'post_update_group', ['group' => $group]);
+		$results = $this->notebookService->update($notebook)->jsonSerialize();
+		\OC_Hook::emit('OCA\NextNote', 'post_update_notebook', ['notebook' => $notebook]);
 		return new JSONResponse($results);
 	}
 
@@ -163,18 +156,14 @@ class NotebookApiController extends ApiController {
 	 * @return NotFoundJSONResponse|UnauthorizedJSONResponse|JSONResponse
 	 */
 	public function delete($id) {
-		$entity = $this->groupService->find($id);
+		$entity = $this->notebookService->find($id);
 		if (!$entity) {
 			return new NotFoundJSONResponse();
 		}
 
-		if (!$this->shareBackend->checkPermissions(Constants::PERMISSION_DELETE, $entity)) {
-			return new UnauthorizedJSONResponse();
-		}
-
-		$this->groupService->delete($id);
+		$this->notebookService->delete($id);
 		$result = (object)['success' => true];
-		\OC_Hook::emit('OCA\NextNote', 'post_delete_group', ['group_id' => $id]);
+		\OC_Hook::emit('OCA\NextNote', 'post_delete_notebook', ['notebook_id' => $id]);
 		return new JSONResponse($result);
 	}
 }
