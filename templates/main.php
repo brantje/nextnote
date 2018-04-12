@@ -114,6 +114,9 @@ echo '<script nonce="test"> var shareMode = "'. $_['shareMode'] .'"; var app_con
 				<a class="nav-icon-trashbin svg">
 					{{ 'deleted.notes' | translate }}
 				</a>
+				<span class="utils">
+					<span class="action numnotes">{{ count_deleted_notes(notes) }}</span>
+				</span>
 			</li>
 		</ul>
 	</div>

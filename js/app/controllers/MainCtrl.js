@@ -63,6 +63,16 @@
 				return counter;
 			};
 
+			$scope.count_deleted_notes = function (notes) {
+				var counter = 0;
+				angular.forEach(notes, function (note) {
+					if(note.hasOwnProperty('id') && note.deleted === 1){
+						counter++;
+					}
+				});
+				return counter;
+			};
+
 			$scope.hasPermission = function (note, perm) {
 				if (note.hasOwnProperty('owner') && note.owner.hasOwnProperty('uid')) {
 					if (note && note.owner.uid === OC.currentUser) {
