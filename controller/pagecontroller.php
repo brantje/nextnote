@@ -24,6 +24,7 @@
 namespace OCA\NextNote\Controller;
 
 
+use OCA\NextNote\Service\NoteService;
 use OCA\NextNote\Service\SettingsService;
 use \OCP\IRequest;
 use \OCP\AppFramework\Http\TemplateResponse;
@@ -34,12 +35,15 @@ class PageController extends Controller {
 
 	private $userId;
 	private $config;
+	private $noteService;
 
 	public function __construct($appName, IRequest $request, $userId,
-								SettingsService $settings) {
+								SettingsService $settings,
+								NoteService $noteService) {
 		parent::__construct($appName, $request);
 		$this->userId = $userId;
 		$this->config = $settings;
+		$this->noteService = $noteService;
 	}
 
 
@@ -56,6 +60,11 @@ class PageController extends Controller {
 	public function index() {
 		$shareMode = $this->config->getAppSetting('sharemode', 'merge'); // merge or standalone
 		$params = array('user' => $this->userId, 'shareMode' => $shareMode, 'config'=> $this->config->getSettings());
+
+		if($this->config->getUserSetting('first_user', 1) === 1){
+			$this->noteService->createExampleNote($this->userId);
+			$this->config->setUserSetting('first_user', 0);
+		}
 
 		$response = new TemplateResponse('nextnote', 'main', $params);
 		$ocVersion = \OCP\Util::getVersion();

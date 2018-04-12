@@ -32,18 +32,18 @@ use OCP\AppFramework\Db\Entity;
 
 class NotebookService {
 
-	private $groupMapper;
+	private $notebookMapper;
 	private $utils;
 	private $sharing;
 
-	public function __construct(NotebookMapper $groupMapper, Utils $utils, NextNoteShareBackend $shareBackend) {
-		$this->groupMapper = $groupMapper;
+	public function __construct(NotebookMapper $notebookMapper, Utils $utils, NextNoteShareBackend $shareBackend) {
+		$this->notebookMapper = $notebookMapper;
 		$this->utils = $utils;
 		$this->sharing = $shareBackend;
 	}
 
 	/**
-	 * Find a group by id
+	 * Find a notebook by id
 	 *
 	 * @param null|int $notebook_id
 	 * @param null $user_id
@@ -51,85 +51,85 @@ class NotebookService {
 	 * @return Notebook[]|Notebook
 	 */
 	public function find($notebook_id=null, $user_id = null, $deleted = false) {
-		return $this->groupMapper->find($notebook_id, $user_id, $deleted);
+		return $this->notebookMapper->find($notebook_id, $user_id, $deleted);
 	}
 	/**
-	 * Find a group by name
+	 * Find a notebook by name
 	 *
-	 * @param $group_name string
+	 * @param $notebook_name string
 	 * @param null $user_id
 	 * @param bool $deleted
 	 * @return Notebook[]|Notebook
 	 */
-	public function findByName($group_name=null, $user_id = null, $deleted = false) {
-		return $this->groupMapper->findByName($group_name, $user_id, $deleted);
+	public function findByName($notebook_name=null, $user_id = null, $deleted = false) {
+		return $this->notebookMapper->findByName($notebook_name, $user_id, $deleted);
 	}
 
 	/**
-	 * Creates a group
+	 * Creates a notebook
 	 *
-	 * @param array|Notebook $group
+	 * @param array|Notebook $notebook
 	 * @param $userId
 	 * @return Notebook|Entity
 	 * @throws \Exception
 	 */
-	public function create($group, $userId) {
-		if (is_array($group)) {
+	public function create($notebook, $userId) {
+		if (is_array($notebook)) {
 			$entity = new Notebook();
-			$entity->setName($group['name']);
-			$entity->setParentId($group['parent_id']);
+			$entity->setName($notebook['name']);
+			$entity->setParentId($notebook['parent_id']);
 			$entity->setUid($userId);
-			$entity->setGuid($group['guid']);
-			$entity->setColor($group['color']);
-			$group = $entity;
+			$entity->setGuid($notebook['guid']);
+			$entity->setColor($notebook['color']);
+			$notebook = $entity;
 		}
-		if (!$group instanceof Notebook) {
-			throw new \Exception("Expected Note object!");
+		if (!$notebook instanceof Notebook) {
+			throw new \Exception("Expected Notebook object!");
 		}
-		return $this->groupMapper->insert($group);
+		return $this->notebookMapper->insert($notebook);
 	}
 
 	/**
-	 * Update a group
+	 * Update a notebook
 	 *
-	 * @param $group array|Notebook
+	 * @param $notebook array|Notebook
 	 * @return Notebook|Entity|bool
 	 * @throws \Exception
 	 * @internal param $userId
 	 * @internal param $vault
 	 */
-	public function update($group) {
+	public function update($notebook) {
 
-		if (is_array($group)) {
-			$entity = $this->find($group['id']);
-			$entity->setName($group['title']);
-			$entity->setParentId($group['parent_id']);
-			$entity->setColor($group['color']);
-			$group = $entity;
+		if (is_array($notebook)) {
+			$entity = $this->find($notebook['id']);
+			$entity->setName($notebook['title']);
+			$entity->setParentId($notebook['parent_id']);
+			$entity->setColor($notebook['color']);
+			$notebook = $entity;
 		}
 
-		if (!$group instanceof Notebook) {
-			throw new \Exception("Expected Note object!");
+		if (!$notebook instanceof Notebook) {
+			throw new \Exception("Expected Notebook object!");
 		}
 
-		return $this->groupMapper->update($group);
+		return $this->notebookMapper->update($notebook);
 	}
 
 	/**
-	 * Delete a group
+	 * Delete a notebook
 	 *
-	 * @param $group_id
+	 * @param $notebook_id
 	 * @param string $user_id
 	 * @return bool
 	 */
-	public function delete($group_id, $user_id = null) {
+	public function delete($notebook_id, $user_id = null) {
 		if (!$this->checkPermissions()) {
 			return false;
 		}
 
-		$group = $this->groupMapper->find($group_id, $user_id);
-		if ($group instanceof Notebook) {
-			$this->groupMapper->delete($group);
+		$notebook = $this->notebookMapper->find($notebook_id, $user_id);
+		if ($notebook instanceof Notebook) {
+			$this->notebookMapper->delete($notebook);
 			return true;
 		} else {
 			return false;

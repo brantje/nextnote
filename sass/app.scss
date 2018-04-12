@@ -162,6 +162,7 @@
     float: left;
     width: 50%;
     height: calc(100vh - 45px);
+    overflow-y: auto;
     #controls{
       display: inline;
       .view-modes{

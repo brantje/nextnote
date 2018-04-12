@@ -25,6 +25,7 @@ namespace OCA\NextNote\Service;
 
 use OCA\NextNote\Db\Notebook;
 use OCA\NextNote\Db\Note;
+use OCA\NextNote\Fixtures\ExampleNote;
 use OCA\NextNote\Fixtures\ShareFix;
 use OCA\NextNote\ShareBackend\NextNoteShareBackend;
 use OCA\NextNote\Utility\Utils;
@@ -46,7 +47,7 @@ class NoteService {
 	}
 
 	/**
-	 * Get vaults from a user.
+	 * Get notes from a user.
 	 *
 	 * @param $userId
 	 * @param int|bool $deleted
@@ -63,7 +64,7 @@ class NoteService {
 	}
 
 	/**
-	 * Get a single vault
+	 * Get a single note
 	 *
 	 * @param $note_id
 	 * @param $user_id
@@ -92,7 +93,7 @@ class NoteService {
 	}
 
 	/**
-	 * Update vault
+	 * Update note
 	 *
 	 * @param $note Note
 	 * @return Note|bool
@@ -109,7 +110,7 @@ class NoteService {
 	}
 
 	/**
-	 * Delete a vault from user
+	 * Delete a note from user
 	 *
 	 * @param $note_id
 	 * @param string $user_id
@@ -126,15 +127,17 @@ class NoteService {
 		}
 	}
 
-
 	/**
-	 * @param $FOLDER
-	 * @param boolean $showdel
-	 * @return array
-	 * @throws \Exception
+	 * Creates an example note for a user.
+	 * @param $userId
 	 */
-	public function getListing($FOLDER, $showdel) {
-		throw new \Exception('Calling a deprecated method! (Folder' . $FOLDER . '. Showdel: ' . $showdel . ')');
+	public function createExampleNote($userId) {
+		$note = new Note();
+		$note->setName(ExampleNote::TITLE);
+		$note->setNote(ExampleNote::NOTE_CONTENT);
+		$note->setUid($userId);
+		$note->setMtime(time());
+		$note->setGuid(Utils::GUID());
+		$this->create($note);
 	}
-
 }

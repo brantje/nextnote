@@ -37,7 +37,8 @@
 			var newNoteTemplate = {
 				'title': '',
 				'content': '',
-				'group': '',
+				'notebook_id': null,
+				'notebook': null,
 				'owner': {
 					'uid': OC.getCurrentUser().uid
 				},
