@@ -123,6 +123,7 @@
 				'sk': 'sk_SK',
 				'th': 'th_TH',
 				'ja': 'ja_JP',
+				'sv': 'sv_SE',
 			};
 			var locale = OC.getLocale().replace('-','_');
 			if(langMapper.hasOwnProperty(locale)){
