@@ -10,7 +10,7 @@
 					<option value="">{{ 'not.grouped' | translate }}</option>
 				</select>
 
-				<input type="text" placeholder="group title"
+				<input type="text" placeholder="{{ 'notebook.name' | translate | capitalize}}"
 					   ng-show="noteShadowCopy.notebook.id === '_new'"
 					   ng-model="$parent.new_group">
 				<div class="button" ng-click="saveNote()">{{ 'save' | translate | capitalize }}</div>
