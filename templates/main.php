@@ -89,7 +89,7 @@ echo '<script nonce="test"> var shareMode = "'. $_['shareMode'] .'"; var app_con
 				<span class="utils">
 					<a class="icon-rename action edit tooltipped rightwards" group="All" original-title=""></a>
 					<a class="icon-delete action delete tooltipped rightwards" group="All" original-title=""></a>
-					<span class="action numnotes" ng-show="obj_length(notes) - 2  >= 0">{{ obj_length(notes) - 2 }}</span>
+					<span class="action numnotes" ng-show="obj_length(notes)">{{ obj_length(notes) - 2 }}</span>
 				</span>
 			</li>
 			<li class="group"  ng-click="noteGroupFilter.notebook = null; " ng-class="{'active': noteGroupFilter.notebook === null }">
@@ -102,7 +102,7 @@ echo '<script nonce="test"> var shareMode = "'. $_['shareMode'] .'"; var app_con
 			</li>
 			<li id="group-{{group}}" ng-if="group.name !== ''" class="group" ng-click="noteGroupFilter.notebook = group.id; "
 				ng-class="{'active': noteGroupFilter.notebook === group.id }" data-type="category" ng-repeat="group in note_groups">
-				<a editable-text="group" e-form="textBtnForm" onbeforesave="renameGroup(group, $data)" class="name" id="link-webstore" role="button" title="{{ group.name }}">{{ group.name }}</a>
+				<a class="name" id="link-webstore" role="button" title="{{ group.name }}">{{ group.name }}</a>
 
 				<span class="utils">
 					<a ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible" class="icon-rename action edit rightwards"></a>

@@ -42,6 +42,32 @@ class NotebookService {
 		$this->sharing = $shareBackend;
 	}
 
+
+
+	/**
+	 * Get notebooks from a user.
+	 *
+	 * @param $userId
+	 * @param int|bool $deleted
+	 * @return Notebook[]
+	 */
+	public function findNotebooksFromUser($userId, $deleted = false) {
+		// Get shares
+		$dbNotebooks = $this->notebookMapper->find(null, $userId, $deleted);
+		$n = $dbNotebooks;
+		if($dbNotebooks instanceof Notebook){
+			$dbNotebooks = [];
+			/**
+			 * @var $result Notebook
+			 */
+			$dbNotebooks[$n->getId()] = $n;
+		}
+		$sharedNotebooks = [];
+		$notebooks = array_merge($dbNotebooks, $sharedNotebooks);
+		return $notebooks;
+	}
+
+
 	/**
 	 * Find a notebook by id
 	 *

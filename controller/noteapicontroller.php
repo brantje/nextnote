@@ -77,14 +77,23 @@ class NoteApiController extends ApiController {
 		if(!empty($notebook_id)){
 			$notebook_id = $this->notebookService->find($notebook_id)->getId();
 		}
-		$results = $this->noteService->findNotesFromUser($uid, $deleted, $notebook_id);
-		foreach ($results as &$note) {
+		$result = $this->noteService->findNotesFromUser($uid, $deleted, $notebook_id);
+		foreach ($result as &$note) {
 			if (is_array($note)) {
 				$note = $this->noteService->find($note['id']);
 			}
 			$note = $note->jsonSerialize();
 			$note = $this->formatApiResponse($note);
 
+		}
+
+		$results = $result;
+		if($results instanceof Note){
+			$results = [];
+			/**
+			 * @var $result Note
+			 */
+			$results[$result->getId()] = $result;
 		}
 		return new JSONResponse($results);
 	}
@@ -113,6 +122,7 @@ class NoteApiController extends ApiController {
 		if ($title == "" || !$title) {
 			return new JSONResponse(['error' => 'title is missing']);
 		}
+
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
 		$note = new Note();
 		$note->setName($title);

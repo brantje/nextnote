@@ -62,13 +62,19 @@ class NotebookApiController extends ApiController {
 	 * @NoCSRFRequired
 	 * @TODO Add etag / lastmodified
 	 * @param int|bool $deleted
-	 * @param int|null $notebook_id
 	 * @return JSONResponse
-	 * @internal param bool|string $group
 	 */
-	public function index($deleted = false, $notebook_id = null) {
+	public function index($deleted = false) {
 		$uid = \OC::$server->getUserSession()->getUser()->getUID();
-		$results = $this->notebookService->find($notebook_id, $uid, $deleted);
+		$result = $this->notebookService->findNotebooksFromUser($uid, $deleted);
+		$results = $result;
+		if($result instanceof Notebook){
+			$results = [];
+			/**
+			 * @var $result Notebook
+			 */
+			$results[$result->getId()] = $result;
+		}
 
 		return new JSONResponse($results);
 	}
