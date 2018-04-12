@@ -58,6 +58,16 @@ class NoteService {
 		// Get shares
 
 		$dbNotes = $this->noteMapper->findNotesFromUser($userId, $deleted, $grouping);
+
+		$n = $dbNotes;
+		if($dbNotes instanceof Note){
+			$dbNotes = [];
+			/**
+			 * @var $n Note
+			 */
+			$dbNotes[$n->getId()] = $n;
+		}
+
 		$sharedNotes = $this->sharing->getSharedNotes();
 		$notes = array_merge($dbNotes, $sharedNotes);
 		return $notes;
