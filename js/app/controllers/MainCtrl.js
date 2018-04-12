@@ -52,6 +52,17 @@
 				}
 				return Object.keys(obj).length;
 			};
+
+			$scope.count_empty_groups = function (notes) {
+				var counter = 0;
+				angular.forEach(notes, function (note) {
+					if(note.hasOwnProperty('id') && note.notebook === null){
+						counter++;
+					}
+				});
+				return counter;
+			};
+
 			$scope.hasPermission = function (note, perm) {
 				if (note.hasOwnProperty('owner') && note.owner.hasOwnProperty('uid')) {
 					if (note && note.owner.uid === OC.currentUser) {

@@ -97,7 +97,7 @@ echo '<script nonce="test"> var shareMode = "'. $_['shareMode'] .'"; var app_con
 				<span class="utils">
 					<a class="icon-rename action edit tooltipped rightwards" group="All" original-title=""></a>
 					<a class="icon-delete action delete tooltipped rightwards" group="All" original-title=""></a>
-					<!-- <span class="action numnotes" ng-show="keys(notes).length - 2 > 0">{{ keys(notes).length - 2 }}</span> -->
+					 <span class="action numnotes" ng-show="keys(notes).length - 2 > 0">{{ count_empty_groups(notes) }}</span>
 				</span>
 			</li>
 			<li id="group-{{group}}" ng-if="group.name !== ''" class="group" ng-click="noteGroupFilter.notebook = group.id; "
