@@ -41,7 +41,7 @@ Did you found a bug? Report it or fix it and send a PR.
   - [x] Services
 - [x] Switch to a AngularJS frontend
 - [X] Rename namespace from OwnNotes to NextNotes
-- [x] Implement note sharing
+- [ ] Implement note sharing
 - [ ] Import from Evernote
 - [ ] Ability to save files to a folder as HTML files (untested)
 - [ ] Implement hierarchical structure for groups (PR's welcome!)
