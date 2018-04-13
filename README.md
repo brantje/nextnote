@@ -1,23 +1,23 @@
 # NextNote (alpha)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/brantje/nextnote/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/brantje/nextnote/?branch=master)   
-This application is a rewritten verion of ownNote.<br>
+This application is a rewritten verion of [ownNote](https://github.com/Fmstrat/ownnote).<br>
 The old [Android App](https://play.google.com/store/apps/details?id=com.nowsci.ownnote&hl=sv) won't work, but no worries, we plan to develop a new one.
 
 Alpha means in this case 'pretty stable', but it's possible that due an update things will break / get send to `/dev/null`.
-If you value your notes please wait for a stable version.
+**If you value your notes please wait for a stable version.**
     
 Changes:
 - Replaced deprecated methods
 - Removed XSS vulnerability (Via the announcements it was possible to inject javascript / html)
-- Updated tiny MCE to  4.7.10.
-- Fixed CSP error in tinymce.
+- Updated [tiny MCE](https://github.com/tinymce/tinymce) to  4.7.10.
+- Fixed CSP error in [tinymce](https://github.com/tinymce/tinymce).
 - Ability to embed files from your nextcloud 
 - Ability to link to files from your nextcloud
 - Make use of Entity's, mappers, services
 
 ## Pull requests are very welcome!
 The whole app has been rebuild, so there will be some bugs in there.   
-Did you found a bug? Report it or fix it and send a PR.
+Did you find a bug? Report it or fix it and send a PR.
 
 ## Screenshots
 ![Desktop](https://i.imgur.com/0uahxKS.png)   
@@ -28,7 +28,7 @@ Did you found a bug? Report it or fix it and send a PR.
 
 
 ## Features
-- Full fledged WYSIWYG editor
+- Full fledged [WYSIWYG editor](https://github.com/tinymce/tinymce)
 - Share a note with a user or group
 - Note grouping/categorization
 - Archive notes
@@ -41,9 +41,9 @@ Did you found a bug? Report it or fix it and send a PR.
   - [x] Services
 - [x] Switch to a AngularJS frontend
 - [X] Rename namespace from OwnNotes to NextNotes
-- [ ] Implement note sharing
-- [ ] Import from Evernote
-- [ ] Ability to save files to a folder as HTML files (untested)
+- [ ] Implement [note sharing](https://github.com/brantje/nextnote/issues/81)
+- [ ] Import from Evernote as HTML or [ENEX](https://github.com/brantje/nextnote/issues/75)
+- [ ] Ability to [save files to a folder as HTML files](https://github.com/brantje/nextnote/issues/96) (untested)
 - [ ] Implement hierarchical structure for groups (PR's welcome!)
 - [ ] Add markdown support
 - [ ] Import from [Notes](https://github.com/nextcloud/notes) app.
