@@ -9,7 +9,7 @@ If you value your notes please wait for a stable version.
 Changes:
 - Replaced deprecated methods
 - Removed XSS vulnerability (Via the announcements it was possible to inject javascript / html)
-- Updated tiny MCE to  4.6.4.
+- Updated tiny MCE to  4.7.10.
 - Fixed CSP error in tinymce.
 - Ability to embed files from your nextcloud 
 - Ability to link to files from your nextcloud
