@@ -3,7 +3,8 @@
 This application is a rewritten verion of [ownNote](https://github.com/Fmstrat/ownnote).<br>
 The old [Android App](https://play.google.com/store/apps/details?id=com.nowsci.ownnote&hl=sv) won't work, but no worries, we plan to develop a new one.
 
-Alpha means in this case 'pretty stable', but it's possible that due an update things will break / get send to `/dev/null`.
+![alpha-release](https://user-images.githubusercontent.com/1787238/38750516-0adbd372-3f0a-11e8-9120-6521cf3232a5.gif)<br>
+Alpha means in this case 'pretty stable', but it's possible that due to an update things will break / get sent to `/dev/null`.
 **If you value your notes please wait for a stable version.**
     
 Changes:
@@ -20,12 +21,11 @@ The whole app has been rebuild, so there will be some bugs in there.
 Did you find a bug? Report it or fix it and send a PR.
 
 ## Screenshots
-![Desktop](https://i.imgur.com/0uahxKS.png)   
+![save-as-pdf-example-smaller](https://user-images.githubusercontent.com/1787238/38752055-c6f0db1c-3f0e-11e8-8b57-920f1a709b38.gif)
 
-![Mobile 1](https://i.imgur.com/DhYzfHO.png)   
+![recipe-example](https://user-images.githubusercontent.com/1787238/38751463-0fb851c4-3f0d-11e8-867e-0db143f730e1.png)
 
-![Mobile 2](https://i.imgur.com/0daW6nc.png)   
-
+![nexnote-drag-and-drop-example-bigger](https://user-images.githubusercontent.com/1787238/38581663-58ecc3b8-3cc2-11e8-9011-970ace95a5f5.gif)
 
 ## Features
 - Full fledged [WYSIWYG editor](https://github.com/tinymce/tinymce)
