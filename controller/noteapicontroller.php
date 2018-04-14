@@ -43,9 +43,7 @@ class NoteApiController extends ApiController {
 
 	private $config;
 	private $noteService;
-	private $shareBackend;
 	private $userManager;
-	private $shareManager;
 	private $notebookService;
 
 	public function __construct($appName, IRequest $request,
