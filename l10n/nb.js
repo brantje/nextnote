@@ -1,6 +1,24 @@
 OC.L10N.register(
     "nextnote",
     {
+    "New notebook" : "Ny notatblokk",
+    "Not in notebook" : "Ikke i notatblokk",
+    "Notebook name" : "Notatblokksnavn",
+    "Deleted notes" : "Slettede notater",
+    "all" : "alle",
+    "new" : "ny",
+    "save" : "lagre",
+    "back" : "tilbake",
+    "create" : "opprett",
+    "cancel" : "avbryt",
+    "name" : "navn",
+    "modified" : "endret",
+    "Delete note" : "Slett notat",
+    "Restore note" : "Gjenopprett notat",
+    "Edit note" : "Rediger notat",
+    "Share note" : "Del notat",
+    "Shared with you by %s" : "Delt med deg av %s",
+    "You don't have permissions to edit this note" : "Du har ikke tilgang til å endre dette notatet",
     "Error" : "Feil",
     "Error while sharing" : "En feil har oppstått under deling",
     "Error while unsharing" : "Feil ved oppheving av deling",
@@ -64,6 +82,7 @@ OC.L10N.register(
     "NextNote" : "NextNote",
     "How would you like to store your notes?" : "Hvordan ønsker du å lagre dine notater?",
     "Database only" : "Kun database",
+    "During development of this app, only database exists. File mode will be added later" : "Under utviklingen av denne appen er det kun databasen som existerer. Filmodus legges til senere.",
     "Please enter the folder name you would like to use to store notes, with no slashes." : "Skriv inn mappenavnet du ønsker å lagre notatene dine i, uten skråstrek",
     "How would you like to handle groups for shared notes?" : "Hvordan ønsker du å håndtere grupper for delte notater?",
     "Synchronized groups merge all shared notes, that have the same groupnames in the same group. Standalone groups get separate groups with their owner in the name. If 'UserA' shares a note in 'GroupX' with 'UserB', that also has a group called 'GroupX', 'Synchronized' will show them in the group 'GroupX' and 'Standalone' will show two groups 'GroupX' and 'GroupX (UserA)' for 'UserB'." : "Synkroniserte grupper slår sammen alle notater som har det samme gruppenavnet inne i den samme gruppen. Egne grupper får separate grupper inkludert eiers navn. Hvis \"BrukerA\" deler et notat i \"GruppeX\" med \"BrukerB\", som også har en gruppe som heter \"GruppeX\" vil \"Synkroniser\" vise dem i \"GruppeX\", og \"Egne notater\" vil vise to grupper \"GruppeX\" og \"GruppeX (BrukerA)\" for \"BrukerB\"",
@@ -71,6 +90,7 @@ OC.L10N.register(
     "Standalone" : "Egne notater",
     "View mode" : "Visningsmetode",
     "Column view" : "Kolonnevisning",
-    "Single view" : "Enkel visning"
+    "Single view" : "Enkel visning",
+    "Create example note" : "Lag eksempelnotat"
 },
 "nplurals=2; plural=(n != 1);");

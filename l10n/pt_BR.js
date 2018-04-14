@@ -1,6 +1,24 @@
 OC.L10N.register(
     "nextnote",
     {
+    "New notebook" : "Novo caderno",
+    "Not in notebook" : "Não está no caderno",
+    "Notebook name" : "Nome do caderno",
+    "Deleted notes" : "Anotações excluídas",
+    "all" : "todas",
+    "new" : "novas",
+    "save" : "salvar",
+    "back" : "voltar",
+    "create" : "criar",
+    "cancel" : "cancelar",
+    "name" : "nome",
+    "modified" : "modificado",
+    "Delete note" : "Excluir anotação",
+    "Restore note" : "Restaurar anotação",
+    "Edit note" : "Editar anotação",
+    "Share note" : "Compartilhar anotação",
+    "Shared with you by %s" : "Compartilhado com você por %s",
+    "You don't have permissions to edit this note" : "Você não tem permissão para editar esta anotação",
     "Error" : "Erro",
     "Error while sharing" : "Erro ao compartilhar",
     "Error while unsharing" : "Erro ao descompartilhar",
@@ -64,6 +82,7 @@ OC.L10N.register(
     "NextNote" : "NextNote",
     "How would you like to store your notes?" : "Como gostaria de guardar suas anotações?",
     "Database only" : "Somente banco de dados",
+    "During development of this app, only database exists. File mode will be added later" : "Durante o desenvolvimento deste aplicativo, apenas o banco de dados existia. O modo de arquivo será adicionado mais tarde",
     "Please enter the folder name you would like to use to store notes, with no slashes." : "Entre o nome da pasta para onde armazenar anotações, sem barras.",
     "How would you like to handle groups for shared notes?" : "Como gostaria de gerenciar grupos para anotações compartilhadas?",
     "Synchronized groups merge all shared notes, that have the same groupnames in the same group. Standalone groups get separate groups with their owner in the name. If 'UserA' shares a note in 'GroupX' with 'UserB', that also has a group called 'GroupX', 'Synchronized' will show them in the group 'GroupX' and 'Standalone' will show two groups 'GroupX' and 'GroupX (UserA)' for 'UserB'." : "Grupos sincronizados mesclam todas as anotações compartilhadas que possuam os mesmos nomes de grupos no mesmo grupo. Grupos autônomos obtêm grupos separados com seus proprietários no nome. Se ações 'UsuárioA' compartilha em 'GrupoX' com 'UsuárioB', que também tem um grupo chamado 'GrupoX', 'Sinchronizados' irá mostrá-los no grupo 'GrupoX' e 'Autônomo' mostrará dois grupos 'GrupoX' e 'GrupoX (UsuárioA)' para 'UsuárioB'.",
@@ -71,6 +90,7 @@ OC.L10N.register(
     "Standalone" : "Autônomo",
     "View mode" : "Modo de visualização",
     "Column view" : "Visualização em colunas",
-    "Single view" : "Visualização simples"
+    "Single view" : "Visualização simples",
+    "Create example note" : "Criar exemplo de anotação"
 },
 "nplurals=2; plural=(n > 1);");

@@ -1,4 +1,22 @@
 { "translations": {
+    "New notebook" : "Nový poznámkový blok",
+    "Not in notebook" : "Nie je v poznámkovom bloku",
+    "Notebook name" : "Názov poznámkového bloku",
+    "Deleted notes" : "Zmazané poznámky",
+    "all" : "všetko",
+    "new" : "nový",
+    "save" : "uložiť",
+    "back" : "späť",
+    "create" : "vytvoriť",
+    "cancel" : "zrušiť",
+    "name" : "názov",
+    "modified" : "zmenené",
+    "Delete note" : "Zmazať poznámku",
+    "Restore note" : "Obnoviť poznámku",
+    "Edit note" : "Upraviť poznámku",
+    "Share note" : "Zdieľať poznámku",
+    "Shared with you by %s" : "Sprístupnené vám používateľom %s",
+    "You don't have permissions to edit this note" : "Nemáte oprávnenie na úpravu tejto poznámky",
     "Error" : "Chyba",
     "Error while sharing" : "Chyba počas zdieľania",
     "Error while unsharing" : "Chyba počas ukončenia zdieľania",
@@ -62,9 +80,14 @@
     "NextNote" : "NextNote",
     "How would you like to store your notes?" : "Ako chcete, aby boli Vaše poznámky uložené?",
     "Database only" : "Len Databáza",
+    "During development of this app, only database exists. File mode will be added later" : "Počas vývoja tejto aplikácie existuje iba databáza. Súborový režim bude pridaný neskôr.",
     "Please enter the folder name you would like to use to store notes, with no slashes." : "Zadajte názov priečinka, ktorý chcete použiť na ukladanie poznámok. Bez lomítok.",
     "How would you like to handle groups for shared notes?" : "Ako chcete spravovať skupiny pre zdieľané poznámky?",
     "Synchronized" : "Synchronizované",
-    "Standalone" : "Samostatné"
+    "Standalone" : "Samostatné",
+    "View mode" : "Režim zobrazenia",
+    "Column view" : "Ako stĺpce",
+    "Single view" : "Jednoduchý",
+    "Create example note" : "Vytvoriť ukážkovú poznámku"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }
