@@ -23,25 +23,11 @@
 
 namespace OCA\NextNote\Controller;
 
-use OCA\NextNote\Db\Notebook;
-use OCA\NextNote\Db\Note;
-use OCA\NextNote\Fixtures\ShareFix;
-use OCA\NextNote\Service\NotebookService;
-use OCA\NextNote\Service\NoteService;
-use OCA\NextNote\ShareBackend\NextNoteShareBackend;
-use OCA\NextNote\Utility\NotFoundJSONResponse;
-use OCA\NextNote\Utility\UnauthorizedJSONResponse;
-use OCA\NextNote\Utility\Utils;
+
 use \OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\Constants;
-use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use \OCP\IRequest;
-use OCP\IUserManager;
-use OCP\Share;
-
 
 class TranslationController extends ApiController {
 

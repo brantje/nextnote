@@ -25,7 +25,6 @@ namespace OCA\NextNote\Service;
 
 use OCA\NextNote\Db\Notebook;
 use OCA\NextNote\Db\NotebookMapper;
-use OCA\NextNote\ShareBackend\NextNoteShareBackend;
 use OCA\NextNote\Utility\Utils;
 use OCP\AppFramework\Db\Entity;
 
@@ -34,12 +33,10 @@ class NotebookService {
 
 	private $notebookMapper;
 	private $utils;
-	private $sharing;
 
-	public function __construct(NotebookMapper $notebookMapper, Utils $utils, NextNoteShareBackend $shareBackend) {
+	public function __construct(NotebookMapper $notebookMapper, Utils $utils) {
 		$this->notebookMapper = $notebookMapper;
 		$this->utils = $utils;
-		$this->sharing = $shareBackend;
 	}
 
 
