@@ -4,7 +4,7 @@ This application is a rewritten verion of [ownNote](https://github.com/Fmstrat/o
 The old [Android App](https://play.google.com/store/apps/details?id=com.nowsci.ownnote&hl=sv) won't work, but no worries, we plan to develop a new one.
 
 ![alpha-release](https://user-images.githubusercontent.com/1787238/38750516-0adbd372-3f0a-11e8-9120-6521cf3232a5.gif)<br>
-Alpha means in this case 'pretty stable', but it's possible that due to an update things will break / get sent to `/dev/null`.
+Alpha means in this case 'pretty stable', but it's possible that due to an update things will break / get sent to `/dev/null`.<br>
 **If you value your notes please wait for a stable version.**
     
 Changes:
