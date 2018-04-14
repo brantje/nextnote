@@ -22,6 +22,6 @@
 
 angular.module('NextNotesApp').filter('trusted', function($sce){
   return function(html){
-    return $sce.trustAsHtml(html)
-  }
+    return $sce.trustAsHtml(html);
+  };
 });

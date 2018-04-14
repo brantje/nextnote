@@ -55,7 +55,7 @@
 						class="file pointer"
 						ng-if="hasPermission(note, 'update')"
 						ng-click="editNote(note)">
-						<div>{{note.title}}</div>
+						<div class="caption note-title">{{note.title}}</div>
 						<div class="caption">
 							<small>{{ note.content_plain.substr(0, 500) | htmlToPlaintext}}
 							</small>

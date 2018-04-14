@@ -912,4 +912,9 @@ a.editable-empty:focus {
 .mce-tinymce.mce-fullscreen {
   margin-top: 45px; }
 
+.note-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block !important; }
+
 /*# sourceMappingURL=app.css.map */
