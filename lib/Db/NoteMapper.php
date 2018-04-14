@@ -138,7 +138,6 @@ class NoteMapper extends Mapper {
 			$parts = $this->utils->splitContent($note->getNote());
 			$note->setNote('');
 		}
-		$note->setShared(false);
 
 		$note = parent::insert($note);
 		/**
