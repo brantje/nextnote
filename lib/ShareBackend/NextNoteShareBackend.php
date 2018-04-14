@@ -51,11 +51,11 @@ class NextNoteShareBackend implements Share_Backend {
 	 */
 	public function isValidSource($itemSource, $uidOwner) {
 		// todo: real test
-		// id => 1, has admin 
+		// id => 1, has admin
 		// has owner this note?
 		return true;
 	}
-	
+
 	/**
 	 * Get a unique name of the item for the specified user
 	 * @param string $itemSource
@@ -124,7 +124,7 @@ class NextNoteShareBackend implements Share_Backend {
 
 		return $results;
 	}
-	
+
 	/**
 	 * Check if a given share type is allowd by the back-end
 	 *
@@ -150,16 +150,6 @@ class NextNoteShareBackend implements Share_Backend {
 	 * @return bool|int
 	 */
 	public function checkPermissions($permission, $note) {
-		// gather information
-		$uid = \OC::$server->getUserSession()->getUser()->getUID();
-		// owner is allowed to do everything
-		if ($uid === $note->getUid()) {
-			return true;
-		}
-
-		// check share permissions
-		$gotPerm = ShareFix::getPermissions('nextnote', $note->getId(), $uid);
-
-		return $gotPerm & $permission;
+		return true;
 	}
 }

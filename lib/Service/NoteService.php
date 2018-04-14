@@ -26,8 +26,6 @@ namespace OCA\NextNote\Service;
 use OCA\NextNote\Db\Notebook;
 use OCA\NextNote\Db\Note;
 use OCA\NextNote\Fixtures\ExampleNote;
-use OCA\NextNote\Fixtures\ShareFix;
-use OCA\NextNote\ShareBackend\NextNoteShareBackend;
 use OCA\NextNote\Utility\Utils;
 use OCA\NextNote\Db\NoteMapper;
 
@@ -36,13 +34,11 @@ class NoteService {
 
 	private $noteMapper;
 	private $utils;
-	private $sharing;
 	private $groupService;
 
-	public function __construct(NoteMapper $noteMapper, Utils $utils, NextNoteShareBackend $shareBackend, NotebookService $groupService) {
+	public function __construct(NoteMapper $noteMapper, Utils $utils,NotebookService $groupService) {
 		$this->noteMapper = $noteMapper;
 		$this->utils = $utils;
-		$this->sharing = $shareBackend;
 		$this->groupService = $groupService;
 	}
 
@@ -68,7 +64,8 @@ class NoteService {
 			$dbNotes[$n->getId()] = $n;
 		}
 
-		$sharedNotes = $this->sharing->getSharedNotes();
+		//$sharedNotes = $this->sharing->getSharedNotes();
+		$sharedNotes = [];
 		$notes = array_merge($dbNotes, $sharedNotes);
 		return $notes;
 	}

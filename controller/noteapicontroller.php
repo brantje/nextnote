@@ -25,12 +25,9 @@ namespace OCA\NextNote\Controller;
 
 use OCA\NextNote\Db\Notebook;
 use OCA\NextNote\Db\Note;
-use OCA\NextNote\Fixtures\ShareFix;
 use OCA\NextNote\Service\NotebookService;
 use OCA\NextNote\Service\NoteService;
-use OCA\NextNote\ShareBackend\NextNoteShareBackend;
 use OCA\NextNote\Utility\NotFoundJSONResponse;
-use OCA\NextNote\Utility\UnauthorizedJSONResponse;
 use OCA\NextNote\Utility\Utils;
 use \OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http\JSONResponse;
@@ -39,7 +36,7 @@ use OCP\IConfig;
 use OCP\ILogger;
 use \OCP\IRequest;
 use OCP\IUserManager;
-use OCP\Share;
+
 
 
 class NoteApiController extends ApiController {
@@ -52,15 +49,12 @@ class NoteApiController extends ApiController {
 	private $notebookService;
 
 	public function __construct($appName, IRequest $request,
-								ILogger $logger, IConfig $config, NoteService $noteService, NotebookService $groupService,
-								NextNoteShareBackend $shareBackend, IUserManager $userManager, Share\IManager $shareManager) {
+								ILogger $logger, IConfig $config, NoteService $noteService, NotebookService $groupService,IUserManager $userManager) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->noteService = $noteService;
 		$this->notebookService = $groupService;
-		$this->shareBackend = $shareBackend;
 		$this->userManager = $userManager;
-		$this->shareManager = $shareManager;
 	}
 
 	/**
@@ -164,9 +158,7 @@ class NoteApiController extends ApiController {
 			$note->setGuid(Utils::GUID());
 		}
 
-		if (!$this->shareBackend->checkPermissions(Constants::PERMISSION_UPDATE, $note)) {
-			return new UnauthorizedJSONResponse();
-		}
+
 		if(!empty($notebook_id)){
 			$notebook = $this->notebookService->find($notebook_id);
 			if($notebook instanceof Notebook) {
@@ -194,10 +186,6 @@ class NoteApiController extends ApiController {
 			return new NotFoundJSONResponse();
 		}
 
-		if (!$this->shareBackend->checkPermissions(Constants::PERMISSION_DELETE, $entity)) {
-			return new UnauthorizedJSONResponse();
-		}
-
 		$this->noteService->delete($id);
 		$result = (object)['success' => true];
 		\OC_Hook::emit('OCA\NextNote', 'post_delete_note', ['note_id' => $id]);
@@ -213,20 +201,11 @@ class NoteApiController extends ApiController {
 		$acl = [
 			'permissions' => Constants::PERMISSION_ALL
 		];
-		if ($uid !== $note['uid']) {
-			$aclRoles = ShareFix::getItemSharedWith('nextnote', $note['id'], 'populated_shares');
-			$acl['permissions'] = $aclRoles['permissions'];
-		}
+
 		$note['owner'] = Utils::getUserInfo($note['uid']);
 		$note['permissions'] = $acl['permissions'];
 
-		$shared_with = ShareFix::getUsersItemShared('nextnote', $note['id'], $note['uid']);
-		foreach ($shared_with as &$u) {
-			$info = Utils::getUserInfo($u);
-			if($info) {
-				$u = $info;
-			}
-		}
+		$shared_with = [];
 
 		$note['shared_with'] = ($note['uid'] == $uid) ? $shared_with : [$uid];
 		unset($note['uid']);
