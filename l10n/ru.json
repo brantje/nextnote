@@ -1,0 +1,26 @@
+{ "translations": {
+    "New notebook" : "Новый блокнот",
+    "Not in notebook" : "Не в блокноте",
+    "Notebook name" : "Название блокнота",
+    "Deleted notes" : "Удалённые заметки",
+    "all" : "все",
+    "new" : "новая",
+    "save" : "сохранить",
+    "back" : "назад",
+    "create" : "создать",
+    "cancel" : "отменить",
+    "name" : "имя",
+    "modified" : "изменён",
+    "Delete note" : "Удалить заметку",
+    "Restore note" : "Восстановить заметку",
+    "Edit note" : "Редактировать заметку",
+    "Share note" : "Поделиться заметкой",
+    "You don't have permissions to edit this note" : "У вас нет прав на редактирование этой заметки",
+    "Notes" : "Заметки",
+    "Synchronized" : "Синхронизировано",
+    "View mode" : "Режим просмотра",
+    "Column view" : "Колонками",
+    "Single view" : "Одиночный",
+    "Create example note" : "Создать тестовую заметку"
+},"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
+}
