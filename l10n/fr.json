@@ -1,4 +1,7 @@
 { "translations": {
+    "New notebook" : "Nouveau carnet de notes",
+    "Not in notebook" : "Non trouvé dans le carnet de notes.",
+    "Notebook name" : "Nom du carnet de notes",
     "Deleted notes" : "Notes supprimées",
     "all" : "tout",
     "new" : "nouveau ",
@@ -17,7 +20,16 @@
     "Notes" : "Notes",
     "Nextnote" : "NextNote",
     "NextNote" : "NextNote",
+    "How would you like to store your notes?" : "Comment aimeriez-vous stocker vos notes?",
     "Database only" : "Base de données seulement",
-    "Synchronized" : "Synchronisation"
+    "During development of this app, only database exists. File mode will be added later" : "Seul le stockage en base de données est disponible pour l'instant. Le mode de stockage en fichier sera ajouté plus tard",
+    "Please enter the folder name you would like to use to store notes, with no slashes." : "Veuillez entrer le nom du dossier que vous souhaitez utiliser pour stocker les notes, sans barre oblique.",
+    "How would you like to handle groups for shared notes?" : "Comment aimeriez-vous gérer les groupes pour les notes partagées?",
+    "Synchronized" : "Synchronisation",
+    "Standalone" : "Autonome",
+    "View mode" : "Mode d'affichage",
+    "Column view" : "Vue en colonne",
+    "Single view" : "Vue simple",
+    "Create example note" : "Créer une note d'exemple"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -1,0 +1,24 @@
+{ "translations": {
+    "New notebook" : "Ny notebog",
+    "Not in notebook" : "Ikke i notebogen",
+    "Notebook name" : "Notebog navn",
+    "Deleted notes" : "Slettede noter",
+    "all" : "Alle",
+    "new" : "Ny",
+    "save" : "Gem",
+    "back" : "Tilbage",
+    "create" : "Opret",
+    "cancel" : "Annullér",
+    "name" : "Navn",
+    "modified" : "Ændret",
+    "Delete note" : "Slet note",
+    "Restore note" : "Gendan note",
+    "Edit note" : "Rediger note",
+    "Share note" : "Del note",
+    "Shared with you by %s" : "Delt med dig af %s",
+    "You don't have permissions to edit this note" : "Du har ikke tilladelse til at ændre i denne note",
+    "Notes" : "Noter",
+    "Database only" : "Kun database",
+    "Synchronized" : "Synkroniséret"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
