@@ -1,0 +1,25 @@
+{ "translations": {
+    "New notebook" : "Nuevo cuaderno",
+    "Notebook name" : "Nombre del cuaderno",
+    "Deleted notes" : "Notas borradas",
+    "all" : "todos",
+    "new" : "nuevo",
+    "save" : "guardar",
+    "back" : "atrás",
+    "create" : "crear",
+    "cancel" : "cancelar",
+    "name" : "nombre",
+    "modified" : "modificado",
+    "Delete note" : "Borrar nota",
+    "Restore note" : "Restaurar nota",
+    "Edit note" : "Editar nota",
+    "Share note" : "Compartir nota",
+    "Notes" : "Notas",
+    "Database only" : "Solo la Base de datos",
+    "Synchronized" : "Sincronizado",
+    "View mode" : "Modo de visualización",
+    "Column view" : "Vista de columnas",
+    "Single view" : "Vista individual",
+    "Create example note" : "Crear un ejemplo de nota"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
