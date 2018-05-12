@@ -1,6 +1,7 @@
 OC.L10N.register(
     "nextnote",
     {
+    "New notebook" : "Nova nota",
     "all" : "tots",
     "new" : "nou",
     "save" : "guarda",
@@ -13,6 +14,7 @@ OC.L10N.register(
     "Restore note" : "Recupera l'anotació",
     "Edit note" : "Edita l'anotació",
     "Share note" : "Comparteix l'anotació",
-    "Notes" : "Anotacions"
+    "Notes" : "Anotacions",
+    "Synchronized" : "Sincronitzat"
 },
 "nplurals=2; plural=(n != 1);");

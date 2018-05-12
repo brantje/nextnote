@@ -1,4 +1,5 @@
 { "translations": {
+    "New notebook" : "Nova nota",
     "all" : "tots",
     "new" : "nou",
     "save" : "guarda",
@@ -11,6 +12,7 @@
     "Restore note" : "Recupera l'anotació",
     "Edit note" : "Edita l'anotació",
     "Share note" : "Comparteix l'anotació",
-    "Notes" : "Anotacions"
+    "Notes" : "Anotacions",
+    "Synchronized" : "Sincronitzat"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
