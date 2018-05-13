@@ -27,6 +27,7 @@ OC.L10N.register(
     "During development of this app, only database exists. File mode will be added later" : "Seul le stockage en base de données est disponible pour l'instant. Le mode de stockage en fichier sera ajouté plus tard",
     "Please enter the folder name you would like to use to store notes, with no slashes." : "Veuillez entrer le nom du dossier que vous souhaitez utiliser pour stocker les notes, sans barre oblique.",
     "How would you like to handle groups for shared notes?" : "Comment aimeriez-vous gérer les groupes pour les notes partagées?",
+    "Synchronized groups merge all shared notes, that have the same groupnames in the same group. Standalone groups get separate groups with their owner in the name. If 'UserA' shares a note in 'GroupX' with 'UserB', that also has a group called 'GroupX', 'Synchronized' will show them in the group 'GroupX' and 'Standalone' will show two groups 'GroupX' and 'GroupX (UserA)' for 'UserB'." : "Les groupes Synchronisés fusionnent toutes les notes partagées, qui ont les mêmes noms de groupe dans le même groupe. Les groupes Autonomes obtiennent des groupes séparés avec leur propriétaire dans le nom. Si 'Utilisateur A' partage une note dans 'Groupe X' avec 'Utilisateur B', qui a aussi un groupe appelé 'Groupe X', 'Synchronisés' les montrera dans le groupe 'Groupe X' et 'Autonomes' montrera deux groupes 'Groupe X' et 'Groupe X (Utilisateur A)' pour 'Utilisateur B'.",
     "Synchronized" : "Synchronisation",
     "Standalone" : "Autonome",
     "View mode" : "Mode d'affichage",
