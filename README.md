@@ -34,7 +34,7 @@ Did you find a bug? Report it or fix it and send a PR.
 - Archive notes
 
 
-#Todo:
+## Todo:
 - [x] Refactor backend to make use of:
   - [x] Entity's
   - [x] Mappers
