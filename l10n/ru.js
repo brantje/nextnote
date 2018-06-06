@@ -27,6 +27,7 @@ OC.L10N.register(
     "During development of this app, only database exists. File mode will be added later" : "В течение периода разработки этого приложения, доступна только база данных. Позже будут добавлены файловые операции.",
     "Please enter the folder name you would like to use to store notes, with no slashes." : "Пожалуйста, задайте имя папки, которое вы хотите использовать для хранения заметок, без косых черт.",
     "How would you like to handle groups for shared notes?" : "Как бы вы хотели управлять группами для заметок, которыми возможно поделиться?",
+    "Synchronized groups merge all shared notes, that have the same groupnames in the same group. Standalone groups get separate groups with their owner in the name. If 'UserA' shares a note in 'GroupX' with 'UserB', that also has a group called 'GroupX', 'Synchronized' will show them in the group 'GroupX' and 'Standalone' will show two groups 'GroupX' and 'GroupX (UserA)' for 'UserB'." : "Синхронизированные группы объединяют все общие заметки, которые имеют одинаковые имена групп, в одну группу. Отдельные группы получают отдельные группы с их владельцем в названии. Если «UserA» делиться заметкой в группе «GroupX» с пользователем «UserB», у нее также есть группа «GroupX», «Synchronized» отобразит их в группе «GroupX», а «Standalone» отобразит две группы «GroupX» и «GroupX (UserA)» для пользователя «UserB».",
     "Synchronized" : "Синхронизировано",
     "Standalone" : "Отдельно стоящая",
     "View mode" : "Режим просмотра",
