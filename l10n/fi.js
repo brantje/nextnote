@@ -1,6 +1,10 @@
 OC.L10N.register(
     "nextnote",
     {
+    "New notebook" : "Uusi muistikirja",
+    "Not in notebook" : "Ei muistikirjassa",
+    "Notebook name" : "Muistikirjan nimi",
+    "Deleted notes" : "Poistetut muistiinpanot",
     "all" : "kaikki",
     "new" : "uusi",
     "save" : "tallenna",
@@ -9,7 +13,18 @@ OC.L10N.register(
     "cancel" : "peru",
     "name" : "nimi",
     "modified" : "muokattu",
+    "Delete note" : "Poista muistiinpano",
+    "Restore note" : "Palauta muistiinpano",
+    "Edit note" : "Muokkaa muistiinpanoa",
+    "Share note" : "Jaa muistiinpano",
+    "You don't have permissions to edit this note" : "Oikeutesi eivät riitä tämän muistiinpanon muokkaamiseen",
+    "Notes" : "Muistiinpanot",
+    "How would you like to store your notes?" : "Miten haluat tallentaa muistiinpanosi? ",
+    "Database only" : "Vain tietokanta",
     "Synchronized" : "Synkronoitu",
-    "View mode" : "Näkymätila"
+    "View mode" : "Näkymätila",
+    "Column view" : "Sarakenäkymä",
+    "Single view" : "Yksittäisnäkymä",
+    "Create example note" : "Luo esimerkkimuistiinpano"
 },
 "nplurals=2; plural=(n != 1);");
