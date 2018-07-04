@@ -103,7 +103,7 @@ You can find the download link here: https://www.ubuntu.com/download/server"
     exit 1
 fi
 
-if ! version 16.04 "$DISTRO" 16.04.4; then
+if ! version 16.04 "$DISTRO" 18.04.4; then
 msg_box "Ubuntu version $DISTRO must be between 16.04 - 16.04.4"
     exit 1
 fi
