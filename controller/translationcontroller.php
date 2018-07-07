@@ -68,6 +68,7 @@ class TranslationController extends ApiController {
 			'modified' =>  $this->trans->t('modified'),
 			'delete.note' =>  $this->trans->t('Delete note'),
 			'restore.note' =>  $this->trans->t('Restore note'),
+			'untitled.note' => $this->trans->t('Untitled note'),
 			'edit.note' =>  $this->trans->t('Edit note'),
 			'share.note' =>  $this->trans->t('Share note'),
 			'sharedwith' =>  $this->trans->t('Shared with you by %s', '%name'),

@@ -3,7 +3,7 @@
 		<span id="newfile" class="indent">
 			<span ng-if="hasPermission(noteShadowCopy, 'update')">
 				{{ 'name' | translate | capitalize }}:
-				<input type="text" class="fileinput"
+				<input type="text" class="fileinput" placeholder="{{ 'untitled.note' | translate | capitalize }}"
 					   ng-model="$parent.noteShadowCopy.title">
 
 				<select ng-model="$parent.noteShadowCopy.notebook" ng-options="group.name for group in local_notebooks track by group.id">
