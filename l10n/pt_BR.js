@@ -15,6 +15,7 @@ OC.L10N.register(
     "modified" : "modificado",
     "Delete note" : "Excluir anotação",
     "Restore note" : "Restaurar anotação",
+    "Untitled note" : "Anotação sem título",
     "Edit note" : "Editar anotação",
     "Share note" : "Compartilhar anotação",
     "Shared with you by %s" : "Compartilhado com você por %s",

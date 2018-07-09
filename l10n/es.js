@@ -15,6 +15,7 @@ OC.L10N.register(
     "modified" : "modificado",
     "Delete note" : "Borrar nota",
     "Restore note" : "Restaurar nota",
+    "Untitled note" : "Nota sin título",
     "Edit note" : "Editar nota",
     "Share note" : "Compartir nota",
     "Shared with you by %s" : "Compartida contigo por %s",
