@@ -15,6 +15,7 @@ OC.L10N.register(
     "modified" : "измењена",
     "Delete note" : "Обриши белешку",
     "Restore note" : "Поврати белешку",
+    "Untitled note" : "Неименована белешка",
     "Edit note" : "Измени белешку",
     "Share note" : "Подели белешку",
     "Shared with you by %s" : "Корисник %s поделио са Вама",
