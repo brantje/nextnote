@@ -15,6 +15,7 @@ OC.L10N.register(
     "modified" : "נערכו",
     "Delete note" : "מחיקת פתק",
     "Restore note" : "שחזור פתק",
+    "Untitled note" : "פתק ללא כותרת",
     "Edit note" : "עריכת פתק",
     "Share note" : "שיתוף פתק",
     "Shared with you by %s" : "שותף אתך על ידי %s",
