@@ -15,6 +15,7 @@ OC.L10N.register(
     "modified" : "изменён",
     "Delete note" : "Удалить заметку",
     "Restore note" : "Восстановить заметку",
+    "Untitled note" : "Заметка без названия",
     "Edit note" : "Редактировать заметку",
     "Share note" : "Поделиться заметкой",
     "Shared with you by %s" : "С вами поделился %s",
