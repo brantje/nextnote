@@ -15,6 +15,7 @@ OC.L10N.register(
     "modified" : "breytt",
     "Delete note" : "Eyða minnispunkti",
     "Restore note" : "Endurheimta minnispunkt",
+    "Untitled note" : "Ónefndur minnispunktur",
     "Edit note" : "Skrifa minnispunkti",
     "Share note" : "Deila minnispunkti",
     "Shared with you by %s" : "Deilt með þér af %s",
