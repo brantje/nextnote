@@ -15,6 +15,7 @@ OC.L10N.register(
     "modified" : "son değişiklik",
     "Delete note" : "Notu sil",
     "Restore note" : "Notu geri yükle",
+    "Untitled note" : "Başlıksız not",
     "Edit note" : "Notu düzenle",
     "Share note" : "Notu paylaş",
     "Shared with you by %s" : "%s tarafından sizinle paylaşıldı",
