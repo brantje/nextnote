@@ -15,6 +15,7 @@ OC.L10N.register(
     "modified" : "endret",
     "Delete note" : "Slett notat",
     "Restore note" : "Gjenopprett notat",
+    "Untitled note" : "Notat uten tittel",
     "Edit note" : "Rediger notat",
     "Share note" : "Del notat",
     "Shared with you by %s" : "Delt med deg av %s",
