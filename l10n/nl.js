@@ -15,6 +15,7 @@ OC.L10N.register(
     "modified" : "gewijzigd",
     "Delete note" : "Verwijder notitie",
     "Restore note" : "Notitie herstellen",
+    "Untitled note" : "Notitie zonder titel",
     "Edit note" : "Notitie aanpassen",
     "Share note" : "Notitie delen",
     "Shared with you by %s" : "Gedeeld met jou door %s",
