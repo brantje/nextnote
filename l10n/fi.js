@@ -15,6 +15,7 @@ OC.L10N.register(
     "modified" : "muokattu",
     "Delete note" : "Poista muistiinpano",
     "Restore note" : "Palauta muistiinpano",
+    "Untitled note" : "Nimetön muistiinpano",
     "Edit note" : "Muokkaa muistiinpanoa",
     "Share note" : "Jaa muistiinpano",
     "You don't have permissions to edit this note" : "Oikeutesi eivät riitä tämän muistiinpanon muokkaamiseen",
