@@ -1,0 +1,26 @@
+{ "translations": {
+    "New notebook" : "新建笔记本",
+    "Not in notebook" : "不在笔记本中",
+    "Notebook name" : "笔记本名称",
+    "Deleted notes" : "删除的笔记",
+    "all" : "所有笔记",
+    "new" : "新建笔记",
+    "save" : "保存",
+    "back" : "后退",
+    "create" : "创建笔记",
+    "cancel" : "取消",
+    "name" : "名称",
+    "modified" : "已修改",
+    "Delete note" : "删除笔记",
+    "Restore note" : "恢复笔记",
+    "Untitled note" : "未命名笔记",
+    "Edit note" : "编辑笔记",
+    "Share note" : "分享笔记",
+    "Shared with you by %s" : "你已通过%s分享",
+    "You don't have permissions to edit this note" : "你没有权限编辑此笔记",
+    "Notes" : "笔记",
+    "Nextnote" : "Nextnote",
+    "NextNote" : "NextNote",
+    "How would you like to store your notes?" : "你希望保存你的笔记吗？"
+},"pluralForm" :"nplurals=1; plural=0;"
+}
