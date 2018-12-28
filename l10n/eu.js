@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "nextnote",
+    {
+    "Deleted notes" : "Ezabatutako oharrak",
+    "all" : "denak",
+    "new" : "berria",
+    "save" : "gorde",
+    "back" : "atzera",
+    "create" : "sortu",
+    "cancel" : "utzi",
+    "name" : "izena",
+    "modified" : "aldatuta",
+    "Delete note" : "Ezabatu oharra",
+    "Untitled note" : "Izen gabeko oharra",
+    "Edit note" : "Editatu oharra",
+    "Share note" : "Partekatu oharra",
+    "Notes" : "Oharrak",
+    "Synchronized" : "Sinkronizatuta",
+    "Standalone" : "Bakana",
+    "View mode" : "Ikuspegi modua",
+    "Column view" : "Zutabe ikuspegia",
+    "Single view" : "Ikuspegi bakana",
+    "Create example note" : "Sortu adibidezko oharra"
+},
+"nplurals=2; plural=(n != 1);");
