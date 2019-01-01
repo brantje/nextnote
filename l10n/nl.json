@@ -30,8 +30,8 @@
     "Synchronized" : "Gesynchroniseerd",
     "Standalone" : "Alleenstaand",
     "View mode" : "Bekijk modus",
-    "Column view" : "Kolom modus",
-    "Single view" : "Enige modus",
+    "Column view" : "Kolomweergave",
+    "Single view" : "Enkelvoudige weergave",
     "Create example note" : "Maak een voorbeeldnotitie"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
