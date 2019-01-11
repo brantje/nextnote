@@ -19,7 +19,7 @@ OC.L10N.register(
     "Edit note" : "Notiz bearbeiten",
     "Share note" : "Notiz teilen",
     "Shared with you by %s" : "Geteilt mit Ihnen von %s",
-    "You don't have permissions to edit this note" : "Sie haben nicht die erforderlichen Rechte, diese Notiz zu bearbeiten",
+    "You don't have permissions to edit this note" : "Sie haben keine Berechtigung, diese Notiz zu bearbeiten",
     "Notes" : "Notizen",
     "Nextnote" : "Nextnote",
     "NextNote" : "NextNote",
