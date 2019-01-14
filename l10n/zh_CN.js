@@ -23,6 +23,7 @@ OC.L10N.register(
     "Notes" : "笔记",
     "Nextnote" : "Nextnote",
     "NextNote" : "NextNote",
-    "How would you like to store your notes?" : "你希望保存你的笔记吗？"
+    "How would you like to store your notes?" : "你希望保存你的笔记吗？",
+    "Synchronized" : "已同步"
 },
 "nplurals=1; plural=0;");
