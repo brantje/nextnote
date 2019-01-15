@@ -18,12 +18,12 @@ OC.L10N.register(
     "Untitled note" : "未命名笔记",
     "Edit note" : "编辑笔记",
     "Share note" : "共享笔记",
-    "Shared with you by %s" : "你已通过%s共享",
-    "You don't have permissions to edit this note" : "你没有权限编辑此笔记",
+    "Shared with you by %s" : "您已通过%s共享",
+    "You don't have permissions to edit this note" : "您没有权限编辑此笔记",
     "Notes" : "笔记",
     "Nextnote" : "Nextnote",
     "NextNote" : "NextNote",
-    "How would you like to store your notes?" : "你希望保存你的笔记吗？",
+    "How would you like to store your notes?" : "您希望保存您的笔记吗？",
     "Synchronized" : "已同步"
 },
 "nplurals=1; plural=0;");
