@@ -4,7 +4,7 @@ OC.L10N.register(
     "New notebook" : "Nova nota",
     "all" : "tots",
     "new" : "nou",
-    "save" : "guarda",
+    "save" : "desa",
     "back" : "enrera",
     "create" : "crea",
     "cancel" : "cancel·la",
