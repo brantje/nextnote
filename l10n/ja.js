@@ -26,7 +26,7 @@ OC.L10N.register(
     "How would you like to store your notes?" : "あなたのノートをどのように保存したいですか？",
     "Database only" : "データベースのみ",
     "During development of this app, only database exists. File mode will be added later" : "このアプリの開発中は、データベースのみが存在します。 ファイルモードは後で追加されます",
-    "Please enter the folder name you would like to use to store notes, with no slashes." : "ノートを保存するために使用するフォルダ名をスラッシュなしで入力してください。",
+    "Please enter the folder name you would like to use to store notes, with no slashes." : "ノートを保存するために使用するフォルダー名をスラッシュなしで入力してください。",
     "How would you like to handle groups for shared notes?" : "共有ノートのグループをどのように扱いたいですか？",
     "Synchronized" : "同期された",
     "Standalone" : "スタンドアロン",
