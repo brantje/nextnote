@@ -1,18 +1,19 @@
 { "translations": {
     "New notebook" : "Nova nota",
-    "all" : "tots",
-    "new" : "nou",
+    "all" : "totes",
+    "new" : "noves",
     "save" : "desa",
-    "back" : "enrera",
+    "back" : "enrere",
     "create" : "crea",
     "cancel" : "cancel·la",
     "name" : "nom",
-    "modified" : "modificat",
+    "modified" : "modificada",
     "Delete note" : "Esborra l'anotació",
     "Restore note" : "Recupera l'anotació",
-    "Edit note" : "Edita l'anotació",
-    "Share note" : "Comparteix l'anotació",
-    "Notes" : "Anotacions",
+    "Untitled note" : "Nota sense títol",
+    "Edit note" : "Edita la nota",
+    "Share note" : "Comparteix la nota",
+    "Notes" : "Notes",
     "Synchronized" : "Sincronitzat"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
