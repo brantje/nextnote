@@ -22,6 +22,16 @@
     "Nextnote" : "Nextnote",
     "NextNote" : "NextNote",
     "How would you like to store your notes?" : "您希望保存您的笔记吗？",
-    "Synchronized" : "已同步"
+    "Database only" : "只使用数据库",
+    "During development of this app, only database exists. File mode will be added later" : "在此 App 的开发过程中只使用数据库，文件模式会在以后加入。",
+    "Please enter the folder name you would like to use to store notes, with no slashes." : "请输入用于存储笔记的文件夹名称，不要包含斜杠。",
+    "How would you like to handle groups for shared notes?" : "您希望怎样处理共享笔记群组？",
+    "Synchronized groups merge all shared notes, that have the same groupnames in the same group. Standalone groups get separate groups with their owner in the name. If 'UserA' shares a note in 'GroupX' with 'UserB', that also has a group called 'GroupX', 'Synchronized' will show them in the group 'GroupX' and 'Standalone' will show two groups 'GroupX' and 'GroupX (UserA)' for 'UserB'." : "同步群组模式将合并群组内相同组名的所有共享笔记。独立群组模式将显示独立的群组，并在组名中注明所有者。如果“用户A”在“群组X”中向“用户B”共享了笔记，同时“用户B”也有一个群组名称为“群组X”，在同步群组模式下他们都会显示在“群组X”下，而在独立群组模式下“用户B”将会看到“群组X”和“群组X（用户A）”两个群组。",
+    "Synchronized" : "已同步",
+    "Standalone" : "独立",
+    "View mode" : "视图模式",
+    "Column view" : "列视图",
+    "Single view" : "单一视图",
+    "Create example note" : "创建示例笔记"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
