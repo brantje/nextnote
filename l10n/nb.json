@@ -29,7 +29,7 @@
     "Synchronized groups merge all shared notes, that have the same groupnames in the same group. Standalone groups get separate groups with their owner in the name. If 'UserA' shares a note in 'GroupX' with 'UserB', that also has a group called 'GroupX', 'Synchronized' will show them in the group 'GroupX' and 'Standalone' will show two groups 'GroupX' and 'GroupX (UserA)' for 'UserB'." : "Synkroniserte grupper slår sammen alle notater som har det samme gruppenavnet inne i den samme gruppen. Egne grupper får separate grupper inkludert eiers navn. Hvis \"BrukerA\" deler et notat i \"GruppeX\" med \"BrukerB\", som også har en gruppe som heter \"GruppeX\" vil \"Synkroniser\" vise dem i \"GruppeX\", og \"Egne notater\" vil vise to grupper \"GruppeX\" og \"GruppeX (BrukerA)\" for \"BrukerB\"",
     "Synchronized" : "Synkronisert",
     "Standalone" : "Egne notater",
-    "View mode" : "Visningsmetode",
+    "View mode" : "Visningsmodus",
     "Column view" : "Kolonnevisning",
     "Single view" : "Enkel visning",
     "Create example note" : "Lag eksempelnotat"
