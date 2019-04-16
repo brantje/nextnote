@@ -26,6 +26,7 @@
     "During development of this app, only database exists. File mode will be added later" : "Az alkalmazás fejlesztése idején csak adatbázis érhető el. A fájl mód később lesz hozzáadva.",
     "Please enter the folder name you would like to use to store notes, with no slashes." : "Kérlek adj meg egy könyvtár nevet, amit a jegyzetek árolására használsz, kihagyások nélkül.",
     "How would you like to handle groups for shared notes?" : "Hogyan szeretnéd kezelni a megosztott jegyzeteket csoportjait?",
+    "Synchronized groups merge all shared notes, that have the same groupnames in the same group. Standalone groups get separate groups with their owner in the name. If 'UserA' shares a note in 'GroupX' with 'UserB', that also has a group called 'GroupX', 'Synchronized' will show them in the group 'GroupX' and 'Standalone' will show two groups 'GroupX' and 'GroupX (UserA)' for 'UserB'." : "A szinkronizált csoportok az összes megosztott jegyzetet összefűzik azokkal a csoportokkal amiknek megegyezik a nevük a közös csoporton belül. Az önálló csoportok saját csoportot kapnak amik nevébe megtalálható a tulajdonos neve. Ha 'FelhasználóA' megoszt egy jegyzetet a 'CsoportX'-be 'FelhasználóB'-vel akinek úgyszint van egy csoportja amit 'CsoportX'-nek hívnak, akkor a 'Szinkronizált' a 'CsoportX' nevű csoportban fogja megjeleníteni azt és az 'Önálló' két csoportotba fogja ezt megtenni, a 'CsoportX'-be és a 'CsoportX (FelhasználóA)' a 'FelhasználóB' számára.",
     "Synchronized" : "Szinkronizált",
     "Standalone" : "Önálló",
     "View mode" : "Nézetmód",
