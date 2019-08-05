@@ -34,6 +34,6 @@ OC.L10N.register(
     "View mode" : "ビューモード",
     "Column view" : "列ビュー",
     "Single view" : "シングルビュー",
-    "Create example note" : "サンプルメモを作成"
+    "Create example note" : "サンプルノートを作成"
 },
 "nplurals=1; plural=0;");
