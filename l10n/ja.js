@@ -28,7 +28,7 @@ OC.L10N.register(
     "During development of this app, only database exists. File mode will be added later" : "このアプリの開発中は、データベースのみが存在します。 ファイルモードは後で追加されます",
     "Please enter the folder name you would like to use to store notes, with no slashes." : "ノートを保存するために使用するフォルダー名をスラッシュなしで入力してください。",
     "How would you like to handle groups for shared notes?" : "共有ノートのグループをどのように扱いたいですか？",
-    "Synchronized groups merge all shared notes, that have the same groupnames in the same group. Standalone groups get separate groups with their owner in the name. If 'UserA' shares a note in 'GroupX' with 'UserB', that also has a group called 'GroupX', 'Synchronized' will show them in the group 'GroupX' and 'Standalone' will show two groups 'GroupX' and 'GroupX (UserA)' for 'UserB'." : "同期グループは、同じグループ内に同じグループ名を持つすべての共有メモをマージします。\n単独グループは、名前に所有者を持つ個別のグループになります。 \n'UserA'が 'GroupB'と 'GroupX'というグループを持つ 'GroupX'のメモを共有している場合、 'Synchronized'はそれらを 'GroupX'グループに表示し、 'Standalone'は2つのグループ 'GroupX'を表示します。 「UserB」の場合は「GroupX（UserA）」。",
+    "Synchronized groups merge all shared notes, that have the same groupnames in the same group. Standalone groups get separate groups with their owner in the name. If 'UserA' shares a note in 'GroupX' with 'UserB', that also has a group called 'GroupX', 'Synchronized' will show them in the group 'GroupX' and 'Standalone' will show two groups 'GroupX' and 'GroupX (UserA)' for 'UserB'." : "同期グループは、同じグループ内に同じグループ名を持つすべての共有メモをマージします。単独グループは、名前に所有者を持つ個別のグループになります。 'UserA'が 'GroupB'と 'GroupX'というグループを持つ 'GroupX'のメモを共有している場合、 'Synchronized'はそれらを 'GroupX'グループに表示し、 'Standalone'は2つのグループ 'GroupX'を表示します。 「UserB」の場合は「GroupX（UserA）」。",
     "Synchronized" : "同期された",
     "Standalone" : "スタンドアロン",
     "View mode" : "ビューモード",
