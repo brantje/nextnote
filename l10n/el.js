@@ -18,6 +18,10 @@ OC.L10N.register(
     "Notes" : "Σημειώσεις",
     "Nextnote" : "Nextnote",
     "NextNote" : "NextNote",
-    "Database only" : "Μόνο βάση δεδομένων"
+    "How would you like to store your notes?" : "Πώς θα θέλατε να αποθηκεύσετε τις σημειώσεις σας;",
+    "Database only" : "Μόνο βάση δεδομένων",
+    "How would you like to handle groups for shared notes?" : "Πώς θα θέλατε να χειριστείτε ομάδες για κοινές σημειώσεις;",
+    "Synchronized" : "Συγχρονισμένο",
+    "Single view" : "Ενιαία προβολή"
 },
 "nplurals=2; plural=(n != 1);");
