@@ -15,6 +15,7 @@ OC.L10N.register(
     "modified" : "zmenené",
     "Delete note" : "Zmazať poznámku",
     "Restore note" : "Obnoviť poznámku",
+    "Untitled note" : "Poznámka bez názvu",
     "Edit note" : "Upraviť poznámku",
     "Share note" : "Zdieľať poznámku",
     "Shared with you by %s" : "Sprístupnené vám používateľom %s",
