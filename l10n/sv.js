@@ -15,6 +15,7 @@ OC.L10N.register(
     "modified" : "ändrad",
     "Delete note" : "Ta bort anteckning",
     "Restore note" : "Återställ anteckning",
+    "Untitled note" : "Namnlös anteckning",
     "Edit note" : "Redigera anteckning",
     "Share note" : "Dela anteckning",
     "Shared with you by %s" : "%sDelas med dig av ",
@@ -27,9 +28,12 @@ OC.L10N.register(
     "During development of this app, only database exists. File mode will be added later" : "Under utvecklingen av denna app finns endast databas. Filläget kommer att läggas till senare",
     "Please enter the folder name you would like to use to store notes, with no slashes." : "Ange mappnamnet du vill använda för att lagra anteckningar, utan snedstreck.",
     "How would you like to handle groups for shared notes?" : "Hur vill du hantera grupper för delade anteckningar?",
+    "Synchronized groups merge all shared notes, that have the same groupnames in the same group. Standalone groups get separate groups with their owner in the name. If 'UserA' shares a note in 'GroupX' with 'UserB', that also has a group called 'GroupX', 'Synchronized' will show them in the group 'GroupX' and 'Standalone' will show two groups 'GroupX' and 'GroupX (UserA)' for 'UserB'." : "Synkroniserade grupper sammanfogar alla delade anteckningar som har samma gruppnamn i samma grupp. Fristående grupper får separata grupper med sin ägare i namnet. Om \"AnvändareA\" delar en anteckning i \"GruppX\" med \"AnvändareB\", som också har en grupp som heter \"GruppX\", \"Synkroniserad\" kommer att visa dem i gruppen \"GruppX\" och \"Fristående\" kommer att visa två grupper \"GruppX\" och \"GruppX (AnvändareA)\" för \"AnvändareB\".",
     "Synchronized" : "Synkroniserad",
     "Standalone" : "Standalone",
     "View mode" : "Visningsläge",
-    "Column view" : "Kollumvy"
+    "Column view" : "Kollumvy",
+    "Single view" : "Enkelvy",
+    "Create example note" : "Skapa exempel anteckning"
 },
 "nplurals=2; plural=(n != 1);");
