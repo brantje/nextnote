@@ -22,6 +22,7 @@ OC.L10N.register(
     "Database only" : "Μόνο βάση δεδομένων",
     "How would you like to handle groups for shared notes?" : "Πώς θα θέλατε να χειριστείτε ομάδες για κοινές σημειώσεις;",
     "Synchronized" : "Συγχρονισμένο",
+    "View mode" : "Λειτουργία προβολής",
     "Single view" : "Ενιαία προβολή"
 },
 "nplurals=2; plural=(n != 1);");

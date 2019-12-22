@@ -1,0 +1,7 @@
+{ "translations": {
+    "new" : "шинэ",
+    "create" : "үүсгэх",
+    "Delete note" : "Тэмдэглэл устгах",
+    "Notes" : "Шинэ "
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

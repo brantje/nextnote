@@ -1,0 +1,7 @@
+{ "translations": {
+    "new" : "ny",
+    "create" : "lag",
+    "Delete note" : "Slett notat",
+    "Notes" : "Notat"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

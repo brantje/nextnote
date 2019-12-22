@@ -1,0 +1,10 @@
+{ "translations": {
+    "new" : "nova",
+    "save" : "konservi",
+    "create" : "krei",
+    "Delete note" : "Forigi noton",
+    "Share note" : "Kunhavigo noton",
+    "Notes" : "Notoj",
+    "View mode" : "Vida reĝimo"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

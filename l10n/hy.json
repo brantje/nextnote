@@ -1,0 +1,7 @@
+{ "translations": {
+    "new" : "նոր",
+    "create" : "ստեղծել",
+    "Delete note" : "Ջնջել նոթը",
+    "Notes" : "Notes"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

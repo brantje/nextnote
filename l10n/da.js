@@ -21,6 +21,7 @@ OC.L10N.register(
     "You don't have permissions to edit this note" : "Du har ikke tilladelse til at ændre i denne note",
     "Notes" : "Noter",
     "Database only" : "Kun database",
-    "Synchronized" : "Synkroniséret"
+    "Synchronized" : "Synkroniséret",
+    "View mode" : "Visningstilstand"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,0 +1,7 @@
+{ "translations": {
+    "new" : "ახალი",
+    "create" : "შექმნა",
+    "Delete note" : "ჩანაწერის გაუქმება",
+    "Notes" : "ჩანაწერები"
+},"pluralForm" :"nplurals=2; plural=(n!=1);"
+}

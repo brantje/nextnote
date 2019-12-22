@@ -1,0 +1,6 @@
+{ "translations": {
+    "create" : "crear",
+    "Delete note" : "Suprimir la nòta",
+    "Notes" : "Nòtas"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
+}
