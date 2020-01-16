@@ -1,6 +1,7 @@
 OC.L10N.register(
     "nextnote",
     {
+    "Deleted notes" : "Obrisane beleške",
     "create" : "napravi",
     "Notes" : "Notes"
 },
