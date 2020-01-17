@@ -9,7 +9,7 @@ OC.L10N.register(
     "new" : "nieuw",
     "save" : "opslaan",
     "back" : "terug",
-    "create" : "aanmaken",
+    "create" : "maken",
     "cancel" : "Annuleren",
     "name" : "naam",
     "modified" : "gewijzigd",
