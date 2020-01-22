@@ -1,12 +1,28 @@
 { "translations": {
     "New notebook" : "Nova zabeležka",
+    "Notebook name" : "Ime zabeležke",
     "Deleted notes" : "Izbrisane zabeležke",
+    "all" : "vse",
     "new" : "novo",
+    "save" : "shrani",
+    "back" : "nazaj",
     "create" : "ustvari",
     "cancel" : "prekliči",
-    "Delete note" : "Izbriši beležko",
+    "name" : "ime",
+    "modified" : "spremenjeno",
+    "Delete note" : "Izbriši zabeležko",
+    "Restore note" : "Obnovi zabeležko",
+    "Untitled note" : "Neimenovana zabeležka",
     "Edit note" : "Uredi zabeležko",
-    "Notes" : "Opombe",
-    "View mode" : "Način pogleda"
+    "Share note" : "Omogoči souporabo zabeležke",
+    "Notes" : "Zabeležke",
+    "Nextnote" : "Nextnote",
+    "NextNote" : "NextNote",
+    "Synchronized" : "Usklajeno",
+    "Standalone" : "Samostojno",
+    "View mode" : "Način pogleda",
+    "Column view" : "Stolpčni pogled",
+    "Single view" : "Enojni pogled",
+    "Create example note" : "Ustvari primer zabeležke"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }
