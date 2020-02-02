@@ -15,6 +15,7 @@ OC.L10N.register(
     "Restore note" : "Επαναφορά σημείωσης",
     "Untitled note" : "Σημείωση χωρίς τίτλο",
     "Edit note" : "Επεξεργασία σημείωσης",
+    "Share note" : "Σημείωση κοινόχρηστου",
     "Notes" : "Σημειώσεις",
     "Nextnote" : "Nextnote",
     "NextNote" : "NextNote",
