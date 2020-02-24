@@ -1,6 +1,7 @@
 OC.L10N.register(
     "nextnote",
     {
+    "Deleted notes" : "已刪除的筆記",
     "new" : "新",
     "create" : "建立",
     "Delete note" : "刪除筆記",
