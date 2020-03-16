@@ -25,7 +25,7 @@ OC.L10N.register(
     "NextNote" : "NextNote",
     "How would you like to store your notes?" : "Como lle gustaría almacenar as súas notas",
     "Database only" : "Só na base de datos",
-    "During development of this app, only database exists. File mode will be added later" : "Durante o desenvolvemento desta aplicación só existe a base de datos. O modo de ficheiro engadirase máis tarde",
+    "During development of this app, only database exists. File mode will be added later" : "Durante o desenvolvemento desta aplicación só existe a base de datos. O modo de ficheiro engadirase máis adiante",
     "Please enter the folder name you would like to use to store notes, with no slashes." : "Introduza o nome do cartafol que quere empregar para almacenar notas, sen barras inclinadas.",
     "How would you like to handle groups for shared notes?" : "Como quere manexar os grupos para as notas compartidas?",
     "Synchronized groups merge all shared notes, that have the same groupnames in the same group. Standalone groups get separate groups with their owner in the name. If 'UserA' shares a note in 'GroupX' with 'UserB', that also has a group called 'GroupX', 'Synchronized' will show them in the group 'GroupX' and 'Standalone' will show two groups 'GroupX' and 'GroupX (UserA)' for 'UserB'." : "Os grupos sincronizados fusionan todas as notas compartidas, que teñen os mesmos nomes de grupo no mesmo grupo. Os grupos independentes obteñen grupos separados co seu propietario no nome. Se «UsuarioA» comparte unha nota no «GrupoX» co «UsuarioB», que tamén ten un grupo chamado «GrupoX», «Sincronizado» amosaraos no «GrupoX» e «Independente» amosará dous grupos, «GrupoX» e «GrupoX (UsuarioA)» para «UsuarioB».",
