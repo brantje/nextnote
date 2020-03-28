@@ -28,6 +28,7 @@ OC.L10N.register(
     "During development of this app, only database exists. File mode will be added later" : "Počas vývoja tejto aplikácie existuje iba databáza. Súborový režim bude pridaný neskôr.",
     "Please enter the folder name you would like to use to store notes, with no slashes." : "Zadajte názov priečinka, ktorý chcete použiť na ukladanie poznámok. Bez lomítok.",
     "How would you like to handle groups for shared notes?" : "Ako chcete spravovať skupiny pre zdieľané poznámky?",
+    "Synchronized groups merge all shared notes, that have the same groupnames in the same group. Standalone groups get separate groups with their owner in the name. If 'UserA' shares a note in 'GroupX' with 'UserB', that also has a group called 'GroupX', 'Synchronized' will show them in the group 'GroupX' and 'Standalone' will show two groups 'GroupX' and 'GroupX (UserA)' for 'UserB'." : "Synchronizované skupiny zlúčia všetky zdieľané poznámky, ktoré majú rovnaké názvy skupiny v rovnakej skupine. Samostatné skupiny získajú samostatné skupiny s menom vlastníka. Ak užívateľ A zdieľa poznámku  v skupine X s užívateľom B, ktorý má tiež skupinu s názvom X, „synchronizovane“ ich zobrazí v skupine X a „samostatne“ zobrazí dve skupiny X a X užívateľ A pre užívateľa B.",
     "Synchronized" : "Synchronizované",
     "Standalone" : "Samostatné",
     "View mode" : "Režim zobrazenia",
