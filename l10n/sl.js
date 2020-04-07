@@ -2,6 +2,7 @@ OC.L10N.register(
     "nextnote",
     {
     "New notebook" : "Nova zabeležka",
+    "Not in notebook" : "Ni v zabeležki",
     "Notebook name" : "Ime zabeležke",
     "Deleted notes" : "Izbrisane zabeležke",
     "all" : "vse",
@@ -17,6 +18,7 @@ OC.L10N.register(
     "Untitled note" : "Neimenovana zabeležka",
     "Edit note" : "Uredi zabeležko",
     "Share note" : "Omogoči souporabo zabeležke",
+    "Shared with you by %s" : "Souporabo omogoča %s",
     "You don't have permissions to edit this note" : "Ni ustreznih dovoljenj za urejanje te zabeležke",
     "Notes" : "Zabeležke",
     "Nextnote" : "Nextnote",
@@ -26,6 +28,7 @@ OC.L10N.register(
     "During development of this app, only database exists. File mode will be added later" : "Med razvojem tega program je na voljo le uporaba podatkovne zbirke. Datotečni način bo dodan naknadno.",
     "Please enter the folder name you would like to use to store notes, with no slashes." : "Vpisati je treba ime mape brez poševnic, kjer naj bodo shranjene zabeležke",
     "How would you like to handle groups for shared notes?" : "Kako želite voditi skupine za zabeležke v souporabi?",
+    "Synchronized groups merge all shared notes, that have the same groupnames in the same group. Standalone groups get separate groups with their owner in the name. If 'UserA' shares a note in 'GroupX' with 'UserB', that also has a group called 'GroupX', 'Synchronized' will show them in the group 'GroupX' and 'Standalone' will show two groups 'GroupX' and 'GroupX (UserA)' for 'UserB'." : "V usklajenih skupinah so združene vse skupne beležke z enakimi imeni skupin v isti skupini. Samostojnim skupinam je dodeljeno še ime lastnika. Če omogoči na primer »Uporabnik A« souporabo zabeležke z »uporabnikom B« iz »Skupine X«, ki ima prav tako ustvarjeno skupino z imenom »Skupina X«, bodo usklajeno prikazane v »Skupini X« in samostojno v skupinah »Skupina X« in »Skupina X (Uporabnik A)« za uporabnika B«.",
     "Synchronized" : "Usklajeno",
     "Standalone" : "Samostojno",
     "View mode" : "Način pogleda",
