@@ -4,7 +4,7 @@ OC.L10N.register(
     "New notebook" : "Новий записник",
     "Not in notebook" : "Немає у записнику",
     "Notebook name" : "Ім'я записника",
-    "Deleted notes" : "Видалені нотатки",
+    "Deleted notes" : "Вилучені нотатки",
     "all" : "всі",
     "new" : "новий",
     "save" : "зберегти",
