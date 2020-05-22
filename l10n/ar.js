@@ -1,6 +1,7 @@
 OC.L10N.register(
     "nextnote",
     {
+    "Deleted notes" : "مسح الملاحظات",
     "new" : "جديد",
     "create" : "إنشاء",
     "Delete note" : "حذف الملاحظة ",
