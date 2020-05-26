@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Deleted notes" : "مسح الملاحظات",
     "new" : "جديد",
+    "back" : "عودة",
     "create" : "إنشاء",
     "Delete note" : "حذف الملاحظة ",
     "Shared with you by %s" : "تمت مشاركته معك مِن طرف %s",

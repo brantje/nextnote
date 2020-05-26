@@ -2,6 +2,7 @@ OC.L10N.register(
     "nextnote",
     {
     "new" : "nou",
+    "back" : "înapoi",
     "create" : "creează",
     "Delete note" : "Şterge nota",
     "Share note" : "Partajează nota",
